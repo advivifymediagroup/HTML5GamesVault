@@ -1,0 +1,81 @@
+.wordle-board {
+  display: grid;
+  grid-template-rows: repeat(6, 56px);
+  gap: 6px;
+}
+.wordle-row {
+  display: grid;
+  grid-template-columns: repeat(5, 56px);
+  gap: 6px;
+}
+.wordle-tile {
+  width: 56px; height: 56px;
+  display: grid; place-items: center;
+  background: rgba(20, 20, 58, 0.5);
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  border-radius: 6px;
+  font-size: 26px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text);
+  font-family: 'Space Grotesk', sans-serif;
+  user-select: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.wordle-tile.filled {
+  border-color: rgba(139, 92, 246, 0.7);
+  animation: pop 0.1s ease;
+}
+@keyframes pop {
+  from { transform: scale(0.9); }
+  to { transform: scale(1); }
+}
+.wordle-tile.flip { animation: flip 0.5s ease forwards; }
+@keyframes flip {
+  0% { transform: rotateX(0); }
+  45% { transform: rotateX(90deg); }
+  55% { transform: rotateX(90deg); }
+  100% { transform: rotateX(0); }
+}
+.wordle-tile.green   { background: linear-gradient(135deg, #22c55e, #16a34a); border-color: transparent; color: white; }
+.wordle-tile.yellow  { background: linear-gradient(135deg, #facc15, #ca8a04); border-color: transparent; color: white; }
+.wordle-tile.gray    { background: rgba(60, 60, 90, 0.6); border-color: transparent; color: #94a3b8; }
+
+.wordle-kb {
+  display: flex; flex-direction: column; gap: 6px;
+  margin-top: 8px;
+}
+.kb-row { display: flex; gap: 4px; justify-content: center; }
+.kb-key {
+  min-width: 32px; height: 42px;
+  padding: 0 6px;
+  background: var(--surface-hi);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 5px;
+  font-family: inherit;
+  font-weight: 600; font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.08s;
+}
+.kb-key:hover { background: rgba(139, 92, 246, 0.25); }
+.kb-key:active { transform: scale(0.95); }
+.kb-key.wide { min-width: 52px; font-size: 11px; }
+.kb-key.green  { background: linear-gradient(135deg, #22c55e, #16a34a); border-color: transparent; color: white; }
+.kb-key.yellow { background: linear-gradient(135deg, #facc15, #ca8a04); border-color: transparent; color: white; }
+.kb-key.gray   { background: rgba(40, 40, 60, 0.7); color: #6b7280; }
+
+.shake { animation: shake 0.4s ease; }
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-8px); }
+  75% { transform: translateX(8px); }
+}
+@media (max-width: 540px) {
+  .wordle-board { grid-template-rows: repeat(6, 44px); }
+  .wordle-row { grid-template-columns: repeat(5, 44px); }
+  .wordle-tile { width: 44px; height: 44px; font-size: 20px; }
+  .kb-key { min-width: 26px; height: 38px; font-size: 12px; }
+  .kb-key.wide { min-width: 42px; font-size: 10px; }
+}

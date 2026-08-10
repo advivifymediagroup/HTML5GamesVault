@@ -1,0 +1,10 @@
+# Local Claude Code config — not part of the site
+.claude/
+
+# OS / editor cruft
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.swp
+.vscode/
+.idea/

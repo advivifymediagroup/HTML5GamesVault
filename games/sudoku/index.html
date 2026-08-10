@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+  <meta name="description" content="Play Sudoku free in your browser. No download, no plugins - instant HTML5 gaming." />
+  <title>Sudoku &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>#game { cursor: pointer; }</style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><span class="brand-mark">&#9650;</span><span class="brand-name">HTML5Games<span class="brand-accent">Vault</span></span></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Difficulty</span><strong id="diff">Easy</strong></div>
+        <div class="score-box"><span>Empty</span><strong id="empty">0</strong></div>
+        <div class="score-box"><span>Time</span><strong id="time">0:00</strong></div>
+      </div>
+      <div class="stage-canvas-wrap">
+        <canvas id="game" width="520" height="520"></canvas>
+        <div class="message-overlay" id="overlay">
+          <h3 id="overTitle">Sudoku</h3>
+          <p id="overMsg">Fill the grid so every row, column and box holds 1 to 9.</p>
+          <button class="btn" id="restartOverlay">Start</button>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="startBtn">New Puzzle</button>
+        <select id="level" class="btn btn-alt" style="padding:8px 12px;"><option value="easy" selected>Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select>
+        <button class="btn btn-alt" id="hintBtn">Hint</button>
+      </div>
+      <div class="game-status" id="status">Click a cell, then type a number.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Click any empty cell and type a digit from 1 to 9. Every row, every column and every three-by-three box must contain each digit exactly once. Clashing numbers turn red so you can spot mistakes early.</p>
+      <div class="divider"></div>
+      <h2>Controls</h2>
+      <ul>
+        <li>Click a cell, then <span class="kbd">1</span>&ndash;<span class="kbd">9</span> to fill it</li>
+        <li><span class="kbd">Backspace</span> or <span class="kbd">0</span> clears a cell</li>
+        <li>Arrow keys move the selection</li>
+        <li>Hint fills one correct cell for you</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="sudoku.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>

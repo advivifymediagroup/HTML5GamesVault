@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <title>About — HTML5GamesVault</title>
+  <meta name="description" content="About HTML5GamesVault, a collection of free browser games with no downloads or accounts required." />
+  <meta property="og:title" content="About — HTML5GamesVault" />
+  <meta property="og:description" content="About HTML5GamesVault, a collection of free browser games." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .about-page { max-width: 860px; margin: 0 auto; padding: 60px 36px 80px; }
+    .about-page h1 { font-size: clamp(30px, 4vw, 44px); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 14px; }
+    .about-page .lead { color: var(--text-dim); font-size: 17px; line-height: 1.65; max-width: 640px; margin-bottom: 44px; }
+    .about-page section { margin-bottom: 44px; }
+    .about-page h2 { font-size: 22px; margin-bottom: 12px; letter-spacing: -0.01em; }
+    .about-page section p { color: var(--text-dim); font-size: 15px; line-height: 1.7; max-width: 660px; }
+    .contact-card { background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,212,247,0.08)); border: 1px solid var(--border-hi); border-radius: 18px; padding: 34px; text-align: center; }
+    .contact-card p { color: var(--text-dim); margin: 10px auto 20px; max-width: 480px; }
+  </style>
+</head>
+<body>
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow glow-1" aria-hidden="true"></div>
+  <div class="bg-glow glow-2" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">▲</span>
+      <span class="logo-text">HTML5Games<span class="logo-accent">Vault</span></span>
+    </a>
+    <nav class="nav">
+      <a href="index.html#games">Games</a>
+      <a href="about.html">About</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+        <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+      </button>
+    </nav>
+  </header>
+
+  <main class="about-page">
+    <h1>About</h1>
+    <p class="lead">HTML5GamesVault is a collection of free games that run in your browser. There is nothing to download and no account to create.</p>
+
+    <section>
+      <h2>What's here</h2>
+      <p>Arcade games, puzzles, and a set of 3D titles. Everything runs on desktop, tablet, and phone, with keyboard, mouse, and touch controls where they make sense. High scores are saved in your own browser, not on a server.</p>
+    </section>
+
+    <section>
+      <h2>Cost and ads</h2>
+      <p>Every game is free to play. There are no paywalls or premium tiers.</p>
+    </section>
+
+    <section>
+      <h2>Feedback</h2>
+      <p>If a game is broken or unfair, it's worth reporting. New games are added regularly, and suggestions are welcome.</p>
+    </section>
+
+    <div class="contact-card">
+      <h2>Ready to play?</h2>
+      <p>Browse the full list and pick something.</p>
+      <a href="index.html#games" class="btn-primary">Browse Games</a>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="index.html#games">All Games</a>
+      <a href="about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="js/theme.js"></script>
+</body>
+</html>

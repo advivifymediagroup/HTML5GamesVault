@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+  <meta name="description" content="Play 2048 3D free in your browser. No download, no plugins — instant HTML5 gaming." />
+  <title>2048 3D — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    #game3d { width: 100%; max-width: 520px; height: 520px; border-radius: 12px; overflow: hidden; background: #050514; touch-action: none; }
+    .dpad { display: grid; grid-template-columns: 54px 54px 54px; grid-template-rows: 54px 54px; gap: 5px; margin-top: 6px; }
+    .dpad-btn { background: var(--surface-hi); border: 1px solid var(--border); color: var(--text); border-radius: 10px; font-family: inherit; font-size: 20px; cursor: pointer; display: grid; place-items: center; }
+    .dpad-btn:hover { background: rgba(139, 92, 246, 0.3); }
+    .dp-up{grid-column:2;grid-row:1}.dp-left{grid-column:1;grid-row:2}.dp-down{grid-column:2;grid-row:2}.dp-right{grid-column:3;grid-row:2}
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><span class="brand-mark">▲</span><span class="brand-name">HTML5Games<span class="brand-accent">Vault</span></span></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Score</span><strong id="score">0</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">0</strong></div>
+        <div class="score-box"><span>Moves</span><strong id="moves">0</strong></div>
+      </div>
+      <div class="stage-canvas-wrap">
+        <div id="game3d"></div>
+        <div class="message-overlay" id="overlay">
+          <h3 id="overTitle">Game Over</h3>
+          <p id="overMsg">No more moves.</p>
+          <button class="btn" id="restartOverlay">Restart</button>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="newBtn">New Game</button>
+      </div>
+      <div class="dpad">
+        <button class="dpad-btn dp-up" data-d="up">▲</button>
+        <button class="dpad-btn dp-left" data-d="left">◀</button>
+        <button class="dpad-btn dp-down" data-d="down">▼</button>
+        <button class="dpad-btn dp-right" data-d="right">▶</button>
+      </div>
+      <div class="game-status" id="status">Arrow keys / WASD / swipe. Merge to reach 2048.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Slide the board and matching tiles fuse into one. Every move drops a new tile in. Keep merging to reach 2048.</p>
+      <div class="divider"></div>
+      <h2>Controls</h2>
+      <ul>
+        <li><span class="kbd">↑ ↓ ← →</span> / <span class="kbd">WASD</span></li>
+        <li>Swipe or D-pad on touch</li>
+        <li>Goal: build a <code>2048</code> block</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="../../js/webgl-guard.js"></script>
+  <script src="../../js/three.min.js"></script>
+  <script src="../../js/scene-kit.js"></script>
+  <script src="game2048.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>
