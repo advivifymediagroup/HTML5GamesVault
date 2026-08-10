@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
+  <meta name="description" content="Play Tower Stack 3D free in your browser. No download, no plugins — instant HTML5 gaming." />
+  <title>Tower Stack 3D — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    #game3d { width: 100%; max-width: 640px; height: 500px; border-radius: 12px; overflow: hidden; background: #050514; touch-action: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><span class="brand-mark">▲</span><span class="brand-name">HTML5Games<span class="brand-accent">Vault</span></span></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Floor</span><strong id="floor">0</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">0</strong></div>
+        <div class="score-box"><span>Combo</span><strong id="combo">0</strong></div>
+      </div>
+      <div class="stage-canvas-wrap">
+        <div id="game3d"></div>
+        <div class="message-overlay" id="overlay">
+          <h3 id="overTitle">Tap to Stack</h3>
+          <p id="overMsg">Time the drop so blocks line up. Perfect = no trim.</p>
+          <button class="btn" id="restartOverlay">Start</button>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="dropBtn">Drop Block ⏎</button>
+      </div>
+      <div class="game-status" id="status">Click, tap, or press Space to drop the moving block.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>A block slides across the top. Drop it onto the tower and any overhang is cut away. Line one up exactly and you keep the full width plus a combo.</p>
+      <div class="divider"></div>
+      <h2>Controls</h2>
+      <ul>
+        <li>Click / tap / <span class="kbd">Space</span> — drop</li>
+        <li>Alternating X / Z axis each floor</li>
+        <li>Perfect drop → combo, block regrows</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="../../js/webgl-guard.js"></script>
+  <script src="../../js/three.min.js"></script>
+  <script src="../../js/scene-kit.js"></script>
+  <script src="towerstack.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>

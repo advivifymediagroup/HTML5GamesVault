@@ -1,0 +1,40 @@
+.f15-board {
+  display: grid;
+  gap: 6px;
+  background: rgba(20, 20, 58, 0.6);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 14px;
+  padding: 10px;
+  user-select: none;
+}
+.f15-tile {
+  display: grid; place-items: center;
+  background: linear-gradient(135deg, #8b5cf6, #6366f1);
+  color: white;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.12s, background 0.18s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), inset 0 -3px 6px rgba(0, 0, 0, 0.18), inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  position: relative;
+}
+.f15-tile:hover:not(.empty) { transform: scale(1.04); filter: brightness(1.08); }
+.f15-tile.empty {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+  cursor: default;
+}
+.f15-tile.correct { background: linear-gradient(135deg, #22c55e, #16a34a); }
+.f15-tile.empty.correct { background: rgba(34, 197, 94, 0.15); }
+
+.size-3 .f15-tile { width: 80px; height: 80px; font-size: 32px; }
+.size-4 .f15-tile { width: 64px; height: 64px; font-size: 26px; }
+.size-5 .f15-tile { width: 52px; height: 52px; font-size: 20px; }
+
+@media (max-width: 540px) {
+  .size-3 .f15-tile { width: 60px; height: 60px; font-size: 24px; }
+  .size-4 .f15-tile { width: 50px; height: 50px; font-size: 20px; }
+  .size-5 .f15-tile { width: 42px; height: 42px; font-size: 16px; }
+}

@@ -1,0 +1,41 @@
+.ttt-board {
+  display: grid;
+  grid-template-columns: repeat(3, 110px);
+  grid-template-rows: repeat(3, 110px);
+  gap: 8px;
+  background: rgba(20, 20, 58, 0.6);
+  border: 1px solid rgba(139, 92, 246, 0.25);
+  border-radius: 14px;
+  padding: 12px;
+}
+.ttt-cell {
+  display: grid;
+  place-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  font-size: 56px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  position: relative;
+  user-select: none;
+}
+.ttt-cell:hover:not(.taken):not(.locked) {
+  background: rgba(139, 92, 246, 0.15);
+  transform: scale(1.04);
+}
+.ttt-cell.x { color: #06d4f7; }
+.ttt-cell.o { color: #ec4899; }
+.ttt-cell.win { background: rgba(52, 211, 153, 0.2); box-shadow: 0 0 18px rgba(52, 211, 153, 0.45); }
+.ttt-cell.taken, .ttt-cell.locked { cursor: not-allowed; }
+.ttt-cell .mark {
+  animation: pop 0.22s ease;
+}
+@keyframes pop {
+  from { transform: scale(0); }
+  to { transform: scale(1); }
+}
+@media (max-width: 540px) {
+  .ttt-board { grid-template-columns: repeat(3, 80px); grid-template-rows: repeat(3, 80px); }
+  .ttt-cell { font-size: 42px; }
+}

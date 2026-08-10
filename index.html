@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <title>HTML5GamesVault — Free Browser Games</title>
+  <meta name="description" content="Play free HTML5 games online. Snake, 2048, Breakout, Memory, Tic-Tac-Toe, Flappy and more." />
+  <meta property="og:title" content="HTML5GamesVault — Free Browser Games" />
+  <meta property="og:description" content="39 free browser games: arcade, puzzle, and 3D titles. No downloads or accounts required." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="css/styles.css?v=6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="bg-glow glow-1" aria-hidden="true"></div>
+  <div class="bg-glow glow-2" aria-hidden="true"></div>
+  <div class="bg-glow glow-3" aria-hidden="true"></div>
+
+  <!-- Header / Nav -->
+  <header class="site-header">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">▲</span>
+      <span class="logo-text">HTML5Games<span class="logo-accent">Vault</span></span>
+    </a>
+    <nav class="nav">
+      <a href="#games">Games</a>
+      <a href="about.html">About</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+        <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Free browser games.</h1>
+      <p class="hero-sub">39 games you can play right now. Nothing to install, nothing to sign up for.</p>
+    </div>
+  </section>
+
+  <!-- Games Grid -->
+  <section id="games" class="section">
+    <div class="section-head">
+      <div>
+        <h2>All Games</h2>
+      </div>
+      <div class="filters">
+        <button class="chip chip-active" data-filter="all">All</button>
+        <button class="chip" data-filter="3d">3D</button>
+        <button class="chip" data-filter="2d">2D</button>
+        <button class="chip" data-filter="puzzle">Puzzle</button>
+        <button class="chip" data-filter="arcade">Arcade</button>
+        <button class="chip" data-filter="audio">Audio</button>
+      </div>
+    </div>
+
+    <div class="games-grid">
+      <a href="games/watersort/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-water">
+          <div class="water-mini">
+            <span class="ws-tube"><i style="background:#ef4444;height:50%"></i></span>
+            <span class="ws-tube"><i style="background:#22c55e;height:75%"></i></span>
+            <span class="ws-tube"><i style="background:#06d4f7;height:25%"></i></span>
+            <span class="ws-tube"><i style="background:#fbbf24;height:100%"></i></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Sorting</span></div>
+          <h3>Water Sort</h3>
+          <p>Pour the colours between tubes until each one is sorted.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/sudoku/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-sudoku">
+          <div class="sud-mini">
+            <span>5</span><span></span><span>3</span>
+            <span></span><span>7</span><span></span>
+            <span>9</span><span></span><span>2</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span></div>
+          <h3>Sudoku</h3>
+          <p>Three difficulties, a fresh grid every time.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/nonogram/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-nono">
+          <div class="nono-mini">
+            <span class="on"></span><span></span><span class="on"></span><span class="on"></span>
+            <span></span><span class="on"></span><span class="on"></span><span></span>
+            <span class="on"></span><span class="on"></span><span></span><span class="on"></span>
+            <span class="on"></span><span></span><span class="on"></span><span class="on"></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span></div>
+          <h3>Nonogram</h3>
+          <p>Turn number clues into a picture on the grid.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/flow/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-flow">
+          <div class="flow-mini">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+              <polyline points="18,18 18,50 50,50 50,82" stroke="#ef4444" />
+              <polyline points="50,18 82,18 82,50" stroke="#06d4f7" />
+              <polyline points="18,82 82,82" stroke="#22c55e" />
+              <circle cx="18" cy="18" r="7" fill="#ef4444"/><circle cx="50" cy="82" r="7" fill="#ef4444"/>
+              <circle cx="50" cy="18" r="7" fill="#06d4f7"/><circle cx="82" cy="50" r="7" fill="#06d4f7"/>
+              <circle cx="18" cy="82" r="7" fill="#22c55e"/><circle cx="82" cy="82" r="7" fill="#22c55e"/>
+            </svg>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Logic</span></div>
+          <h3>Flow Connect</h3>
+          <p>Join every pair of dots without crossing a pipe.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/hanoi/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-hanoi">
+          <div class="hanoi-mini">
+            <span class="hn-peg"></span>
+            <span class="hn-disc" style="width:26px;background:#06d4f7;bottom:34px;"></span>
+            <span class="hn-disc" style="width:42px;background:#22c55e;bottom:22px;"></span>
+            <span class="hn-disc" style="width:58px;background:#fbbf24;bottom:10px;"></span>
+            <span class="hn-base"></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Sorting</span></div>
+          <h3>Tower of Hanoi</h3>
+          <p>Move the stack across without stacking big on small.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/mergedrop/index.html" class="game-card" data-tags="2d puzzle arcade">
+        <div class="game-thumb thumb-merge">
+          <div class="merge-mini">
+            <span class="merge-c" style="width:34px;height:34px;background:#ec4899;left:8%;bottom:0;"></span>
+            <span class="merge-c" style="width:26px;height:26px;background:#3b82f6;left:44%;bottom:0;"></span>
+            <span class="merge-c" style="width:20px;height:20px;background:#22c55e;right:8%;bottom:0;"></span>
+            <span class="merge-c merge-fall" style="width:16px;height:16px;background:#fbbf24;left:34%;"></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Arcade</span></div>
+          <h3>Merge Drop</h3>
+          <p>Drop circles and merge matching pairs into bigger ones.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/aimtrainer/index.html" class="game-card" data-tags="2d arcade">
+        <div class="game-thumb thumb-aim">
+          <div class="aim-mini">
+            <span class="aim-t" style="left:18%;top:24%;width:26px;height:26px;"></span>
+            <span class="aim-t" style="right:22%;top:46%;width:18px;height:18px;"></span>
+            <span class="aim-t aim-pulse" style="left:44%;bottom:16%;width:32px;height:32px;"></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Arcade</span><span class="tag">Skill</span></div>
+          <h3>Aim Trainer</h3>
+          <p>Hit as many targets as you can in thirty seconds.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/minigolf/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-golf">
+          <div class="golf-mini">
+            <span class="golf-hole"></span>
+            <span class="golf-flag"></span>
+            <span class="golf-ball"></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Sports</span></div>
+          <h3>Mini Golf 3D</h3>
+          <p>Nine putting holes. Drag back and release to shoot.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/snake/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-snake">
+          <svg viewBox="0 0 100 100" class="thumb-icon"><rect x="10" y="45" width="10" height="10" rx="2"/><rect x="22" y="45" width="10" height="10" rx="2"/><rect x="34" y="45" width="10" height="10" rx="2"/><rect x="46" y="45" width="10" height="10" rx="2"/><rect x="58" y="45" width="10" height="10" rx="2"/><circle cx="80" cy="30" r="5"/></svg>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Snake 3D</h3>
+          <p>Eat apples, grow longer, avoid your own tail.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/2048/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-2048">
+          <div class="thumb-2048-grid">
+            <span>2</span><span>4</span><span>8</span>
+            <span>16</span><span>32</span><span>64</span>
+            <span>128</span><span>256</span><span>2048</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
+          <h3>2048 3D</h3>
+          <p>Slide and merge blocks to reach 2048.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/memory/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-memory">
+          <div class="thumb-memory-grid">
+            <span>?</span><span>★</span><span>?</span><span>?</span>
+            <span>★</span><span>?</span><span>?</span><span>?</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
+          <h3>Memory Match 3D</h3>
+          <p>Flip cards and find every matching pair.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/tictactoe/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-tictactoe">
+          <svg viewBox="0 0 100 100" class="thumb-icon">
+            <line x1="33" y1="10" x2="33" y2="90" stroke-width="3"/>
+            <line x1="66" y1="10" x2="66" y2="90" stroke-width="3"/>
+            <line x1="10" y1="33" x2="90" y2="33" stroke-width="3"/>
+            <line x1="10" y1="66" x2="90" y2="66" stroke-width="3"/>
+            <text x="22" y="28" font-size="22" font-weight="bold">X</text>
+            <text x="55" y="60" font-size="22" font-weight="bold">O</text>
+            <text x="75" y="85" font-size="22" font-weight="bold">X</text>
+          </svg>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
+          <h3>Tic-Tac-Toe 3D</h3>
+          <p>Three in a row against the computer.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/breakout/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-breakout">
+          <div class="thumb-bricks">
+            <div></div><div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div><div></div>
+          </div>
+          <div class="thumb-paddle"></div>
+          <div class="thumb-ball"></div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Breakout 3D</h3>
+          <p>Bounce the ball and clear every brick.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/flappy/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-flappy">
+          <svg viewBox="0 0 100 100" class="thumb-icon">
+            <rect x="10" y="0" width="15" height="35" rx="2"/>
+            <rect x="10" y="60" width="15" height="40" rx="2"/>
+            <rect x="70" y="0" width="15" height="20" rx="2"/>
+            <rect x="70" y="45" width="15" height="55" rx="2"/>
+            <circle cx="50" cy="50" r="8"/>
+          </svg>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Flappy Bird 3D</h3>
+          <p>Tap to fly. Thread the gaps between pipes.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/pong/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-pong">
+          <div class="pong-mini">
+            <div class="pong-paddle left"></div>
+            <div class="pong-paddle right"></div>
+            <div class="pong-ball"></div>
+            <div class="pong-line"></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Pong 3D</h3>
+          <p>Two paddles, one ball. First to five wins.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/tetris/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-tetris">
+          <div class="tetris-mini">
+            <div style="background:#06d4f7;"></div>
+            <div style="background:#a855f7;"></div>
+            <div style="background:#fde047;"></div>
+            <div style="background:#22c55e;"></div>
+            <div style="background:#ef4444;"></div>
+            <div style="background:#3b82f6;"></div>
+            <div style="background:#f97316;"></div>
+            <div style="background:#06d4f7;"></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
+          <h3>Tetris 3D</h3>
+          <p>Stack falling blocks and clear full lines.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/minesweeper/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-mine">
+          <div class="mine-mini">
+            <span>1</span><span>2</span><span>💣</span><span>1</span>
+            <span>1</span><span>3</span><span>2</span><span></span>
+            <span></span><span>1</span><span>💣</span><span>1</span>
+            <span></span><span></span><span>1</span><span></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Minesweeper</h3>
+          <p>Clear the board without hitting a mine.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/simon/index.html" class="game-card" data-tags="3d audio">
+        <div class="game-thumb thumb-simon">
+          <div class="simon-mini">
+            <div class="sm sm-g"></div>
+            <div class="sm sm-r"></div>
+            <div class="sm sm-y"></div>
+            <div class="sm sm-b"></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Audio</span></div>
+          <h3>Simon Says 3D</h3>
+          <p>Watch the colour sequence, then repeat it.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/whackamole/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-wm">
+          <div class="wm-mini">
+            <div>🐹</div><div></div><div>💣</div>
+            <div></div><div>⭐</div><div></div>
+            <div>🐹</div><div></div><div>🐹</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Whack-a-Mole 3D</h3>
+          <p>Hit the moles, avoid the bombs.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/rps/index.html" class="game-card" data-tags="2d arcade">
+        <div class="game-thumb thumb-rps">
+          <div class="rps-mini">
+            <div>🪨</div><div>📄</div><div>✂️</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Arcade</span></div>
+          <h3>Rock Paper Scissors</h3>
+          <p>Best of the classic hand game.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/connect4/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-c4">
+          <div class="c4-mini">
+            <div class="c4-mini-cell red"></div>
+            <div class="c4-mini-cell"></div>
+            <div class="c4-mini-cell yellow"></div>
+            <div class="c4-mini-cell"></div>
+            <div class="c4-mini-cell red"></div>
+            <div class="c4-mini-cell yellow"></div>
+            <div class="c4-mini-cell yellow"></div>
+            <div class="c4-mini-cell red"></div>
+            <div class="c4-mini-cell red"></div>
+            <div class="c4-mini-cell yellow"></div>
+            <div class="c4-mini-cell yellow"></div>
+            <div class="c4-mini-cell red"></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Connect Four</h3>
+          <p>Drop discs and connect four in a row.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/wordle/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-wordle">
+          <div class="wordle-mini">
+            <span class="g">W</span><span class="g">O</span><span class="y">R</span><span class="x">D</span><span class="g">S</span>
+            <span class="x">G</span><span class="g">A</span><span class="y">M</span><span class="x">E</span><span class="x">R</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Wordle</h3>
+          <p>Six tries to guess a 5-letter word.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/reaction/index.html" class="game-card" data-tags="2d arcade">
+        <div class="game-thumb thumb-rxn">
+          <div class="rxn-mini">
+            <div class="rxn-bolt">⚡</div>
+            <div class="rxn-ms">237 <small>ms</small></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Arcade</span></div>
+          <h3>Reaction Test</h3>
+          <p>Click the moment the screen turns green.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/typeblitz/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-type">
+          <div class="type-mini">
+            <span>type</span>
+            <strong>BLITZ</strong>
+            <em>combo x5</em>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Type Blitz</h3>
+          <p>Type words quickly before time runs out.</p>
+          <span class="play-link">Play â†’</span>
+        </div>
+      </a>
+
+      <a href="games/brainout/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-brain">
+          <div class="brain-mini">🧠</div>
+          <div class="brain-mini-q">Find the panda among the bears 🐻🐻🐼🐻</div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Brain Teaser</h3>
+          <p>Eight puzzles with unexpected answers.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/lightsout/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-lights">
+          <div class="lights-mini">
+            <div></div><div class="on"></div><div></div>
+            <div class="on"></div><div class="on"></div><div></div>
+            <div></div><div class="on"></div><div></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Lights Out</h3>
+          <p>Toggle tiles. Turn every light off.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/fifteen/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-15">
+          <div class="f15-mini">
+            <span>1</span><span>2</span><span>3</span><span>4</span>
+            <span>5</span><span>6</span><span>7</span><span>8</span>
+            <span>9</span><span>10</span><span>11</span><span>12</span>
+            <span>13</span><span>14</span><span>15</span><span></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>15 Puzzle</h3>
+          <p>Slide numbered tiles into order.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/colorcatch/index.html" class="game-card" data-tags="2d arcade">
+        <div class="game-thumb thumb-catch">
+          <div class="catch-mini">
+            <span style="background:#38bdf8;"></span>
+            <span style="background:#ec4899;"></span>
+            <span style="background:#34d399;"></span>
+            <span style="background:#fde047;"></span>
+            <strong>Blue</strong>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Arcade</span></div>
+          <h3>Color Catch</h3>
+          <p>Catch the target colour as speed increases.</p>
+          <span class="play-link">Play â†’</span>
+        </div>
+      </a>
+
+      <a href="games/mastermind/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-mm">
+          <div class="mm-mini">
+            <div class="mm-mini-row">
+              <span style="background:#ef4444;"></span>
+              <span style="background:#22c55e;"></span>
+              <span style="background:#06d4f7;"></span>
+              <span style="background:#fde047;"></span>
+            </div>
+            <div class="mm-mini-row">
+              <span style="background:#fde047;"></span>
+              <span style="background:#22c55e;"></span>
+              <span style="background:#a855f7;"></span>
+              <span style="background:#ef4444;"></span>
+            </div>
+            <div class="mm-mini-row">
+              <span style="background:#06d4f7;"></span>
+              <span style="background:#f97316;"></span>
+              <span style="background:#22c55e;"></span>
+              <span style="background:#a855f7;"></span>
+            </div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Mastermind</h3>
+          <p>Crack a 4-color code in 10 guesses.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/sokoban/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-soko">
+          <div class="soko-mini">
+            <div class="sk w"></div><div class="sk w"></div><div class="sk w"></div><div class="sk w"></div><div class="sk w"></div>
+            <div class="sk w"></div><div class="sk">🧑</div><div class="sk"></div><div class="sk">✦</div><div class="sk w"></div>
+            <div class="sk w"></div><div class="sk"></div><div class="sk">📦</div><div class="sk"></div><div class="sk w"></div>
+            <div class="sk w"></div><div class="sk">✦</div><div class="sk"></div><div class="sk">📦</div><div class="sk w"></div>
+            <div class="sk w"></div><div class="sk w"></div><div class="sk w"></div><div class="sk w"></div><div class="sk w"></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Sokoban</h3>
+          <p>Push boxes onto targets. 6 levels.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/subway/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-subway">
+          <div class="subway-mini">
+            <div class="subway-lane"></div>
+            <div class="subway-lane"></div>
+            <div class="subway-lane"></div>
+            <div class="subway-player">🏃</div>
+            <div class="subway-ob" style="left:12%; top:20%;">🟥</div>
+            <div class="subway-ob" style="right:12%; top:38%;">🟪</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Subway Runner</h3>
+          <p>Run, dodge obstacles, and collect coins.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/bubbles/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-bubble">
+          <div class="bubble-mini">
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#ef4444 60%,#7f1d1d);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#22c55e 60%,#14532d);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#06d4f7 60%,#0e7490);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#fde047 60%,#854d0e);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#a855f7 60%,#4c1d95);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#22c55e 60%,#14532d);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#ef4444 60%,#7f1d1d);"></span>
+            <span style="background:radial-gradient(circle at 30% 30%,#fff,#06d4f7 60%,#0e7490);"></span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Puzzle</span></div>
+          <h3>Bubble Shooter</h3>
+          <p>Match three or more bubbles to clear them.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/cubedash/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-cube">
+          <div class="cube-mini">
+            <div class="cube-ring cube-r1"></div>
+            <div class="cube-ring cube-r2"></div>
+            <div class="cube-ring cube-r3"></div>
+            <div class="cube-ship">🚀</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Cube Dash</h3>
+          <p>Steer through the tunnel without hitting anything.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/fruitslice/index.html" class="game-card" data-tags="2d arcade">
+        <div class="game-thumb thumb-fruit">
+          <div class="fruit-mini">
+            <span>🍉</span><span>🍎</span><span>🍇</span><span>🍋</span><span>🥝</span>
+          </div>
+          <div class="fruit-slash"></div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Arcade</span></div>
+          <h3>Fruit Slice</h3>
+          <p>Swipe to slice fruit and avoid bombs.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/doodle/index.html" class="game-card" data-tags="2d arcade">
+        <div class="game-thumb thumb-doodle">
+          <div class="doodle-mini">
+            <div class="dd-plat" style="left:20%;top:20%;"></div>
+            <div class="dd-plat blue" style="left:60%;top:38%;"></div>
+            <div class="dd-plat" style="left:12%;top:56%;"></div>
+            <div class="dd-plat orange" style="left:56%;top:72%;"></div>
+            <div class="dd-player">🦘</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Arcade</span></div>
+          <h3>Doodle Jump</h3>
+          <p>Bounce upward from platform to platform.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/helix/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-helix">
+          <div class="helix-mini">
+            <div class="helix-ring"></div>
+            <div class="helix-ring"></div>
+            <div class="helix-ring"></div>
+            <div class="helix-pillar"></div>
+            <div class="helix-ball">⚫</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
+          <h3>Helix Jump</h3>
+          <p>Rotate the tower to drop through the gaps.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/spaceshooter/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-space">
+          <div class="space-mini">
+            <div class="space-ast" style="left:18%;top:20%;">🪨</div>
+            <div class="space-ast" style="right:20%;top:14%;">🪨</div>
+            <div class="space-laser"></div>
+            <div class="space-ship">🛸</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Space Shooter</h3>
+          <p>Shoot asteroids before they reach you.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/ballmaze/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-maze">
+          <div class="maze-mini">
+            <div class="maze-wall" style="left:30%;top:24%;width:40%;height:8px;"></div>
+            <div class="maze-wall" style="left:24%;top:50%;width:8px;height:34%;"></div>
+            <div class="maze-hole" style="right:26%;top:40%;"></div>
+            <div class="maze-goal"></div>
+            <div class="maze-ball">🟡</div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
+          <h3>Ball Maze</h3>
+          <p>Tilt the board to roll the ball to the goal.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/towerstack/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-tower3d">
+          <div class="tower3d-mini">
+            <div class="t3d-block" style="width:56px;background:hsl(200,65%,58%);"></div>
+            <div class="t3d-block" style="width:52px;background:hsl(224,65%,58%);"></div>
+            <div class="t3d-block" style="width:48px;background:hsl(248,65%,58%);"></div>
+            <div class="t3d-block t3d-move" style="width:48px;background:hsl(272,65%,60%);"></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span></div>
+          <h3>Tower Stack</h3>
+          <p>Time each drop to stack the tower higher.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- About teaser -->
+  <section class="section about">
+    <div class="about-card">
+      <h2>More games coming soon</h2>
+      <p>New titles are added regularly. Everything here is free and runs in your browser.</p>
+      <div class="about-cta">
+        <a href="#games" class="btn-primary">Browse Games</a>
+        <a href="about.html" class="btn-ghost">About</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="#games">All Games</a>
+      <a href="about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="js/theme.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
