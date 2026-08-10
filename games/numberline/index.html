@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
   <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg" />
-  <meta name="description" content="Play Tower of Hanoi free in your browser. No download, no plugins - instant HTML5 gaming." />
-  <title>Tower of Hanoi &mdash; HTML5GamesVault</title>
+  <meta name="description" content="Play Number Line free in your browser. No download, no plugins - instant HTML5 gaming." />
+  <title>Number Line &mdash; HTML5GamesVault</title>
   <link rel="stylesheet" href="../../css/game.css?v=7" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>#game { cursor: pointer; }</style>
+  <style>#game { cursor: pointer; touch-action: none; }</style>
 </head>
 <body>
   <header class="game-header">
@@ -24,34 +24,34 @@
   <main class="game-wrap">
     <section class="game-stage">
       <div class="scoreboard">
-        <div class="score-box"><span>Discs</span><strong id="discs">4</strong></div>
-        <div class="score-box"><span>Moves</span><strong id="moves">0</strong></div>
-        <div class="score-box"><span>Fewest</span><strong id="par">15</strong></div>
+        <div class="score-box"><span>Placed</span><strong id="placed">0</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">0</strong></div>
+        <div class="score-box"><span>Next</span><strong id="next">&mdash;</strong></div>
       </div>
       <div class="stage-canvas-wrap">
-        <canvas id="game" width="560" height="380"></canvas>
+        <canvas id="game" width="560" height="420"></canvas>
         <div class="message-overlay" id="overlay">
-          <h3 id="overTitle">Tower of Hanoi</h3>
-          <p id="overMsg">Move the whole stack across, one disc at a time.</p>
+          <h3 id="overTitle">Number Line</h3>
+          <p id="overMsg">Slot each number into the line and keep the whole row in order.</p>
           <button class="btn" id="restartOverlay">Start</button>
         </div>
       </div>
       <div class="controls">
-        <button class="btn" id="startBtn">Restart</button>
-        <select id="count" class="btn btn-alt" style="padding:8px 12px;"><option value="3">3 discs</option><option value="4" selected>4 discs</option><option value="5">5 discs</option><option value="6">6 discs</option><option value="7">7 discs</option></select>
+        <button class="btn" id="startBtn">New Game</button>
+        <select id="slots" class="btn btn-alt" style="padding:8px 12px;"><option value="10">10 slots</option><option value="15" selected>15 slots</option><option value="20">20 slots</option></select>
       </div>
-      <div class="game-status" id="status">Click a peg to lift its top disc, then click where to drop it.</div>
+      <div class="game-status" id="status">Click an empty slot to drop the number in.</div>
     </section>
 
     <aside class="info-panel">
       <h2>How to play</h2>
-      <p>Move the whole stack of discs from the left peg to the right peg. You can only move one disc at a time, and you can never place a larger disc on top of a smaller one.</p>
+      <p>A number appears and you choose which empty slot to put it in. The catch is that the row must always read low to high from left to right. Keep going until there is nowhere legal left to put the number you have been given.</p>
       <div class="divider"></div>
       <h2>Tips</h2>
       <ul>
-        <li>Each extra disc roughly doubles the work: 3 discs take 7 moves, 7 discs take 127</li>
-        <li>To shift n discs, first shift n &minus; 1 out of the way</li>
-        <li>Undo does not exist here &mdash; think before you drop</li>
+        <li>Leave room at both ends for numbers near 1 and near 999</li>
+        <li>Slots that would break the order are greyed out</li>
+        <li>Spreading early numbers evenly buys you far more room later</li>
       </ul>
     </aside>
   </main>
@@ -64,7 +64,7 @@
     <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
   </footer>
 
-  <script src="hanoi.js"></script>
+  <script src="numberline.js"></script>
   <script src="../../js/theme.js"></script>
 </body>
 </html>

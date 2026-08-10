@@ -807,6 +807,59 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .tower3d-mini { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column-reverse; align-items: center; justify-content: flex-start; gap: 3px; padding: 16px 0; }
 .t3d-block { height: 14px; border-radius: 3px; box-shadow: inset 0 -3px 4px rgba(0,0,0,0.3), inset 0 2px 3px rgba(255,255,255,0.25); transform: perspective(120px) rotateX(18deg); }
 
+/* Jigsaw */
+.thumb-jigsaw { background: linear-gradient(135deg, #16153c, #0a0a22); }
+.jig-mini { position: relative; width: 96px; height: 96px; }
+.jig-p { position: absolute; width: 30px; height: 30px; border-radius: 5px;
+  box-shadow: inset 0 3px 4px rgba(255,255,255,0.28), inset 0 -3px 4px rgba(0,0,0,0.3); }
+.jig-p::after { content: ''; position: absolute; right: -7px; top: 50%; margin-top: -6px;
+  width: 12px; height: 12px; border-radius: 50%; background: inherit; }
+.jig-loose { left: 58px; top: 56px; transform: rotate(14deg); animation: jigDrift 2.8s ease-in-out infinite; }
+@keyframes jigDrift {
+  0%, 100% { transform: rotate(14deg) translate(0, 0); }
+  50% { transform: rotate(6deg) translate(-9px, -8px); }
+}
+
+/* Shape Fit */
+.thumb-shapefit { background: linear-gradient(135deg, #1a1942, #0a0a22); }
+.sf-mini { display: grid; width: 92px; height: 92px; gap: 3px;
+  grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 1fr); }
+.sf-mini span { border-radius: 4px;
+  box-shadow: inset 0 3px 4px rgba(255,255,255,0.25), inset 0 -3px 4px rgba(0,0,0,0.3); }
+
+/* Block Fit */
+.thumb-blockfit { background: linear-gradient(180deg, #16153c, #0a0a22); }
+.bf-mini { position: relative; width: 100px; height: 92px; }
+.bf-cell { position: absolute; width: 16%; height: 18%; border-radius: 3px;
+  box-shadow: inset 0 2px 3px rgba(255,255,255,0.3), inset 0 -2px 3px rgba(0,0,0,0.3); }
+.bf-row { position: absolute; left: 2%; right: 2%; top: 36%; height: 16%;
+  background: rgba(255,255,255,0.25); border-radius: 3px;
+  animation: bfClear 2.2s ease-in-out infinite; }
+@keyframes bfClear {
+  0%, 55% { opacity: 0; }
+  70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Colour Sort */
+.thumb-colorsort { background: linear-gradient(135deg, #14133a, #08081c); }
+.cs-mini { display: grid; grid-template-columns: repeat(4, 22px); gap: 3px; }
+.cs-mini span { height: 22px; border-radius: 4px; }
+.cs-mini .cs-gap { background: rgba(255,255,255,0.06); border: 1px dashed rgba(190,200,255,0.35); }
+
+/* Number Line */
+.thumb-numline { background: linear-gradient(180deg, #1a1942, #0b0b22); }
+.nl-mini { display: flex; gap: 5px; align-items: center; }
+.nl-mini span { min-width: 30px; padding: 9px 4px; text-align: center; border-radius: 6px;
+  font: 700 12px "Space Grotesk", sans-serif; }
+.nl-full { background: linear-gradient(180deg, #8b5cf6, #5b21b6); color: #fff; }
+.nl-open { background: rgba(6,212,247,0.12); border: 1.5px dashed rgba(6,212,247,0.6); color: #06d4f7;
+  animation: nlPulse 1.8s ease-in-out infinite; }
+@keyframes nlPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.14); }
+}
+
 /* Water Sort */
 .thumb-water { background: linear-gradient(180deg, #16153c, #0a0a22); }
 .water-mini { display: flex; align-items: flex-end; gap: 9px; height: 78px; }
