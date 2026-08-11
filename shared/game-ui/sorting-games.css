@@ -1,0 +1,55 @@
+.game-stage.sorting-stage { gap: 12px; }
+.game-title-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.game-title-row h1 {
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.game-title-row p {
+  color: var(--text-dim);
+  font-size: 13px;
+}
+.pill-select {
+  min-height: 38px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-hi);
+  color: var(--text);
+  font: inherit;
+}
+.modal-stats {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: var(--text);
+  font-weight: 700;
+}
+.stars {
+  color: #fbbf24;
+  font-size: 30px;
+  letter-spacing: 2px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+@media (max-width: 640px) {
+  .game-title-row { align-items: flex-start; flex-direction: column; }
+  .scoreboard { gap: 7px; }
+  .score-box { min-width: 68px; padding: 6px 9px; }
+  .controls .btn { min-height: 42px; }
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="../../../assets/favicon.svg" />
+  <meta name="description" content="Play Color Liquid Sort free in your browser. Pour layered colors between glass tubes until every tube is sorted." />
+  <title>Color Liquid Sort &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../../css/game.css?v=6" />
+  <link rel="stylesheet" href="../../../shared/game-ui/sorting-games.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>#game{cursor:pointer;background:#071426}.liquid-stage canvas{width:min(100%,620px);height:auto}.mode-line{color:var(--text-dim);font-size:13px;text-align:center}</style>
+</head>
+<body>
+  <header class="game-header"><a href="../../../index.html" class="brand-link"><span class="brand-mark">&#9650;</span><span class="brand-name">HTML5Games<span class="brand-accent">Vault</span></span></a><button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme"><svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg><svg class="theme-icon theme-icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg></button></header>
+  <main class="game-wrap">
+    <section class="game-stage sorting-stage liquid-stage">
+      <div class="game-title-row"><div><h1>Color Liquid Sort</h1><p>Pour only matching top layers into roomy tubes.</p></div></div>
+      <div class="scoreboard">
+        <div class="score-box"><span>Level</span><strong id="level">1</strong></div>
+        <div class="score-box"><span>Moves</span><strong id="moves">0</strong></div>
+        <div class="score-box"><span>Time</span><strong id="time">00:00</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">&mdash;</strong></div>
+      </div>
+      <div class="stage-canvas-wrap"><canvas id="game" width="620" height="500" aria-label="Color liquid sort puzzle"></canvas><div class="message-overlay show" id="overlay"><h3 id="overTitle">Color Liquid Sort</h3><p id="overMsg">Select a tube, then select where to pour.</p><div class="stars" id="stars">★★★</div><div class="modal-stats" id="modalStats"></div><button class="btn" id="restartOverlay">Start</button></div></div>
+      <div class="controls"><button class="btn" id="newBtn">New Level</button><button class="btn btn-alt" id="undoBtn">Undo</button><button class="btn btn-alt" id="resetBtn">Restart</button><button class="btn btn-alt" id="pauseBtn">Pause</button><button class="btn btn-alt" id="soundBtn">Sound Off</button><button class="btn btn-alt" id="fullscreenBtn">Fullscreen</button></div>
+      <div class="game-status" id="status">Click or tap a tube to lift its top color.</div>
+      <div class="mode-line">Patterns and numbers are drawn on liquid layers so color is not the only cue.</div>
+    </section>
+    <aside class="info-panel"><h2>How to play</h2><p>Only the top connected layer pours. You may pour into an empty tube or onto the same color, as long as the destination has space.</p><div class="divider"></div><h2>Tips</h2><ul><li>Keep an empty tube as working room</li><li>Undo is unlimited</li><li>Later levels add more colors and taller planning chains</li></ul></aside>
+  </main>
+  <footer class="site-footer"><div class="footer-links"><a href="../../../index.html">All Games</a><a href="../../../about.html">About</a></div><p>&copy; 2026 HTML5GamesVault. All rights reserved.</p></footer>
+  <script src="../../../shared/game-ui/game-utils.js"></script><script src="liquid-sort.js"></script><script src="../../../js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="../../../assets/favicon.svg" />
+  <meta name="description" content="Play World Guess free in your browser. Guess the mystery country using distance clues on a responsive world map." />
+  <title>World Guess &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../../css/game.css?v=6" />
+  <link rel="stylesheet" href="../../../shared/game-ui/sorting-games.css" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="game-header"><a href="../../../index.html" class="brand-link"><span class="brand-mark">&#9650;</span><span class="brand-name">HTML5Games<span class="brand-accent">Vault</span></span></a><button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme"><svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg><svg class="theme-icon theme-icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg></button></header>
+  <main class="world-wrap">
+    <section class="game-stage sorting-stage world-stage">
+      <div class="game-title-row"><div><h1>World Guess</h1><p>Find the mystery country using hot and cold distance clues.</p></div><select id="mode" class="pill-select"><option value="daily">Daily Challenge</option><option value="random">Random Game</option></select></div>
+      <div class="scoreboard"><div class="score-box"><span>Guesses</span><strong id="guessCount">0</strong></div><div class="score-box"><span>Time</span><strong id="time">00:00</strong></div><div class="score-box"><span>Best</span><strong id="best">--</strong></div><div class="score-box"><span>Streak</span><strong id="streak">0</strong></div></div>
+      <div class="map-shell"><svg id="map" viewBox="0 0 900 460" role="img" aria-label="World map with guessed countries"><rect width="900" height="460" rx="18" class="ocean"/><g class="continents"><path d="M120 120 C90 80 170 50 230 80 C300 70 340 120 300 170 C250 220 180 200 140 170 Z"/><path d="M250 225 C310 240 330 310 300 390 C265 360 235 300 250 225 Z"/><path d="M410 115 C480 72 570 92 625 130 C700 105 790 125 815 180 C745 225 675 210 610 190 C540 230 430 210 390 160 Z"/><path d="M470 235 C535 220 600 265 590 345 C530 380 460 340 470 235 Z"/><path d="M720 295 C775 285 820 325 805 365 C750 382 705 350 720 295 Z"/></g><g id="markers"></g></svg><div class="legend"><span class="very-far">Very far</span><span class="far">Far</span><span class="medium">Medium</span><span class="close">Close</span><span class="very-close">Very close</span><span class="correct">Correct</span></div></div>
+      <div class="game-status" id="hint">Mystery Country: hidden</div>
+    </section>
+    <aside class="info-panel world-panel">
+      <h2>Mystery Country</h2>
+      <form id="guessForm" class="guess-form"><label class="sr-only" for="guessInput">Search country</label><input id="guessInput" list="countriesList" placeholder="Search country..." autocomplete="off" /><datalist id="countriesList"></datalist><button class="btn" type="submit">Guess</button></form>
+      <div class="controls world-actions"><button class="btn btn-alt" id="giveUpBtn">Give Up</button><button class="btn btn-alt" id="newBtn">New Game</button><button class="btn btn-alt" id="soundBtn">Sound Off</button></div>
+      <div class="divider"></div><h2>Guess history</h2><ol id="history" class="history"></ol>
+      <div class="divider"></div><h2>Statistics</h2><div class="stat-grid"><span>Win %</span><strong id="winPct">0%</strong><span>Average</span><strong id="avg">--</strong><span>Best streak</span><strong id="bestStreak">0</strong></div>
+      <p class="data-note">Distances use great-circle math from approximate country center points in the shared country data module.</p>
+    </aside>
+  </main>
+  <footer class="site-footer"><div class="footer-links"><a href="../../../index.html">All Games</a><a href="../../../about.html">About</a></div><p>&copy; 2026 HTML5GamesVault. All rights reserved.</p></footer>
+  <script src="../../../shared/game-ui/game-utils.js"></script><script src="../../../data/countries.js"></script><script src="world-guess.js"></script><script src="../../../js/theme.js"></script>
+</body>
+</html>

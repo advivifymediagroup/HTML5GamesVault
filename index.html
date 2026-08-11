@@ -6,9 +6,9 @@
   <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <title>HTML5GamesVault — Free Browser Games</title>
-  <meta name="description" content="Play free HTML5 games online. Snake, 2048, Breakout, Memory, Tic-Tac-Toe, Flappy and more." />
+  <meta name="description" content="Play free HTML5 games online. Sorting, geography, Snake, 2048, Breakout, Memory, Tic-Tac-Toe, Flappy and more." />
   <meta property="og:title" content="HTML5GamesVault — Free Browser Games" />
-  <meta property="og:description" content="39 free browser games: arcade, puzzle, and 3D titles. No downloads or accounts required." />
+  <meta property="og:description" content="44 free browser games: arcade, puzzle, sorting, geography, and 3D titles. No downloads or accounts required." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="css/styles.css?v=6" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -42,7 +42,7 @@
   <section class="hero">
     <div class="hero-inner">
       <h1>Free browser games.</h1>
-      <p class="hero-sub">39 games you can play right now. Nothing to install, nothing to sign up for.</p>
+      <p class="hero-sub">44 games you can play right now. Nothing to install, nothing to sign up for.</p>
     </div>
   </section>
 
@@ -57,13 +57,15 @@
         <button class="chip" data-filter="3d">3D</button>
         <button class="chip" data-filter="2d">2D</button>
         <button class="chip" data-filter="puzzle">Puzzle</button>
+        <button class="chip" data-filter="sorting">Sorting</button>
+        <button class="chip" data-filter="geography">Geography</button>
         <button class="chip" data-filter="arcade">Arcade</button>
         <button class="chip" data-filter="audio">Audio</button>
       </div>
     </div>
 
     <div class="games-grid">
-      <a href="games/watersort/index.html" class="game-card" data-tags="2d puzzle">
+      <a href="games/watersort/index.html" class="game-card" data-tags="2d puzzle sorting">
         <div class="game-thumb thumb-water">
           <div class="water-mini">
             <span class="ws-tube"><i style="background:#ef4444;height:50%"></i></span>
@@ -134,7 +136,7 @@
         </div>
       </a>
 
-      <a href="games/hanoi/index.html" class="game-card" data-tags="2d puzzle">
+      <a href="games/hanoi/index.html" class="game-card" data-tags="2d puzzle sorting">
         <div class="game-thumb thumb-hanoi">
           <div class="hanoi-mini">
             <span class="hn-peg"></span>
@@ -769,6 +771,7 @@
   </footer>
 
   <script src="js/theme.js"></script>
+  <script src="data/games.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

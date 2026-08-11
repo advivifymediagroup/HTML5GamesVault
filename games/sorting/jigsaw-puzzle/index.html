@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/svg+xml" href="../../../assets/favicon.svg" />
+  <meta name="description" content="Play Jigsaw Puzzle free in your browser. Assemble original geometric scenes with drag, snap, zoom, and pan controls." />
+  <title>Jigsaw Puzzle &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../../css/game.css?v=6" />
+  <link rel="stylesheet" href="../../../shared/game-ui/sorting-games.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>.jigsaw-stage canvas{width:min(100%,760px);height:auto;background:#071426}.preview{width:100%;aspect-ratio:4/3;border-radius:10px;border:1px solid var(--border);background:#071426;margin-top:10px}.jigsaw-tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}.jigsaw-tools .btn{min-width:44px}</style>
+</head>
+<body>
+  <header class="game-header"><a href="../../../index.html" class="brand-link"><span class="brand-mark">&#9650;</span><span class="brand-name">HTML5Games<span class="brand-accent">Vault</span></span></a><button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme"><svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg><svg class="theme-icon theme-icon-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg></button></header>
+  <main class="game-wrap">
+    <section class="game-stage sorting-stage jigsaw-stage">
+      <div class="game-title-row"><div><h1>Jigsaw Puzzle</h1><p>Assemble generated art from scattered pieces.</p></div><select id="difficulty" class="pill-select" aria-label="Difficulty"><option value="12">Easy 12</option><option value="24">Medium 24</option><option value="48">Hard 48</option><option value="96">Expert 96</option></select></div>
+      <div class="scoreboard"><div class="score-box"><span>Pieces</span><strong id="pieces">0%</strong></div><div class="score-box"><span>Moves</span><strong id="moves">0</strong></div><div class="score-box"><span>Time</span><strong id="time">00:00</strong></div><div class="score-box"><span>Zoom</span><strong id="zoom">100%</strong></div></div>
+      <div class="stage-canvas-wrap"><canvas id="game" width="760" height="570" aria-label="Jigsaw puzzle board"></canvas><div class="message-overlay show" id="overlay"><h3 id="overTitle">Jigsaw Puzzle</h3><p id="overMsg">Drag pieces into the framed preview area. Close pieces snap into place.</p><div class="stars" id="stars">★★★</div><div class="modal-stats" id="modalStats"></div><button class="btn" id="restartOverlay">Start</button></div></div>
+      <div class="controls"><button class="btn" id="newBtn">New Puzzle</button><button class="btn btn-alt" id="resetBtn">Restart</button><button class="btn btn-alt" id="pauseBtn">Pause</button><button class="btn btn-alt" id="soundBtn">Sound Off</button><button class="btn btn-alt" id="fullscreenBtn">Fullscreen</button></div>
+      <div class="jigsaw-tools"><button class="btn btn-alt" id="zoomOut" aria-label="Zoom out">-</button><button class="btn btn-alt" id="zoomIn" aria-label="Zoom in">+</button><button class="btn btn-alt" id="centerBtn">Center</button></div>
+      <div class="game-status" id="status">Drag pieces; use empty-space drag to pan.</div>
+    </section>
+    <aside class="info-panel"><h2>Preview</h2><canvas class="preview" id="preview" width="360" height="270"></canvas><div class="divider"></div><h2>How to play</h2><p>Drag each tile near its correct spot inside the frame. The piece snaps when it is close enough. Zoom and pan help on smaller screens.</p></aside>
+  </main>
+  <footer class="site-footer"><div class="footer-links"><a href="../../../index.html">All Games</a><a href="../../../about.html">About</a></div><p>&copy; 2026 HTML5GamesVault. All rights reserved.</p></footer>
+  <script src="../../../shared/game-ui/game-utils.js"></script><script src="jigsaw-puzzle.js"></script><script src="../../../js/theme.js"></script>
+</body>
+</html>

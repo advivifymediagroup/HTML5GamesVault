@@ -1,0 +1,16 @@
+.gem-wrap { width: 100%; min-height: 540px; }
+.gem-board { width: min(100%,760px); display: grid; grid-template-columns: 1fr 1.08fr; gap: 16px; touch-action: none; }
+.gem-pool,.gem-trays{background:rgba(255,255,255,.045);border:1px solid var(--border);border-radius:14px;padding:14px}
+.gem-pool h2,.tray h3{font-size:13px;color:var(--text-dim);margin-bottom:10px}
+.gem-list,.tray-list{display:flex;flex-wrap:wrap;gap:11px;align-content:flex-start}
+.gem{width:58px;height:58px;border:0;background:transparent;cursor:grab;position:relative;display:grid;place-items:center;touch-action:none}
+.gem::before{content:"";width:38px;height:38px;display:block;background:var(--gem);clip-path:polygon(50% 0,90% 25%,76% 88%,24% 88%,10% 25%);box-shadow:inset 8px 7px rgba(255,255,255,.27), inset -8px -9px rgba(0,0,0,.2),0 10px 20px rgba(0,0,0,.25)}
+.gem::after{content:attr(data-letter);position:absolute;color:white;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.45);font-size:13px}
+.gem.wild::before{clip-path:polygon(50% 0,62% 34%,98% 34%,69% 55%,80% 92%,50% 70%,20% 92%,31% 55%,2% 34%,38% 34%);background:linear-gradient(135deg,#fbbf24,#ec4899,#06d4f7)}
+.gem.locked{filter:grayscale(.45);opacity:.65}.gem.locked::after{content:"LOCK";font-size:9px}.gem.selected{transform:translateY(-5px) scale(1.08);filter:drop-shadow(0 0 14px var(--accent))}
+.tray{min-height:132px;border-radius:12px;border:1px dashed rgba(255,255,255,.2);padding:10px;background:rgba(0,0,0,.13);transition:.16s}
+.tray.hot{border-color:var(--accent);background:rgba(6,212,247,.1);transform:translateY(-2px)}.tray.done{border-color:var(--success);background:rgba(52,211,153,.11)}
+.tray h3{display:flex;justify-content:space-between;color:var(--text)}.gem-trays{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.spark-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;border-radius:12px}.spark{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--c);animation:spark .7s ease-out forwards}
+@keyframes spark{to{transform:translate(var(--x),var(--y)) scale(.2);opacity:0}}
+@media(max-width:760px){.gem-board{grid-template-columns:1fr}.gem-trays{grid-template-columns:1fr}.gem-wrap{min-height:0}.gem{width:54px;height:54px}}
