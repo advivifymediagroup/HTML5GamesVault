@@ -903,6 +903,41 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .hn-base { position: absolute; left: 0; right: 0; bottom: 0; height: 6px; border-radius: 3px;
   background: rgba(139,92,246,0.42); }
 
+/* Word Hive */
+.thumb-wordhive { background: radial-gradient(ellipse at center, #1e1b4b, #050514 80%); position: relative; }
+.wh-mini { position: relative; width: 96px; height: 96px; margin: 0 auto; }
+.wh-hex {
+  position: absolute; width: 26px; height: 26px; display: grid; place-items: center;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(190,200,255,0.3);
+  border-radius: 6px; font: 700 11px "Space Grotesk", sans-serif; color: #cdd4f5;
+}
+.wh-mid { left: 50%; top: 50%; transform: translate(-50%, -50%); background: #8b5cf6; color: #fff; border-color: #8b5cf6; }
+
+/* Letter Box */
+.thumb-letterbox { background: linear-gradient(135deg, #14133a, #08081c); position: relative; }
+.lb-mini { position: relative; width: 90px; height: 90px; margin: 8px auto; border: 2px solid rgba(139,92,246,0.5); }
+.lb-side { position: absolute; font: 700 10px "JetBrains Mono", monospace; color: #cdd4f5; letter-spacing: 2px; }
+.lb-top { top: -16px; left: 50%; transform: translateX(-50%); }
+.lb-bottom { bottom: -16px; left: 50%; transform: translateX(-50%); }
+.lb-left { left: -46px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+.lb-right { right: -46px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+/* Mini Crossword */
+.thumb-minicross { background: linear-gradient(135deg, #1e1b4b, #0b0b22); }
+.mc-mini { display: grid; grid-template-columns: repeat(5, 15px); gap: 2px; }
+.mc-mini .on { width: 15px; height: 15px; background: rgba(255,255,255,0.85); border-radius: 2px; }
+.mc-mini .off { width: 15px; height: 15px; background: rgba(0,0,0,0.4); border-radius: 2px; }
+
+/* Word Groups */
+.thumb-wordgroups { background: linear-gradient(135deg, #191840, #0a0a22); }
+.wg-mini { display: grid; grid-template-columns: repeat(2, 34px); gap: 4px; }
+.wg-mini span { height: 22px; border-radius: 4px; }
+
+/* Tiles */
+.thumb-tiles { background: linear-gradient(135deg, #14133a, #08081c); }
+.tl-mini { display: grid; grid-template-columns: repeat(2, 34px); gap: 6px; }
+.tl-mini span { height: 34px; border-radius: 6px; box-shadow: inset 0 -4px 6px rgba(0,0,0,0.35), inset 0 3px 4px rgba(255,255,255,0.25); }
+
 /* Merge Drop */
 .thumb-merge { background: linear-gradient(180deg, #14133a, #0a0a22); position: relative; }
 .merge-mini { position: relative; width: 76%; height: 68%; align-self: end; margin-bottom: 12px;
