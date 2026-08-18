@@ -1,6 +1,6 @@
 /* ============================================
    HTML5GamesVault — Design System
-   Palette: Deep space + neon (indigo / cyan / magenta)
+   Palette: Brand blue (matches the HTML5GamesVault logo)
    ============================================ */
 :root {
   /* Backgrounds */
@@ -9,14 +9,14 @@
   --bg-2: #14143a;
   --surface: rgba(20, 20, 58, 0.55);
   --surface-hi: rgba(30, 30, 80, 0.7);
-  --border: rgba(139, 92, 246, 0.25);
-  --border-hi: rgba(139, 92, 246, 0.55);
+  --border: rgba(19, 103, 229, 0.25);
+  --border-hi: rgba(19, 103, 229, 0.55);
 
   /* Brand colors */
-  --primary: #8b5cf6;       /* violet */
-  --primary-2: #6366f1;     /* indigo */
-  --accent: #06d4f7;        /* cyan */
-  --accent-2: #ec4899;      /* magenta */
+  --primary: #1367e5;       /* logo blue */
+  --primary-2: #0b3fc4;     /* deep blue */
+  --accent: #38bdf8;        /* sky blue */
+  --accent-2: #6366f1;      /* indigo */
   --success: #34d399;
   --warn: #fbbf24;
 
@@ -26,7 +26,7 @@
   --text-mute: #6e7196;
 
   /* Effects */
-  --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.25);
+  --shadow-glow: 0 0 40px rgba(19, 103, 229, 0.25);
   --shadow-card: 0 12px 30px rgba(0, 0, 0, 0.45);
   --header-bg: rgba(7, 7, 26, 0.7);
 
@@ -42,14 +42,14 @@
   --bg-2: #e3e6fa;
   --surface: rgba(255, 255, 255, 0.72);
   --surface-hi: rgba(255, 255, 255, 0.92);
-  --border: rgba(99, 102, 241, 0.18);
-  --border-hi: rgba(99, 102, 241, 0.4);
+  --border: rgba(19, 103, 229, 0.18);
+  --border-hi: rgba(19, 103, 229, 0.4);
 
   --text: #191a2e;
   --text-dim: #4c4e6d;
   --text-mute: #7d7fa0;
 
-  --shadow-glow: 0 0 40px rgba(139, 92, 246, 0.12);
+  --shadow-glow: 0 0 40px rgba(19, 103, 229, 0.12);
   --shadow-card: 0 12px 30px rgba(30, 30, 70, 0.1);
   --header-bg: rgba(255, 255, 255, 0.75);
 }
@@ -70,21 +70,21 @@ body, .site-header, .game-card, .how-card, .about-card, .score-box, .btn-ghost, 
 }
 
 a { color: inherit; text-decoration: none; }
-code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); background: rgba(6, 212, 247, 0.1); padding: 2px 6px; border-radius: 4px; }
+code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; }
 
 /* ============== Animated Background ============== */
 .bg-grid {
   position: fixed; inset: 0; z-index: -2;
   background:
     radial-gradient(ellipse at top, rgba(99, 102, 241, 0.15), transparent 60%),
-    radial-gradient(ellipse at bottom, rgba(236, 72, 153, 0.1), transparent 60%),
+    radial-gradient(ellipse at bottom, rgba(56, 189, 248, 0.1), transparent 60%),
     linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
 }
 .bg-grid::before {
   content: ''; position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(139, 92, 246, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(139, 92, 246, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(19, 103, 229, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(19, 103, 229, 0.06) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
 }
@@ -128,8 +128,12 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   background: linear-gradient(135deg, var(--primary), var(--accent));
   border-radius: 7px;
   color: white; font-size: 13px;
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 16px rgba(19, 103, 229, 0.45);
 }
+.logo-img { height: 26px; width: auto; display: block; }
+:root[data-theme="light"] .logo-img-dark { display: none; }
+.logo-img-light { display: none; }
+:root[data-theme="light"] .logo-img-light { display: block; }
 .logo-accent { color: var(--accent); margin-left: 4px; }
 
 .nav { display: flex; align-items: center; gap: 30px; }
@@ -168,10 +172,10 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   border-radius: 10px;
   font-weight: 600; font-size: 14px;
   border: none; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 4px 20px rgba(19, 103, 229, 0.4);
   transition: transform 0.2s, box-shadow 0.2s;
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(139, 92, 246, 0.6); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(19, 103, 229, 0.6); }
 
 .btn-ghost {
   display: inline-flex; align-items: center; gap: 8px;
@@ -292,7 +296,7 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   background: linear-gradient(135deg, var(--primary), var(--primary-2));
   color: white;
   border-color: transparent;
-  box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 20px rgba(19, 103, 229, 0.4);
 }
 
 /* ============== Game Grid ============== */
@@ -314,7 +318,7 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   content: '';
   position: absolute; inset: 0;
   border-radius: inherit;
-  background: linear-gradient(135deg, transparent 60%, rgba(139, 92, 246, 0.15));
+  background: linear-gradient(135deg, transparent 60%, rgba(19, 103, 229, 0.15));
   opacity: 0;
   transition: opacity 0.3s;
   pointer-events: none;
@@ -322,7 +326,7 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .game-card:hover {
   transform: translateY(-6px);
   border-color: var(--border-hi);
-  box-shadow: 0 20px 50px rgba(139, 92, 246, 0.25);
+  box-shadow: 0 20px 50px rgba(19, 103, 229, 0.25);
 }
 .game-card:hover::after { opacity: 1; }
 

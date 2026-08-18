@@ -9,14 +9,14 @@
   transition: background 0.15s, transform 0.06s;
   text-align: center;
   padding: 24px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #6366f1, #1367e5);
   box-shadow: 0 10px 30px rgba(99, 102, 241, 0.35);
 }
 .reaction-pad:active { transform: scale(0.99); }
 .reaction-pad.wait { background: linear-gradient(135deg, #dc2626, #b91c1c); box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4); }
 .reaction-pad.go { background: linear-gradient(135deg, #22c55e, #16a34a); box-shadow: 0 10px 40px rgba(34, 197, 94, 0.5); }
 .reaction-pad.fail { background: linear-gradient(135deg, #f97316, #ea580c); }
-.reaction-pad.result { background: linear-gradient(135deg, #06d4f7, #8b5cf6); }
+.reaction-pad.result { background: linear-gradient(135deg, #38bdf8, #1367e5); }
 
 .rxn-icon { font-size: 56px; margin-bottom: 8px; }
 .rxn-text {

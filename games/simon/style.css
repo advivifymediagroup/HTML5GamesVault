@@ -36,7 +36,7 @@
   transform: translate(-50%, -50%);
   width: 120px; height: 120px;
   background: linear-gradient(135deg, #1e1e3a, #0a0a25);
-  border: 3px solid rgba(139, 92, 246, 0.4);
+  border: 3px solid rgba(19, 103, 229, 0.4);
   border-radius: 50%;
   display: grid; place-items: center;
   color: #f5f7ff;
@@ -44,12 +44,12 @@
   font-size: 18px;
   letter-spacing: 0.15em;
   text-align: center;
-  box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.3);
+  box-shadow: inset 0 0 20px rgba(19, 103, 229, 0.3);
   user-select: none;
   pointer-events: none;
 }
 .simon-center span {
-  background: linear-gradient(135deg, #06d4f7, #8b5cf6);
+  background: linear-gradient(135deg, #38bdf8, #1367e5);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

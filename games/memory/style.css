@@ -29,7 +29,7 @@
   user-select: none;
 }
 .face.front {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  background: linear-gradient(135deg, #6366f1, #1367e5);
   color: white;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
@@ -43,12 +43,12 @@
   border-radius: 8px;
 }
 .face.back {
-  background: linear-gradient(135deg, #ec4899, #f59e0b);
+  background: linear-gradient(135deg, #6366f1, #f59e0b);
   transform: rotateY(180deg);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 .card.matched .face.back {
-  background: linear-gradient(135deg, #34d399, #06d4f7);
+  background: linear-gradient(135deg, #34d399, #38bdf8);
   box-shadow: 0 0 30px rgba(52, 211, 153, 0.5);
 }
 @media (max-width: 540px) {

@@ -5,7 +5,7 @@
   width: calc(var(--cell) * var(--size) + var(--gap) * (var(--size) + 1));
   height: calc(var(--cell) * var(--size) + var(--gap) * (var(--size) + 1));
   background: rgba(20, 20, 58, 0.6);
-  border: 1px solid rgba(139, 92, 246, 0.25);
+  border: 1px solid rgba(19, 103, 229, 0.25);
   border-radius: 12px;
   padding: var(--gap);
   position: relative;
@@ -52,8 +52,8 @@
 .tile-256  { background: linear-gradient(135deg, #facc15, #ca8a04); color: #422006; font-size: 28px; }
 .tile-512  { background: linear-gradient(135deg, #fbbf24, #d97706); color: #422006; font-size: 28px; }
 .tile-1024 { background: linear-gradient(135deg, #34d399, #059669); font-size: 24px; }
-.tile-2048 { background: linear-gradient(135deg, #06d4f7, #6366f1); font-size: 24px; box-shadow: 0 0 25px rgba(6, 212, 247, 0.6); }
-.tile-4096 { background: linear-gradient(135deg, #ec4899, #8b5cf6); font-size: 22px; box-shadow: 0 0 25px rgba(236, 72, 153, 0.6); }
+.tile-2048 { background: linear-gradient(135deg, #38bdf8, #6366f1); font-size: 24px; box-shadow: 0 0 25px rgba(56, 189, 248, 0.6); }
+.tile-4096 { background: linear-gradient(135deg, #6366f1, #1367e5); font-size: 22px; box-shadow: 0 0 25px rgba(99, 102, 241, 0.6); }
 @media (max-width: 540px) {
   .board { --cell: 64px; --gap: 8px; }
   .tile { font-size: 24px; }

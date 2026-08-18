@@ -1,8 +1,8 @@
 .brain-card {
   width: 100%;
   max-width: 500px;
-  background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(6, 212, 247, 0.06));
-  border: 1px solid var(--border-hi, rgba(139, 92, 246, 0.55));
+  background: linear-gradient(135deg, rgba(19, 103, 229, 0.12), rgba(56, 189, 248, 0.06));
+  border: 1px solid var(--border-hi, rgba(19, 103, 229, 0.55));
   border-radius: 16px;
   padding: 18px;
   display: flex; flex-direction: column;
@@ -50,7 +50,7 @@
   border-radius: 8px;
   transition: background 0.15s, transform 0.1s;
 }
-.emoji-grid > span:hover { background: rgba(139, 92, 246, 0.2); transform: scale(1.1); }
+.emoji-grid > span:hover { background: rgba(19, 103, 229, 0.2); transform: scale(1.1); }
 
 /* Level 2: numbers row */
 .num-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: center; }
@@ -85,7 +85,7 @@
 }
 .tshirt-submit {
   padding: 8px 16px;
-  background: linear-gradient(135deg, #06d4f7, #6366f1);
+  background: linear-gradient(135deg, #38bdf8, #6366f1);
   border: none;
   color: white;
   font-family: inherit; font-weight: 600;
@@ -98,10 +98,10 @@
 .sleep-emoji { font-size: 88px; transition: transform 0.2s; }
 .sleep-zzz {
   font-size: 28px;
-  color: #06d4f7;
+  color: #38bdf8;
   letter-spacing: 0.12em;
   font-weight: 700;
-  text-shadow: 0 0 12px rgba(6, 212, 247, 0.7);
+  text-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
   animation: zzzfloat 2s ease-in-out infinite;
 }
 @keyframes zzzfloat {
@@ -133,7 +133,7 @@
 /* Level 6: largest number trick */
 .size-row { display: flex; gap: 16px; align-items: center; justify-content: center; }
 .size-row > button {
-  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  background: linear-gradient(135deg, #6366f1, #1367e5);
   border: none;
   color: white;
   border-radius: 12px;
@@ -141,7 +141,7 @@
   font-weight: 700;
   cursor: pointer;
   padding: 8px 14px;
-  box-shadow: 0 4px 16px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
 }
 
 /* Level 7: equation */
@@ -152,12 +152,12 @@
 }
 .eq-slot {
   min-width: 50px; height: 60px;
-  border: 2px dashed rgba(139, 92, 246, 0.5);
+  border: 2px dashed rgba(19, 103, 229, 0.5);
   border-radius: 10px;
   display: grid; place-items: center;
   background: rgba(20, 20, 58, 0.5);
 }
-.eq-slot.filled { border-style: solid; background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+.eq-slot.filled { border-style: solid; background: linear-gradient(135deg, #6366f1, #1367e5); }
 .eq-tokens { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
 .eq-token {
   width: 50px; height: 50px;

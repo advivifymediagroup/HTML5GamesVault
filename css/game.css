@@ -4,11 +4,12 @@
   --bg-1: #0e0e2a;
   --surface: rgba(20, 20, 58, 0.55);
   --surface-hi: rgba(30, 30, 80, 0.7);
-  --border: rgba(139, 92, 246, 0.25);
-  --border-hi: rgba(139, 92, 246, 0.55);
-  --primary: #8b5cf6;
-  --accent: #06d4f7;
-  --accent-2: #ec4899;
+  --border: rgba(19, 103, 229, 0.25);
+  --border-hi: rgba(19, 103, 229, 0.55);
+  --primary: #1367e5;
+  --primary-2: #0b3fc4;
+  --accent: #38bdf8;
+  --accent-2: #6366f1;
   --success: #34d399;
   --text: #f5f7ff;
   --text-dim: #a5a8c8;
@@ -22,8 +23,8 @@
   --bg-1: #eceefb;
   --surface: rgba(255, 255, 255, 0.75);
   --surface-hi: rgba(255, 255, 255, 0.94);
-  --border: rgba(99, 102, 241, 0.18);
-  --border-hi: rgba(99, 102, 241, 0.4);
+  --border: rgba(19, 103, 229, 0.18);
+  --border-hi: rgba(19, 103, 229, 0.4);
   --text: #191a2e;
   --text-dim: #4c4e6d;
   --text-mute: #7d7fa0;
@@ -44,7 +45,7 @@ html, body {
 }
 canvas, #game3d { transition: none; }
 a { color: var(--accent); text-decoration: none; }
-code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--accent); background: rgba(6, 212, 247, 0.1); padding: 2px 6px; border-radius: 4px; }
+code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--accent); background: rgba(56, 189, 248, 0.1); padding: 2px 6px; border-radius: 4px; }
 
 .game-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -68,8 +69,12 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--
   background: linear-gradient(135deg, var(--primary), var(--accent));
   border-radius: 7px;
   color: #fff; font-size: 13px;
-  box-shadow: 0 0 16px rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 16px rgba(19, 103, 229, 0.45);
 }
+.brand-img { height: 24px; width: auto; display: block; }
+:root[data-theme="light"] .brand-img-dark { display: none; }
+.brand-img-light { display: none; }
+:root[data-theme="light"] .brand-img-light { display: block; }
 .brand-accent { color: var(--accent); }
 .back-link:hover { color: var(--text); }
 .theme-toggle {
@@ -160,14 +165,14 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--primary), #6366f1);
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
   color: white;
   font-family: inherit; font-weight: 600; font-size: 13px;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 20px rgba(19, 103, 229, 0.3);
   transition: transform 0.15s, box-shadow 0.15s;
 }
-.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(139, 92, 246, 0.5); }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(19, 103, 229, 0.5); }
 .btn-alt {
   background: var(--surface-hi);
   border: 1px solid var(--border);

@@ -10,8 +10,8 @@
 }
 .col-btn {
   height: 24px;
-  background: rgba(139, 92, 246, 0.15);
-  border: 1px dashed rgba(139, 92, 246, 0.4);
+  background: rgba(19, 103, 229, 0.15);
+  border: 1px dashed rgba(19, 103, 229, 0.4);
   border-radius: 4px;
   color: var(--text-dim);
   cursor: pointer;
@@ -20,7 +20,7 @@
   display: grid; place-items: center;
   transition: background 0.15s;
 }
-.col-btn:hover:not(:disabled) { background: rgba(139, 92, 246, 0.3); color: white; }
+.col-btn:hover:not(:disabled) { background: rgba(19, 103, 229, 0.3); color: white; }
 .col-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 .c4-board {
   display: grid;

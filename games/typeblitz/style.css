@@ -7,7 +7,7 @@
   justify-content: center;
   gap: 18px;
   padding: 26px;
-  background: linear-gradient(135deg, rgba(6, 212, 247, 0.1), rgba(236, 72, 153, 0.1));
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(99, 102, 241, 0.1));
   border: 1px solid var(--border);
   border-radius: 12px;
 }
@@ -33,7 +33,7 @@
   text-align: center;
   outline: none;
 }
-.type-input:focus { box-shadow: 0 0 0 3px rgba(6, 212, 247, 0.18); border-color: var(--accent); }
+.type-input:focus { box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.18); border-color: var(--accent); }
 .feedback {
   min-height: 24px;
   color: var(--text-dim);
