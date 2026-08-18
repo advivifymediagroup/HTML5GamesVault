@@ -71,7 +71,7 @@ code { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--
   color: #fff; font-size: 13px;
   box-shadow: 0 0 16px rgba(19, 103, 229, 0.45);
 }
-.brand-img { height: 24px; width: auto; display: block; }
+.brand-img { height: 36px; width: auto; display: block; }
 :root[data-theme="light"] .brand-img-dark { display: none; }
 .brand-img-light { display: none; }
 :root[data-theme="light"] .brand-img-light { display: block; }

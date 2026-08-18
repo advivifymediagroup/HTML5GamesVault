@@ -130,7 +130,7 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   color: white; font-size: 13px;
   box-shadow: 0 0 16px rgba(19, 103, 229, 0.45);
 }
-.logo-img { height: 26px; width: auto; display: block; }
+.logo-img { height: 40px; width: auto; display: block; }
 :root[data-theme="light"] .logo-img-dark { display: none; }
 .logo-img-light { display: none; }
 :root[data-theme="light"] .logo-img-light { display: block; }
