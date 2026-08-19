@@ -132,6 +132,14 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 }
 .logo-accent { color: var(--accent); margin-left: 4px; }
 
+/* Theme-aware image logo: prefer images from assets; keep text for accessibility */
+.logo-img { height: 28px; display: block; width: auto; }
+.logo-mark, .logo-text { display: none; }
+.logo { gap: 12px; align-items: center; }
+.logo-img-light { display: none; }
+:root[data-theme="light"] .logo-img-dark { display: none; }
+:root[data-theme="light"] .logo-img-light { display: block; }
+
 .nav { display: flex; align-items: center; gap: 30px; }
 .nav a { color: var(--text-dim); transition: color 0.2s; font-weight: 500; font-size: 15px; }
 .nav a:hover { color: var(--text); }
