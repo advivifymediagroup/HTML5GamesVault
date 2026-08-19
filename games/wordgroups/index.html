@@ -10,7 +10,12 @@
   <link rel="stylesheet" href="../../css/game.css?v=10" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>#game { cursor: pointer; touch-action: none; }</style>
+  <style>
+    #game { cursor: pointer; touch-action: none; }
+    .mistake-dots { display: flex; gap: 6px; align-items: center; justify-content: center; height: 1.4em; }
+    .mistake-dots .dot { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,0.15); border: 1.5px solid rgba(190,200,255,0.35); transition: background 0.15s ease, border-color 0.15s ease; }
+    .mistake-dots .dot.filled { background: #ef4444; border-color: #ef4444; }
+  </style>
 </head>
 <body>
   <header class="game-header">
@@ -25,7 +30,7 @@
     <section class="game-stage">
       <div class="scoreboard">
         <div class="score-box"><span>Groups</span><strong id="groups">0/4</strong></div>
-        <div class="score-box"><span>Mistakes</span><strong id="mistakes">0/4</strong></div>
+        <div class="score-box"><span>Mistakes</span><div class="mistake-dots" id="mistakes"></div></div>
         <div class="score-box"><span>Puzzle</span><strong id="puz">1</strong></div>
       </div>
       <div class="stage-canvas-wrap">

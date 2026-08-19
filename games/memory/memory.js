@@ -93,17 +93,67 @@
   }
 
   // ---- state ----
-  let cards, flipped, moves, matches, pairCount, busy, startTime, timer;
+  let cards, flipped, moves, matches, pairCount, busy, startTime, timer, effects, previewTimer;
+  const clock = new THREE.Clock();
+
+  let ringTexCache = null;
+  function ringTex() {
+    if (ringTexCache) return ringTexCache;
+    const cv = document.createElement('canvas'); cv.width = cv.height = 128;
+    const c = cv.getContext('2d');
+    const grad = c.createRadialGradient(64, 64, 40, 64, 64, 58);
+    grad.addColorStop(0, 'rgba(255,255,255,0)');
+    grad.addColorStop(0.55, 'rgba(255,255,255,1)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = grad; c.beginPath(); c.arc(64, 64, 60, 0, Math.PI * 2); c.fill();
+    ringTexCache = new THREE.CanvasTexture(cv);
+    return ringTexCache;
+  }
+  let sparkTexCache = null;
+  function sparkTex() {
+    if (sparkTexCache) return sparkTexCache;
+    const cv = document.createElement('canvas'); cv.width = cv.height = 64;
+    const c = cv.getContext('2d');
+    const grad = c.createRadialGradient(32, 32, 0, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,1)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    c.fillStyle = grad; c.fillRect(0, 0, 64, 64);
+    sparkTexCache = new THREE.CanvasTexture(cv);
+    return sparkTexCache;
+  }
+
+  // Glowing ring + a handful of sparks at a matched card's position.
+  function spawnMatchEffect(card) {
+    const pos = card.mesh.position.clone(); pos.y += 0.35;
+
+    const ring = new THREE.Sprite(new THREE.SpriteMaterial({map: ringTex(), color: 0x22c55e, transparent: true, depthWrite: false, opacity: 1}));
+    ring.position.copy(pos); ring.scale.set(0.6, 0.6, 0.6);
+    scene.add(ring);
+    effects.push({type: 'ring', mesh: ring, life: 0, dur: 0.7});
+
+    for (let i = 0; i < 10; i++) {
+      const p = new THREE.Sprite(new THREE.SpriteMaterial({map: sparkTex(), color: 0xffd166, transparent: true, depthWrite: false}));
+      const ang = Math.random() * Math.PI * 2, spd = 1.4 + Math.random() * 2.2;
+      p.position.copy(pos);
+      p.userData.vel = new THREE.Vector3(Math.cos(ang) * spd, 1.6 + Math.random() * 2, Math.sin(ang) * spd);
+      p.scale.set(0.22, 0.22, 0.22);
+      scene.add(p);
+      effects.push({type: 'particle', mesh: p, life: 0, dur: 0.55 + Math.random() * 0.3});
+    }
+  }
 
   function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
   function newGame() {
     if (cards) cards.forEach(c => scene.remove(c.mesh));
+    if (effects) effects.forEach(e => scene.remove(e.mesh));
+    effects = [];
+    clearTimeout(previewTimer);
     pairCount = +diffSel.value;
-    moves = 0; matches = 0; flipped = []; busy = false;
+    moves = 0; matches = 0; flipped = []; busy = true;
     movesEl.textContent = 0; pairsEl.textContent = `0/${pairCount}`; timeEl.textContent = '0s';
     overlay.classList.remove('show');
-    statusEl.innerHTML = 'Click a card to flip it.';
+    statusEl.innerHTML = 'Memorize the board…';
     clearInterval(timer); startTime = null;
 
     const chosen = EMOJIS.slice(0, pairCount);
@@ -118,8 +168,15 @@
       const mesh = makeCard(emoji);
       mesh.position.set(col * gapX - offX, 0.15, row * gapZ - offZ);
       scene.add(mesh);
-      return {mesh, emoji, state: 'down', flip: 0, targetFlip: 0, matched: false};
+      return {mesh, emoji, state: 'up', flip: 1, targetFlip: 1, matched: false};
     });
+
+    // Brief full-board preview: everything shown face-up before play begins.
+    previewTimer = setTimeout(() => {
+      cards.forEach(c => { c.targetFlip = 0; c.state = 'down'; });
+      busy = false;
+      statusEl.innerHTML = 'Click a card to flip it. Find matching pairs.';
+    }, 1500);
   }
 
   function flipCard(card, toUp) {
@@ -138,8 +195,10 @@
       if (a.emoji === b.emoji) {
         a.matched = b.matched = true;
         matches++; pairsEl.textContent = `${matches}/${pairCount}`;
+        spawnMatchEffect(a); spawnMatchEffect(b);
         flipped = [];
         if (matches === pairCount) win();
+        else statusEl.innerHTML = `${matches}/${pairCount} pairs found.`;
       } else {
         busy = true;
         setTimeout(() => { flipCard(a, false); flipCard(b, false); flipped = []; busy = false; }, 850);
@@ -175,6 +234,22 @@
 
 
   function animate() {
+    const dt = Math.min(clock.getDelta(), 0.05);
+    for (let i = effects.length - 1; i >= 0; i--) {
+      const e = effects[i];
+      e.life += dt;
+      const t = e.life / e.dur;
+      if (t >= 1) { scene.remove(e.mesh); effects.splice(i, 1); continue; }
+      if (e.type === 'ring') {
+        const s = 0.6 + t * 2.4;
+        e.mesh.scale.set(s, s, s);
+        e.mesh.material.opacity = 1 - t;
+      } else {
+        e.mesh.position.addScaledVector(e.mesh.userData.vel, dt);
+        e.mesh.userData.vel.y -= dt * 4;
+        e.mesh.material.opacity = 1 - t;
+      }
+    }
     if (cards) cards.forEach(c => {
       c.flip += (c.targetFlip - c.flip) * 0.2;
       // face-down = 0 (back up), face-up = rotate 180° around X (emoji face up)

@@ -20,6 +20,8 @@
   ];
 
   let tubes, level, moves, picked, history, gameState, anim;
+  let shake = 0;             // screen-shake magnitude, decays each frame
+  const bursts = [];         // particle-burst list for completed tubes
 
   level = 1;
   let best = +localStorage.getItem('watersort-best') || 0;
@@ -172,13 +174,16 @@
     } else if (canPour(tubes, picked, idx)) {
       snapshot();
       const from = picked;
+      const srcBefore = tubes[from].length;
+      const dstBefore = tubes[idx].length;
       const n = pourInto(tubes, from, idx);
+      const color = tubes[idx][tubes[idx].length - 1];
       picked = -1;
       moves++;
       movesEl.textContent = moves;
-      anim = {to: idx, n, t: 0};
+      anim = {from, to: idx, n, color, t: 0, max: 26, srcBefore, dstBefore, settled: false};
       statusEl.textContent = 'Poured ' + n + '.';
-      if (alreadyDone(tubes)) { draw(); setTimeout(win, 260); return; }
+      if (alreadyDone(tubes)) { draw(); setTimeout(win, 420); return; }
     } else {
       statusEl.textContent = "That pour isn't allowed.";
       picked = tubes[idx].length ? idx : -1;
@@ -217,6 +222,8 @@
     return -1;
   }
 
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
   function draw() {
     const g = ctx.createLinearGradient(0, 0, 0, H);
     g.addColorStop(0, '#0b0b22');
@@ -224,18 +231,113 @@
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
+    ctx.save();
+    if (shake > 0.2) {
+      ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
+    }
+
     const L = layout();
     for (let i = 0; i < tubes.length; i++) tube(L[i], tubes[i], i === picked, i);
 
+    // animated liquid arc streaming between the pouring tubes' mouths
     if (anim) {
-      anim.t++;
-      if (anim.t > 12) anim = null; else requestAnimationFrame(draw);
+      const p = anim.t / anim.max;
+      let a = 0;
+      if (p < 0.4) a = p / 0.4;
+      else if (p < 0.8) a = 1;
+      else a = 1 - (p - 0.8) / 0.2;
+      if (a > 0.01) {
+        const srcB = L[anim.from], dstB = L[anim.to];
+        const liftSrc = anim.from === picked ? 14 : 0;
+        const sx = srcB.x + srcB.w * 0.82, sy = srcB.y - liftSrc - 4;
+        const dx = dstB.x + dstB.w * 0.18, dy = dstB.y - 4;
+        const midY = Math.min(sy, dy) - 26;
+        ctx.strokeStyle = shade(COLORS[anim.color], 15);
+        ctx.globalAlpha = a;
+        ctx.lineWidth = 5;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(sx, sy);
+        ctx.bezierCurveTo(sx, midY, dx, midY, dx, dy);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+    }
+
+    // particle bursts for completed tubes
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const pt = bursts[i];
+      pt.x += pt.vx; pt.y += pt.vy; pt.vy += 0.16; pt.life--;
+      if (pt.life <= 0) { bursts.splice(i, 1); continue; }
+      ctx.globalAlpha = pt.life / pt.max;
+      ctx.fillStyle = pt.c;
+      ctx.fillRect(pt.x - 2, pt.y - 2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+    ctx.restore();
+
+    if (shake > 0.2) shake *= 0.88; else shake = 0;
+
+    if (anim || bursts.length || shake) {
+      if (anim) {
+        anim.t++;
+        if (anim.t >= anim.max) {
+          if (!anim.settled) { anim.settled = true; checkTubeComplete(anim.to); }
+          if (anim.t > anim.max + 2) anim = null;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+  }
+
+  function burst(x, y, c) {
+    for (let i = 0; i < 16; i++) {
+      bursts.push({x, y, vx: (Math.random() - 0.5) * 5.5, vy: (Math.random() - 0.5) * 5.5 - 1, life: 30, max: 30, c});
+    }
+  }
+
+  function checkTubeComplete(idx) {
+    const t = tubes[idx];
+    if (t.length === CAP && t.every(c => c === t[0])) {
+      const b = layout()[idx];
+      shake = 9;
+      burst(b.x + b.w / 2, b.y + b.h * 0.4, COLORS[t[0]]);
     }
   }
 
   function tube(b, contents, isPicked, idx) {
     const r = b.w / 2;
     const segH = (b.h - 10) / CAP;
+    const lift = isPicked ? 14 : 0;
+
+    // glow halo under a selected (lifted) tube
+    if (isPicked) {
+      const cx = b.x + r, cy = b.y + b.h;
+      const glowColor = contents.length ? COLORS[contents[contents.length - 1]] : '#fde047';
+      const glow = ctx.createRadialGradient(cx, cy, 2, cx, cy, r * 1.6);
+      glow.addColorStop(0, shade(glowColor, 30));
+      glow.addColorStop(0.5, glowColor);
+      glow.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = glow;
+      ctx.beginPath(); ctx.ellipse(cx, cy, r * 1.6, r * 0.6, 0, 0, Math.PI * 2); ctx.fill();
+    }
+
+    b = {x: b.x, y: b.y - lift, w: b.w, h: b.h};
+
+    // effective segment counts, animated during a pour
+    let renderContents = contents;
+    let growFrac = 0; // extra partial segment height (0..1) grown/removed at the pour end
+    if (anim && (idx === anim.from || idx === anim.to)) {
+      const p = Math.min(1, anim.t / anim.max);
+      const g = p < 0.5 ? 0 : easeOut((p - 0.5) / 0.5);
+      if (idx === anim.to) {
+        renderContents = contents.slice(0, Math.max(0, contents.length - anim.n));
+        growFrac = g;
+      } else {
+        renderContents = contents.slice(0, contents.length); // already at final (reduced) length
+        growFrac = 1 - g; // extra segments fading back in while removed
+      }
+    }
 
     ctx.save();
     // glass body: rounded bottom, open top
@@ -250,23 +352,28 @@
     ctx.fillStyle = 'rgba(255,255,255,0.045)';
     ctx.fillRect(b.x, b.y, b.w, b.h);
 
-    for (let i = 0; i < contents.length; i++) {
-      const c = COLORS[contents[i]];
+    // liquid segments, with a lighter meniscus band at the top of each colour run
+    for (let i = 0; i < renderContents.length; i++) {
+      const c = COLORS[renderContents[i]];
+      const isTopOfRun = i === renderContents.length - 1 || renderContents[i + 1] !== renderContents[i];
       const y = b.y + b.h - 5 - (i + 1) * segH;
-      const grad = ctx.createLinearGradient(b.x, y, b.x + b.w, y);
-      grad.addColorStop(0, shade(c, -30));
-      grad.addColorStop(0.45, c);
-      grad.addColorStop(1, shade(c, -46));
-      ctx.fillStyle = grad;
-      ctx.fillRect(b.x, y, b.w, segH + 1);
-      ctx.fillStyle = 'rgba(255,255,255,0.16)';
-      ctx.fillRect(b.x + 4, y + 3, b.w * 0.22, segH - 7);
+      drawLiquidSegment(b, y, segH, c, isTopOfRun && !(anim && idx === anim.to && growFrac > 0));
+    }
+    // the growing/shrinking partial segment during a pour
+    if (anim && growFrac > 0.001 && (idx === anim.to ? anim.n > 0 : true)) {
+      const c = COLORS[anim.color];
+      const h = growFrac * anim.n * segH;
+      const y = b.y + b.h - 5 - renderContents.length * segH - h;
+      drawLiquidSegment(b, y, h, c, true);
     }
 
-    if (anim && anim.to === idx) {
-      ctx.fillStyle = 'rgba(255,255,255,' + (0.3 * (1 - anim.t / 12)) + ')';
-      ctx.fillRect(b.x, b.y, b.w, b.h);
-    }
+    // specular highlight strip down one side of the glass
+    const spec = ctx.createLinearGradient(b.x + b.w * 0.14, 0, b.x + b.w * 0.3, 0);
+    spec.addColorStop(0, 'rgba(255,255,255,0.22)');
+    spec.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = spec;
+    ctx.fillRect(b.x + b.w * 0.1, b.y, b.w * 0.22, b.h);
+
     ctx.restore();
 
     // glass outline
@@ -286,6 +393,27 @@
       ctx.lineTo(b.x + r - 6, b.y - 4);
       ctx.lineTo(b.x + r + 6, b.y - 4);
       ctx.closePath();
+      ctx.fill();
+    }
+  }
+
+  // one liquid band: 4-stop horizontal gradient (dark edge -> base -> light highlight -> dark edge),
+  // optionally with a lighter meniscus oval band at its top for a liquid-surface look.
+  function drawLiquidSegment(b, y, h, c, withMeniscus) {
+    if (h <= 0) return;
+    const grad = ctx.createLinearGradient(b.x, y, b.x + b.w, y);
+    grad.addColorStop(0, shade(c, -34));
+    grad.addColorStop(0.32, c);
+    grad.addColorStop(0.62, shade(c, 26));
+    grad.addColorStop(1, shade(c, -40));
+    ctx.fillStyle = grad;
+    ctx.fillRect(b.x, y, b.w, h + 1);
+    ctx.fillStyle = 'rgba(255,255,255,0.14)';
+    ctx.fillRect(b.x + 4, y + 3, b.w * 0.2, Math.max(0, h - 7));
+    if (withMeniscus && h > 3) {
+      ctx.fillStyle = 'rgba(255,255,255,0.32)';
+      ctx.beginPath();
+      ctx.ellipse(b.x + b.w / 2, y + 2, b.w / 2 - 1, Math.min(4, h / 2), 0, 0, Math.PI * 2);
       ctx.fill();
     }
   }

@@ -15,7 +15,8 @@
   for (const w of WORDS) (byFirst[w[0]] = byFirst[w[0]] || []).push(w);
 
   // sides[i] is a 3-letter string; letterSide[ch] gives its side index (0-3)
-  let sides, letterSide, solutionPar, path, chain, usedLetters, gameState, shakeT;
+  let sides, letterSide, solutionPar, path, chain, usedLetters, gameState, shakeT, shakeMag;
+  const bursts = [];
 
   /* ---------- generation ----------
 
@@ -85,6 +86,8 @@
     overlay.classList.remove('show');
     statusEl.textContent = 'Click letters to spell a word, then press Enter.';
     shakeT = 0;
+    shakeMag = 0;
+    bursts.length = 0;
     draw();
   }
 
@@ -138,13 +141,22 @@
     if (gameState !== 'play') return;
     const w = currentWord();
     if (w.length < 3) { reject('Too short'); path = []; draw(); return; }
+    if (chain.includes(w)) { reject('Already used'); path = []; draw(); return; }
     if (!WORDS.has(w)) { reject('Not a word'); path = []; draw(); return; }
+
+    // burst from the midpoint of the letters just spelled
+    const pts = layout();
+    const ox = path.reduce((s, i) => s + pts[i].x, 0) / path.length;
+    const oy = path.reduce((s, i) => s + pts[i].y, 0) / path.length;
 
     chain.push(w);
     for (const ch of w) usedLetters.add(ch);
     wordsEl.textContent = chain.length;
     updateLetters();
     path = [];
+    shakeT = 6;
+    shakeMag = 4;
+    pop(ox, oy, '#8b5cf6', 14, 4);
     statusEl.textContent = '"' + w + '" accepted.';
     draw();
 
@@ -153,17 +165,30 @@
 
   function reject(why) {
     shakeT = 10;
+    shakeMag = 5;
     statusEl.textContent = why + '.';
     draw();
   }
 
   function finish() {
     gameState = 'won';
-    overTitle.textContent = chain.length <= solutionPar ? 'Solved at par' : 'Solved';
+    const atPar = chain.length <= solutionPar;
+    overTitle.textContent = atPar ? 'Solved at par' : 'Solved';
     overMsg.textContent = 'All 12 letters used in ' + chain.length + ' word' + (chain.length === 1 ? '' : 's') +
       ': ' + chain.join(', ') + '.';
+    shakeT = 16;
+    shakeMag = 10;
+    pop(W / 2, H / 2, '#fbbf24', 46, 7);
     overlay.classList.add('show');
-    statusEl.textContent = 'Box solved.';
+    statusEl.textContent = atPar ? 'Box solved at par.' : 'Box solved.';
+  }
+
+  function pop(x, y, color, count, spread) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = spread * (0.4 + Math.random() * 0.6);
+      bursts.push({x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 30, max: 30, c: color});
+    }
   }
 
   /* ---------- layout ---------- */
@@ -195,7 +220,7 @@
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
-    const dx = shakeT > 0 ? Math.sin(shakeT * 2) * 5 : 0;
+    const dx = shakeT > 0 ? Math.sin(shakeT * 2) * shakeMag : 0;
     if (shakeT > 0) shakeT--;
 
     // current word
@@ -250,7 +275,18 @@
       ctx.fillText(ch.toUpperCase(), p.x, p.y + 1);
     }
 
-    if (shakeT > 0) requestAnimationFrame(draw);
+    // particle bursts (word / solve feedback)
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const p = bursts[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+      if (p.life <= 0) { bursts.splice(i, 1); continue; }
+      ctx.globalAlpha = p.life / p.max;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    if (shakeT > 0 || bursts.length) requestAnimationFrame(draw);
   }
 
   /* ---------- input ---------- */

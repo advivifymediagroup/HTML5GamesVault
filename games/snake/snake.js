@@ -94,7 +94,10 @@
   const snakeGroup = new THREE.Group();
   scene.add(snakeGroup);
   const bodySegs = [];   // meshes
+  const bodyGlows = [];  // translucent "glow shell" meshes, one per body segment
   const bodyMatBase = {roughness: 0.45, metalness: 0.05};
+  const HEAD_COLOR_ALIVE = 0x22c55e;
+  const HEAD_COLOR_DEAD = 0xff2d2d;
 
   function bodyColor(t) {
     // t: 0 head → 1 tail. green→teal gradient with scale sheen
@@ -107,11 +110,21 @@
   const head = new THREE.Group();
   const headMesh = new THREE.Mesh(
     new THREE.SphereGeometry(0.62, 20, 16),
-    new THREE.MeshStandardMaterial({color: 0x22c55e, roughness: 0.4, metalness: 0.1})
+    new THREE.MeshStandardMaterial({
+      color: HEAD_COLOR_ALIVE, roughness: 0.4, metalness: 0.1,
+      emissive: HEAD_COLOR_ALIVE, emissiveIntensity: 0.7
+    })
   );
   headMesh.scale.set(1.05, 0.85, 1.25);
   headMesh.castShadow = true;
   head.add(headMesh);
+  // larger, transparent "glow shell" behind the head — reads as neon-tube light spill
+  const headGlow = new THREE.Mesh(
+    new THREE.SphereGeometry(0.62, 16, 12),
+    new THREE.MeshBasicMaterial({color: HEAD_COLOR_ALIVE, transparent: true, opacity: 0.32, depthWrite: false})
+  );
+  headGlow.scale.set(1.4, 1.25, 1.5);
+  head.add(headGlow);
   // eyes
   const eyeWhiteMat = new THREE.MeshStandardMaterial({color: 0xffffff, roughness: 0.3});
   const pupilMat = new THREE.MeshStandardMaterial({color: 0x0a0a0a, roughness: 0.2});
@@ -159,10 +172,18 @@
   apple.add(leaf);
   const appleGlow = new THREE.PointLight(0xff5555, 0.8, 4);
   apple.add(appleGlow);
+  // soft translucent halo shell around the apple, breathes with it
+  const appleHalo = new THREE.Mesh(
+    new THREE.SphereGeometry(0.46, 14, 10),
+    new THREE.MeshBasicMaterial({color: 0xff6b6b, transparent: true, opacity: 0.3, depthWrite: false})
+  );
+  appleHalo.scale.setScalar(1.5);
+  apple.add(appleHalo);
   scene.add(apple);
 
   // ---- Game state ----
-  let cells, prevCells, dir, nextDir, foodCell, score, best, tickMs, moveAcc, running, paused, dead;
+  let cells, prevCells, dir, dirQueue, foodCell, score, best, tickMs, moveAcc, running, paused, dead;
+  let shakeEnd = 0;      // performance.now() timestamp until which the camera jitters
   const HEAD_Y = 0.55;
 
   best = +localStorage.getItem('snake3d-best') || 0;
@@ -173,11 +194,13 @@
     cells = [{c: 9, r: midR}, {c: 8, r: midR}, {c: 7, r: midR}];
     prevCells = cells.map(o => ({...o}));
     dir = {c: 1, r: 0};
-    nextDir = {c: 1, r: 0};
+    dirQueue = [];
     score = 0;
     tickMs = 200;
     moveAcc = 0;
     running = false; paused = false; dead = false;
+    shakeEnd = 0;
+    setDangerGlow(false);
     scoreEl.textContent = 0;
     lenEl.textContent = cells.length;
     placeFood();
@@ -204,17 +227,30 @@
       m.castShadow = true;
       snakeGroup.add(m);
       bodySegs.push(m);
+      // glow shell as a child so it automatically follows the segment's position/scale
+      const glow = new THREE.Mesh(
+        new THREE.SphereGeometry(0.5, 12, 10),
+        new THREE.MeshBasicMaterial({transparent: true, opacity: 0.28, depthWrite: false})
+      );
+      glow.scale.setScalar(1.35);
+      m.add(glow);
+      bodyGlows.push(glow);
     }
     while (bodySegs.length > cells.length - 1) {
       const m = bodySegs.pop();
       snakeGroup.remove(m);
+      bodyGlows.pop();
     }
-    // color + taper
+    // color + taper + emissive neon glow
     bodySegs.forEach((m, i) => {
       const t = (i + 1) / cells.length;
-      m.material.color = bodyColor(t);
+      const c = bodyColor(t);
+      m.material.color = c;
+      m.material.emissive = c.clone().multiplyScalar(0.6);
+      m.material.emissiveIntensity = 0.9;
       const s = 1.0 - t * 0.45;
       m.scale.setScalar(s);
+      bodyGlows[i].material.color = c;
     });
   }
 
@@ -226,7 +262,7 @@
   }
 
   function tick() {
-    dir = nextDir;
+    if (dirQueue.length) dir = dirQueue.shift();
     const h = cells[0];
     const nc = h.c + dir.c, nr = h.r + dir.r;
     // wall
@@ -285,21 +321,41 @@
     return cur + d * k;
   }
 
-  function gameOver() {
-    running = false; dead = true;
-    if (score > best) {
-      best = score; localStorage.setItem('snake3d-best', best); bestEl.textContent = best;
-      overTitle.textContent = 'New Best!'; overMsg.textContent = `${score} points.`;
-    } else {
-      overTitle.textContent = 'Game Over'; overMsg.textContent = `Score ${score} · Best ${best}.`;
-    }
-    overlay.classList.add('show');
-    statusEl.innerHTML = 'Crashed. Press Start.';
+  function setDangerGlow(on) {
+    const c = on ? HEAD_COLOR_DEAD : HEAD_COLOR_ALIVE;
+    headMesh.material.color.setHex(c);
+    headMesh.material.emissive.setHex(c);
+    headMesh.material.emissiveIntensity = on ? 1.1 : 0.7;
+    headGlow.material.color.setHex(c);
+    headGlow.material.opacity = on ? 0.5 : 0.32;
   }
 
+  function gameOver() {
+    running = false; dead = true;
+    setDangerGlow(true);
+    shakeEnd = performance.now() + 420;
+    statusEl.innerHTML = 'Crashed!';
+    // hold on the crash a beat — shake + red glow read clearly — before the result overlay appears
+    setTimeout(() => {
+      if (score > best) {
+        best = score; localStorage.setItem('snake3d-best', best); bestEl.textContent = best;
+        overTitle.textContent = 'New Best!'; overMsg.textContent = `${score} points.`;
+      } else {
+        overTitle.textContent = 'Game Over'; overMsg.textContent = `Score ${score} · Best ${best}.`;
+      }
+      overlay.classList.add('show');
+      statusEl.innerHTML = 'Crashed. Press Start.';
+    }, 850);
+  }
+
+  // Buffers up to 2 queued turns and rejects illegal reversals / no-op repeats,
+  // so a fast double-tap can't sneak a reversal in behind the current direction.
   function turn(c, r) {
-    if (cells.length > 1 && c === -dir.c && r === -dir.r) return;
-    nextDir = {c, r};
+    const last = dirQueue.length ? dirQueue[dirQueue.length - 1] : dir;
+    if (cells.length > 1 && c === -last.c && r === -last.r) return;
+    if (c === last.c && r === last.r) return;
+    if (dirQueue.length >= 2) return;
+    dirQueue.push({c, r});
   }
 
   let applePulse = 0;
@@ -317,13 +373,15 @@
     // clamp dt so a long/throttled frame can't run many ticks at once (prevents instant crash)
     const dt = Math.min(clock.getDelta(), 0.05);
 
-    // apple bob + spin
+    // apple bob + spin + a continuous breathing scale, boosted by an eat-pulse
     apple.position.set(cellToWorldX(foodCell.c), 0.55 + Math.sin(performance.now() * 0.003) * 0.12, cellToWorldZ(foodCell.r));
     apple.rotation.y += 0.02;
-    const ps = 1 + applePulse * 0.4;
+    const breathe = 1 + Math.sin(performance.now() * 0.004) * 0.08;
+    const ps = breathe + applePulse * 0.4;
     apple.scale.setScalar(ps);
     applePulse *= 0.9;
     appleGlow.intensity = 0.7 + Math.sin(performance.now() * 0.006) * 0.3;
+    appleHalo.material.opacity = 0.22 + Math.sin(performance.now() * 0.005) * 0.1 + applePulse * 0.25;
 
     // tongue flick + blink
     const flick = (Math.sin(performance.now() * 0.006) > 0.6) ? 1 : 0;
@@ -348,6 +406,17 @@
     }
 
     __polish();
+
+    // brief camera jitter on death — makes the crash itself readable before the overlay appears
+    const now = performance.now();
+    if (now < shakeEnd) {
+      const s = (shakeEnd - now) / 420;
+      const jx = (Math.random() - 0.5) * 0.7 * s;
+      const jz = 0.01 + (Math.random() - 0.5) * 0.7 * s;
+      camera.position.set(jx, 21.7, jz);
+    } else if (camera.position.x !== 0 || camera.position.z !== 0.01) {
+      camera.position.set(0, 21.7, 0.01);
+    }
 
     renderer.render(scene, camera);
     requestAnimationFrame(animate);

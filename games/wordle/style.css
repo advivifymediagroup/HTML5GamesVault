@@ -30,12 +30,11 @@
   from { transform: scale(0.9); }
   to { transform: scale(1); }
 }
-.wordle-tile.flip { animation: flip 0.5s ease forwards; }
+.wordle-tile.flip { animation: flip 0.5s ease; }
 @keyframes flip {
-  0% { transform: rotateX(0); }
-  45% { transform: rotateX(90deg); }
-  55% { transform: rotateX(90deg); }
-  100% { transform: rotateX(0); }
+  0% { transform: scaleY(1); }
+  50% { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
 }
 .wordle-tile.green   { background: linear-gradient(135deg, #22c55e, #16a34a); border-color: transparent; color: white; }
 .wordle-tile.yellow  { background: linear-gradient(135deg, #facc15, #ca8a04); border-color: transparent; color: white; }
@@ -72,6 +71,26 @@
   25% { transform: translateX(-8px); }
   75% { transform: translateX(8px); }
 }
+.streak-flame {
+  display: inline-block;
+  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.6));
+}
+
+.confetti-piece {
+  position: fixed;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  opacity: 0.95;
+  pointer-events: none;
+  z-index: 999;
+  animation: confetti-fall ease-in forwards;
+}
+@keyframes confetti-fall {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--drift), 320px) rotate(var(--rot)); opacity: 0; }
+}
+
 @media (max-width: 540px) {
   .wordle-board { grid-template-rows: repeat(6, 44px); }
   .wordle-row { grid-template-columns: repeat(5, 44px); }

@@ -26,6 +26,21 @@
   let nextColor;
   let score, best, gameState;                 // 'aim' | 'flying' | 'over' | 'win'
 
+  // Pop feedback: radial particle bursts, plus a screen shake that scales with cluster size.
+  let bursts = [];                            // pop particles
+  let fallers = [];                           // disconnected bubbles falling off-screen with gravity
+  let shakeT = 0;                             // screen shake magnitude, decays each frame
+
+  function spawnBurst(x, y, color, count) {
+    count = count || 9;
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = 1.5 + Math.random() * 3.5;
+      bursts.push({x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 24, max: 24, color});
+    }
+  }
+  function shakeScreen(amount) { shakeT = Math.max(shakeT, amount); }
+
   best = +localStorage.getItem('bubbles-best') || 0;
   bestEl.textContent = best;
 
@@ -47,6 +62,9 @@
     shooter = {x: W / 2, y: H - 34, angle: -Math.PI / 2, color: activeRandColor()};
     nextColor = activeRandColor();
     flying = null;
+    bursts = [];
+    fallers = [];
+    shakeT = 0;
     score = 0;
     scoreEl.textContent = 0;
     gameState = 'aim';
@@ -153,6 +171,12 @@
       const maxC = r % 2 === 1 ? COLS - 1 : COLS;
       for (let c = 0; c < maxC; c++) {
         if (grid[r][c] !== null && !reached.has(r + ',' + c)) {
+          // give the disconnected bubble gravity + drift instead of deleting it outright
+          fallers.push({
+            x: cellX(r, c), y: cellY(r),
+            vx: (Math.random() - 0.5) * 1.8, vy: 1 + Math.random(),
+            color: COLORS[grid[r][c]]
+          });
           grid[r][c] = null;
           dropped++;
         }
@@ -170,8 +194,10 @@
     // match
     const group = matchGroup(cell.r, cell.c);
     if (group.length >= 3) {
-      for (const [r, c] of group) grid[r][c] = null;
+      const gcolor = COLORS[grid[group[0][0]][group[0][1]]];
+      for (const [r, c] of group) { spawnBurst(cellX(r, c), cellY(r), gcolor); grid[r][c] = null; }
       const dropped = dropDisconnected();
+      shakeScreen(Math.min(16, 4 + (group.length + dropped) * 0.9));
       score += (group.length + dropped) * 10;
       scoreEl.textContent = score;
       statusEl.innerHTML = `+${group.length}${dropped ?` and ${dropped} fell` : ''}!`;
@@ -241,9 +267,29 @@
         else { flying = null; gameState = 'aim'; }
       }
     }
+
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const p = bursts[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+      if (p.life <= 0) bursts.splice(i, 1);
+    }
+    for (let i = fallers.length - 1; i >= 0; i--) {
+      const f = fallers[i];
+      f.vy += 0.35;
+      f.x += f.vx; f.y += f.vy;
+      if (f.y - R > H + 40) fallers.splice(i, 1);
+    }
   }
 
   function draw() {
+    ctx.save();
+    if (shakeT > 0.3) {
+      ctx.translate((Math.random() - 0.5) * shakeT, (Math.random() - 0.5) * shakeT);
+      shakeT *= 0.82;
+    } else {
+      shakeT = 0;
+    }
+
     ctx.fillStyle = '#050514';
     ctx.fillRect(0, 0, W, H);
 
@@ -297,6 +343,18 @@
       }
       ctx.stroke();
       ctx.setLineDash([]);
+
+      // ghost landing indicator — snaps to the predicted grid cell
+      const landCell = nearestCell(x, y);
+      const gx = landCell ? cellX(landCell.r, landCell.c) : x;
+      const gy = landCell ? cellY(landCell.r) : y;
+      ctx.strokeStyle = COLORS[shooter.color];
+      ctx.globalAlpha = 0.6;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(gx, gy, R, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
     }
 
     // shooter platform
@@ -320,6 +378,19 @@
 
     // flying
     if (flying) drawBubble(flying.x, flying.y, COLORS[flying.color]);
+
+    // falling disconnected bubbles
+    for (const f of fallers) drawBubble(f.x, f.y, f.color);
+
+    // pop particle bursts
+    for (const p of bursts) {
+      ctx.globalAlpha = Math.max(0, p.life / p.max);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.restore();
   }
 
   function drawBubble(x, y, color, r = R) {

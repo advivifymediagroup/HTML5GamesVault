@@ -40,7 +40,9 @@
       <div class="controls">
         <button class="btn" id="startBtn">New Puzzle</button>
         <select id="level" class="btn btn-alt" style="padding:8px 12px;"><option value="easy" selected>Easy</option><option value="medium">Medium</option><option value="hard">Hard</option></select>
-        <button class="btn btn-alt" id="hintBtn">Hint</button>
+        <button class="btn btn-alt" id="notesBtn">Notes: Off</button>
+        <button class="btn btn-alt" id="undoBtn">Undo</button>
+        <button class="btn btn-alt" id="hintBtn">Hint (3)</button>
       </div>
       <div class="game-status" id="status">Click a cell, then type a number.</div>
     </section>
@@ -54,7 +56,9 @@
         <li>Click a cell, then <span class="kbd">1</span>&ndash;<span class="kbd">9</span> to fill it</li>
         <li><span class="kbd">Backspace</span> or <span class="kbd">0</span> clears a cell</li>
         <li>Arrow keys move the selection</li>
-        <li>Hint fills one correct cell for you</li>
+        <li>Toggle <span class="kbd">N</span> or the Notes button to jot small candidate digits instead of a final answer</li>
+        <li><span class="kbd">Ctrl</span>+<span class="kbd">Z</span> or Undo steps back through recent moves</li>
+        <li>Hint fills one correct cell for you &mdash; three per puzzle</li>
       </ul>
     </aside>
   </main>

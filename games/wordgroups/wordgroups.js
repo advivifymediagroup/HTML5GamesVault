@@ -14,26 +14,45 @@
   const COLORS = ['#eab308', '#22c55e', '#3b82f6', '#a855f7'];
   const COLOR_NAMES = ['Yellow', 'Green', 'Blue', 'Purple'];
   const MAX_MISTAKES = 4;
+  const SEL_MS = 140;
 
-  let puzIndex, groups, tiles, order, selected, solved, mistakes, gameState, shakeT, popT;
+  let puzIndex, groups, tiles, order, selected, solved, mistakes, gameState, shakeT, shakeMag, popT;
+  const particles = [];
 
   function newPuzzle() {
     puzIndex = Math.floor(Math.random() * PUZZLES.length);
     groups = PUZZLES[puzIndex].groups;
     tiles = [];
-    groups.forEach((g, gi) => g.words.forEach(w => tiles.push({word: w, group: gi})));
+    groups.forEach((g, gi) => g.words.forEach(w => tiles.push({word: w, group: gi, selProg: 0, selTarget: 0})));
     shuffleTiles();
     selected = new Set();
     solved = [];
     mistakes = 0;
     gameState = 'play';
-    shakeT = 0; popT = 0;
+    shakeT = 0; shakeMag = 0; popT = 0;
+    particles.length = 0;
     puzEl.textContent = puzIndex + 1;
     groupsEl.textContent = '0/4';
-    mistakesEl.textContent = '0/' + MAX_MISTAKES;
+    renderMistakes();
     overlay.classList.remove('show');
     statusEl.textContent = 'Pick four words that share something, then submit.';
     draw();
+  }
+
+  function renderMistakes() {
+    let html = '';
+    for (let i = 0; i < MAX_MISTAKES; i++) {
+      html += '<span class="dot' + (i < mistakes ? ' filled' : '') + '"></span>';
+    }
+    mistakesEl.innerHTML = html;
+  }
+
+  function burst(x, y, color, count) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = 1.5 + Math.random() * 4.5;
+      particles.push({x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 30, max: 30, c: color});
+    }
   }
 
   function shuffleTiles() {
@@ -72,8 +91,12 @@
 
   function toggle(tileIdx) {
     if (gameState !== 'play' || tiles[tileIdx].done) return;
-    if (selected.has(tileIdx)) selected.delete(tileIdx);
-    else if (selected.size < 4) selected.add(tileIdx);
+    const t = tiles[tileIdx];
+    if (selected.has(tileIdx)) { selected.delete(tileIdx); t.selTarget = 0; }
+    else if (selected.size < 4) { selected.add(tileIdx); t.selTarget = 1; }
+    else { draw(); return; }
+    t.selFrom = t.selProg || 0;
+    t.selStart = performance.now();
     draw();
   }
 
@@ -83,22 +106,35 @@
     const gset = new Set(sel.map(i => tiles[i].group));
     if (gset.size === 1) {
       const gi = [...gset][0];
-      sel.forEach(i => { tiles[i].done = true; });
+      const {map} = layout();
+      sel.forEach(i => {
+        const b = map[i];
+        if (b) burst(b.x + b.w / 2, b.y + b.h / 2, COLORS[gi], 14);
+        tiles[i].done = true;
+        tiles[i].selTarget = 0; tiles[i].selProg = 0;
+      });
       solved.push(gi);
       selected = new Set();
       groupsEl.textContent = solved.length + '/4';
       statusEl.textContent = groups[gi].name + '.';
       popT = 14;
+      shakeT = 7; shakeMag = 3;
+      if (solved.length === 4) {
+        burst(W / 2, 60, '#fde68a', 46);
+        shakeT = 16; shakeMag = 7;
+        draw();
+        setTimeout(() => finish(true), 550);
+        return;
+      }
       draw();
-      if (solved.length === 4) { setTimeout(() => finish(true), 500); return; }
     } else {
       mistakes++;
-      mistakesEl.textContent = mistakes + '/' + MAX_MISTAKES;
-      shakeT = 10;
+      renderMistakes();
+      shakeT = 10; shakeMag = 5;
       const counts = {};
       sel.forEach(i => { counts[tiles[i].group] = (counts[tiles[i].group] || 0) + 1; });
       const closest = Math.max(...Object.values(counts));
-      statusEl.textContent = closest === 3 ? 'One away.' : 'Not a group.';
+      statusEl.textContent = closest === 3 ? 'One away...' : 'Not a group.';
       draw();
       if (mistakes >= MAX_MISTAKES) setTimeout(() => finish(false), 500);
     }
@@ -107,14 +143,16 @@
   function finish(won) {
     gameState = 'over';
     if (!won) {
-      // reveal everything so the player sees what they missed
+      // name what was missed before revealing everything
+      const missed = groups.filter((g, gi) => !solved.includes(gi)).map(g => g.name);
       tiles.forEach(t => { t.done = true; });
       groups.forEach((g, gi) => { if (!solved.includes(gi)) solved.push(gi); });
+      overTitle.textContent = 'Out of guesses';
+      overMsg.textContent = 'You missed ' + (missed.length === 1 ? missed[0] : missed.join(' and ')) + '. The groups are revealed below.';
+    } else {
+      overTitle.textContent = 'Solved';
+      overMsg.textContent = 'All four groups found with ' + mistakes + ' mistake' + (mistakes === 1 ? '' : 's') + '.';
     }
-    overTitle.textContent = won ? 'Solved' : 'Out of guesses';
-    overMsg.textContent = won
-      ? 'All four groups found with ' + mistakes + ' mistake' + (mistakes === 1 ? '' : 's') + '.'
-      : 'The groups are revealed below.';
     overlay.classList.add('show');
     draw();
   }
@@ -127,6 +165,14 @@
     g.addColorStop(1, '#141336');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    if (shakeT > 0) {
+      const sx = (Math.random() - 0.5) * 2 * shakeMag;
+      const sy = (Math.random() - 0.5) * 2 * shakeMag;
+      ctx.translate(sx, sy);
+      shakeT--;
+    }
 
     // solved group bars
     solved.forEach((gi, row) => {
@@ -148,29 +194,59 @@
     });
 
     const {map, cw, ch} = layout();
-    const dx = shakeT > 0 ? Math.sin(shakeT * 2) * 5 : 0;
-    if (shakeT > 0) shakeT--;
     if (popT > 0) popT--;
+
+    const now = performance.now();
+    let animatingSel = false;
 
     activeOrder().forEach(tileIdx => {
       const t = tiles[tileIdx];
       const box = map[tileIdx];
       if (!box) return;
-      const isSel = selected.has(tileIdx);
-      roundRect(box.x + dx, box.y, box.w, box.h, 10);
-      ctx.fillStyle = isSel ? 'rgba(139,92,246,0.55)' : 'rgba(255,255,255,0.06)';
+      // animate selection highlight toward its target over SEL_MS
+      if (t.selTarget !== undefined) {
+        const from = t.selFrom || 0;
+        const el = now - (t.selStart || 0);
+        const k = Math.min(1, el / SEL_MS);
+        t.selProg = from + (t.selTarget - from) * k;
+        if (k < 1) animatingSel = true;
+      }
+      roundRect(box.x, box.y, box.w, box.h, 10);
+      ctx.fillStyle = 'rgba(255,255,255,0.06)';
       ctx.fill();
-      ctx.strokeStyle = isSel ? '#8b5cf6' : 'rgba(190,200,255,0.25)';
-      ctx.lineWidth = isSel ? 2.5 : 1.5;
+      ctx.strokeStyle = 'rgba(190,200,255,0.25)';
+      ctx.lineWidth = 1.5;
       ctx.stroke();
+      if (t.selProg > 0.01) {
+        ctx.globalAlpha = t.selProg;
+        roundRect(box.x, box.y, box.w, box.h, 10);
+        ctx.fillStyle = 'rgba(139,92,246,0.55)';
+        ctx.fill();
+        ctx.strokeStyle = '#8b5cf6';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
       ctx.fillStyle = '#e8ecff';
       ctx.font = 'bold 13px "Space Grotesk", sans-serif';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      fitText(t.word, box.x + box.w / 2 + dx, box.y + box.h / 2, box.w - 10);
+      fitText(t.word, box.x + box.w / 2, box.y + box.h / 2, box.w - 10);
     });
 
-    if (shakeT > 0 || popT > 0) requestAnimationFrame(draw);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life--;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      ctx.globalAlpha = p.life / p.max;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.restore();
+
+    if (shakeT > 0 || popT > 0 || particles.length || animatingSel) requestAnimationFrame(draw);
   }
 
   function fitText(text, cx, cy, maxW) {

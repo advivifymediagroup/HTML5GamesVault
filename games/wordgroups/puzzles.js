@@ -81,5 +81,45 @@ window.GROUP_PUZZLES = [
       {name: "___ yard", color: 2, words: ["BACK", "COURT", "SCRAP", "GRAVE"]},
       {name: "Words for stubborn", color: 3, words: ["MULISH", "OBSTINATE", "HEADSTRONG", "DOGGED"]}
     ]
+  },
+  {
+    groups: [
+      {name: "Types of pasta", color: 0, words: ["PENNE", "FUSILLI", "LINGUINE", "RIGATONI"]},
+      {name: "Parts of a castle", color: 1, words: ["MOAT", "TURRET", "DRAWBRIDGE", "PARAPET"]},
+      {name: "___ jacket", color: 2, words: ["LIFE", "STRAIGHT", "DINNER", "BOMBER"]},
+      {name: "Things that can be cracked", color: 3, words: ["JOKE", "CODE", "KNUCKLE", "SAFE"]}
+    ]
+  },
+  {
+    groups: [
+      {name: "River features", color: 0, words: ["DELTA", "RAPIDS", "TRIBUTARY", "BEND"]},
+      {name: "Types of hats", color: 1, words: ["BERET", "FEDORA", "BEANIE", "VISOR"]},
+      {name: "___ trip", color: 2, words: ["ROAD", "GUILT", "FIELD", "EGO"]},
+      {name: "Words for exhausted", color: 3, words: ["SPENT", "DRAINED", "BEAT", "WORN"]}
+    ]
+  },
+  {
+    groups: [
+      {name: "Types of tea", color: 0, words: ["OOLONG", "CHAMOMILE", "MATCHA", "ROOIBOS"]},
+      {name: "Boxing terms", color: 1, words: ["JAB", "CLINCH", "UPPERCUT", "BOUT"]},
+      {name: "___ market", color: 2, words: ["FLEA", "BLACK", "SUPER", "STOCK"]},
+      {name: "Words for fake", color: 3, words: ["BOGUS", "PHONY", "SHAM", "COUNTERFEIT"]}
+    ]
+  },
+  {
+    groups: [
+      {name: "Parts of a tree", color: 0, words: ["TRUNK", "CANOPY", "BARK", "ROOT"]},
+      {name: "Types of stitches", color: 1, words: ["CROSS", "BACK", "CHAIN", "BLANKET"]},
+      {name: "___ line", color: 2, words: ["DEAD", "PUNCH", "BASE", "HEAD"]},
+      {name: "Words for messy", color: 3, words: ["CLUTTERED", "SLOPPY", "UNKEMPT", "DISHEVELED"]}
+    ]
+  },
+  {
+    groups: [
+      {name: "Types of soup", color: 0, words: ["BISQUE", "CHOWDER", "MINESTRONE", "CONSOMME"]},
+      {name: "Astronomy terms", color: 1, words: ["ORBIT", "NEBULA", "ECLIPSE", "COMET"]},
+      {name: "___ paper", color: 2, words: ["NEWS", "WALL", "SAND", "FLY"]},
+      {name: "Ways to laugh", color: 3, words: ["CHUCKLE", "GIGGLE", "SNICKER", "CACKLE"]}
+    ]
   }
 ];

@@ -23,7 +23,9 @@
     {at: 40, name: 'Great'}, {at: 55, name: 'Amazing'}, {at: 70, name: 'Genius'}
   ];
 
-  let letters, center, valid, pangrams, found, score, maxScore, current, gameState, shakeT;
+  let letters, center, valid, pangrams, found, score, maxScore, current, gameState, shakeT, shakeMag;
+  const chipsEl = document.getElementById('chips');
+  const bursts = [];
 
   /* ---------- generation ----------
 
@@ -56,7 +58,14 @@
       if (base) break;
     }
     const set = [...new Set(base.split(''))];
-    center = set[Math.floor(Math.random() * set.length)];
+    // center letter: whichever of the 7 appears in the most candidate
+    // words, so the hive stays as flexible (word-rich) as possible
+    let bestLetter = set[0], bestCount = -1;
+    for (const ch of set) {
+      const n = wordsFrom(set, ch).length;
+      if (n > bestCount) { bestCount = n; bestLetter = ch; }
+    }
+    center = bestLetter;
     letters = [center, ...set.filter(c => c !== center)];
     // shuffle the six outer letters
     for (let i = letters.length - 1; i > 1; i--) {
@@ -71,6 +80,9 @@
     current = '';
     gameState = 'play';
     shakeT = 0;
+    shakeMag = 0;
+    bursts.length = 0;
+    if (chipsEl) chipsEl.innerHTML = '';
     scoreEl.textContent = 0;
     foundEl.textContent = '0/' + valid.length;
     rank();
@@ -107,18 +119,51 @@
     scoreEl.textContent = score;
     foundEl.textContent = found.size + '/' + valid.length;
     rank();
-    statusEl.textContent = pangrams.has(w)
-      ? 'Pangram. +' + pts + ' points.'
-      : '+' + pts + (pts === 1 ? ' point.' : ' points.');
+    const isPangram = pangrams.has(w);
+    const origin = hexCenters()[0];
+    if (isPangram) {
+      shakeT = 16; shakeMag = 12;
+      pop(origin.x, origin.y, '#fbbf24', 42, 6.5);
+      statusEl.textContent = 'Pangram! +' + pts + ' points.';
+    } else {
+      shakeT = 8; shakeMag = 5;
+      pop(origin.x, origin.y, '#8b5cf6', 14, 4);
+      statusEl.textContent = '+' + pts + (pts === 1 ? ' point.' : ' points.');
+    }
+    addChip(w, isPangram);
     if (found.size === valid.length) finish();
     draw();
   }
 
+  function addChip(w, isPangram) {
+    if (!chipsEl) return;
+    const span = document.createElement('span');
+    span.className = 'word-chip' + (isPangram ? ' pangram' : '');
+    span.textContent = w;
+    chipsEl.appendChild(span);
+  }
+
   function reject(why) {
     shakeT = 10;
+    shakeMag = 6;
     statusEl.textContent = why + '.';
     current = '';
     draw();
+  }
+
+  function pop(x, y, color, count, spread) {
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = spread * (0.4 + Math.random() * 0.6);
+      bursts.push({x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 30, max: 30, c: color});
+    }
+  }
+
+  function shade(hex, amt) {
+    const n = parseInt(hex.slice(1), 16);
+    const cl = v => Math.max(0, Math.min(255, v));
+    return '#' + ((cl(((n >> 16) & 255) + amt) << 16) | (cl(((n >> 8) & 255) + amt) << 8) | cl((n & 255) + amt))
+      .toString(16).padStart(6, '0');
   }
 
   function finish() {
@@ -147,29 +192,53 @@
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
 
-    // typed word
+    // typed word, with the compulsory center letter picked out in gold
     ctx.font = 'bold 26px "Space Grotesk", sans-serif';
-    ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const dx = shakeT > 0 ? Math.sin(shakeT * 2) * 6 : 0;
-    ctx.fillStyle = current ? '#e8ecff' : 'rgba(200,208,240,0.4)';
-    let disp = '';
-    for (const ch of current.toLowerCase()) disp += ch === center ? ch.toUpperCase() : ch;
-    ctx.fillText(disp || 'Type a word', W / 2 + dx, 66);
+    const dx = shakeT > 0 ? Math.sin(shakeT * 2) * shakeMag : 0;
     if (shakeT > 0) shakeT--;
+    if (!current) {
+      ctx.textAlign = 'center';
+      ctx.fillStyle = 'rgba(200,208,240,0.4)';
+      ctx.fillText('Type a word', W / 2 + dx, 66);
+    } else {
+      const chars = [...current.toLowerCase()];
+      const widths = chars.map(ch => ctx.measureText(ch.toUpperCase()).width);
+      const total = widths.reduce((a, b) => a + b, 0);
+      ctx.textAlign = 'left';
+      let x = W / 2 + dx - total / 2;
+      for (let k = 0; k < chars.length; k++) {
+        ctx.fillStyle = chars[k] === center ? '#fbbf24' : '#e8ecff';
+        ctx.fillText(chars[k].toUpperCase(), x, 66);
+        x += widths[k];
+      }
+      ctx.textAlign = 'center';
+    }
 
     const centers = hexCenters();
     const r = 46;
     for (let i = 0; i < centers.length; i++) {
       const p = centers[i];
       const isMid = i === 0;
-      hex(p.x, p.y, r, isMid ? '#8b5cf6' : 'rgba(255,255,255,0.06)', isMid);
-      ctx.fillStyle = isMid ? '#ffffff' : '#cdd4f5';
-      ctx.font = 'bold 24px "Space Grotesk", sans-serif';
+      const rad = isMid ? r * 1.18 : r;
+      hex(p.x, p.y, rad, isMid ? '#fbbf24' : 'rgba(255,255,255,0.06)', isMid);
+      ctx.fillStyle = isMid ? '#1a1400' : '#cdd4f5';
+      ctx.font = `bold ${isMid ? 27 : 24}px "Space Grotesk", sans-serif`;
       ctx.fillText(letters[i].toUpperCase(), p.x, p.y + 1);
     }
 
-    if (shakeT > 0) requestAnimationFrame(draw);
+    // particle bursts (word / pangram feedback)
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const p = bursts[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+      if (p.life <= 0) { bursts.splice(i, 1); continue; }
+      ctx.globalAlpha = p.life / p.max;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    if (shakeT > 0 || bursts.length) requestAnimationFrame(draw);
   }
 
   function hex(cx, cy, r, fill, glow) {
@@ -180,8 +249,17 @@
       i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
     }
     ctx.closePath();
-    ctx.fillStyle = fill;
-    if (glow) { ctx.shadowColor = '#8b5cf6'; ctx.shadowBlur = 18; }
+    if (glow) {
+      const g = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.3, r * 0.1, cx, cy, r);
+      g.addColorStop(0, '#fff8e1');
+      g.addColorStop(0.4, fill);
+      g.addColorStop(1, shade(fill, -50));
+      ctx.fillStyle = g;
+      ctx.shadowColor = fill;
+      ctx.shadowBlur = 20;
+    } else {
+      ctx.fillStyle = fill;
+    }
     ctx.fill();
     ctx.shadowBlur = 0;
     ctx.strokeStyle = 'rgba(190,200,255,0.35)';
@@ -194,7 +272,8 @@
   function hitLetter(mx, my) {
     const centers = hexCenters();
     for (let i = 0; i < centers.length; i++) {
-      if (Math.hypot(mx - centers[i].x, my - centers[i].y) < 46) return i;
+      const rad = i === 0 ? 46 * 1.18 : 46;
+      if (Math.hypot(mx - centers[i].x, my - centers[i].y) < rad) return i;
     }
     return -1;
   }

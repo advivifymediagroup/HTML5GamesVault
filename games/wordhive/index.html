@@ -10,7 +10,29 @@
   <link rel="stylesheet" href="../../css/game.css?v=10" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <style>#game { cursor: pointer; touch-action: none; }</style>
+  <style>
+    #game { cursor: pointer; touch-action: none; }
+    #chips {
+      display: flex; flex-wrap: wrap; gap: 6px; justify-content: center;
+      max-width: 520px; margin-top: 2px;
+    }
+    .word-chip {
+      padding: 4px 11px;
+      border-radius: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: #cdd4f5;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(190,200,255,0.35);
+    }
+    .word-chip.pangram {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      color: #1a1400;
+      font-weight: 700;
+      border-color: #fbbf24;
+      box-shadow: 0 0 10px rgba(251,191,36,0.5);
+    }
+  </style>
 </head>
 <body>
   <header class="game-header">
@@ -43,6 +65,7 @@
         <button class="btn btn-alt" id="startBtn">New Hive</button>
       </div>
       <div class="game-status" id="status">Type or click letters, then press Enter.</div>
+      <div id="chips"></div>
     </section>
 
     <aside class="info-panel">

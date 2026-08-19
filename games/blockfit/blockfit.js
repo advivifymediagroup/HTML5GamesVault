@@ -41,7 +41,8 @@
   ];
   const COLORS = ['#ef4444', '#f97316', '#fbbf24', '#22c55e', '#06d4f7', '#3b82f6', '#8b5cf6', '#ec4899'];
 
-  let grid, tray, score, best, streak, dragging, gameState, clearFx;
+  let grid, tray, score, best, streak, dragging, gameState, clearFx, shakeT, shakeMag;
+  const particles = [];
 
   best = +localStorage.getItem('blockfit-best') || 0;
   bestEl.textContent = best;
@@ -55,12 +56,26 @@
     score = 0; streak = 0;
     dragging = null;
     clearFx = [];
+    particles.length = 0;
+    shakeT = 0; shakeMag = 0;
     gameState = 'play';
     scoreEl.textContent = 0;
     streakEl.textContent = 0;
     overlay.classList.remove('show');
     statusEl.textContent = 'Drag a block from the tray onto the grid.';
     draw();
+  }
+
+  function burst(x, y, color) {
+    const n = 8 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < n; i++) {
+      particles.push({
+        x, y,
+        vx: (Math.random() - 0.5) * 6,
+        vy: (Math.random() - 0.5) * 6 - 1,
+        life: 24, max: 24, c: color, s: 3 + Math.random() * 3
+      });
+    }
   }
 
   function makePiece(slot) {
@@ -82,14 +97,17 @@
   }
 
   function layoutTray() {
+    const slotW = W / 3;
+    const areaH = H - TRAY_Y - 12;
     for (const p of tray) {
       if (p.used) continue;
       const wCells = Math.max(...p.cells.map(c => c[1])) + 1;
       const hCells = Math.max(...p.cells.map(c => c[0])) + 1;
-      const slotW = W / 3;
-      p.x = p.slot * slotW + (slotW - wCells * TRAY_CELL) / 2;
-      p.y = TRAY_Y + (H - TRAY_Y - hCells * TRAY_CELL) / 2 - 6;
-      p.scale = TRAY_CELL;
+      // scale each piece to fit its slot so a long bar and a single square both read cleanly
+      const cell = Math.max(14, Math.min(TRAY_CELL, (slotW - 24) / wCells, (areaH - 12) / hCells));
+      p.x = p.slot * slotW + (slotW - wCells * cell) / 2;
+      p.y = TRAY_Y + (H - TRAY_Y - hCells * cell) / 2 - 6;
+      p.scale = cell;
     }
   }
 
@@ -145,16 +163,33 @@
     const units = rows.length + cols.length + boxes.length;
     if (units) {
       streak++;
-      // more units at once is worth disproportionately more
-      score += units * 18 + (units - 1) * 12 + streak * 5;
-      for (const r2 of rows) for (let i = 0; i < N; i++) { fx(r2, i); grid[r2 * N + i] = null; }
-      for (const c2 of cols) for (let i = 0; i < N; i++) { fx(i, c2); grid[i * N + c2] = null; }
+      // squared line count rewards multi-clears heavily; combo grows with
+      // consecutive clearing placements and resets on a placement that clears nothing
+      const comboBonus = (streak - 1) * 50;
+      const gained = units * units * 100 + comboBonus;
+      score += gained;
+
+      const clearedCells = new Set();
+      for (const r2 of rows) for (let i = 0; i < N; i++) clearedCells.add(r2 * N + i);
+      for (const c2 of cols) for (let i = 0; i < N; i++) clearedCells.add(i * N + c2);
       for (const [br, bc] of boxes) {
         for (let r2 = 0; r2 < 3; r2++) {
-          for (let c2 = 0; c2 < 3; c2++) { fx(br * 3 + r2, bc * 3 + c2); grid[(br * 3 + r2) * N + bc * 3 + c2] = null; }
+          for (let c2 = 0; c2 < 3; c2++) clearedCells.add((br * 3 + r2) * N + (bc * 3 + c2));
         }
       }
-      statusEl.textContent = units === 1 ? 'Line cleared.' : units + ' clears at once!';
+      clearedCells.forEach(idx => {
+        const r2 = (idx / N) | 0, c2 = idx % N;
+        const color = grid[idx];
+        fx(r2, c2, color);
+        burst(BX + c2 * CELL + CELL / 2, BY + r2 * CELL + CELL / 2, color || '#ffffff');
+        grid[idx] = null;
+      });
+
+      shakeT = Math.min(22, 8 + units * 4);
+      shakeMag = Math.min(11, 3 + units * 2);
+
+      statusEl.textContent = (units === 1 ? 'Line cleared! +' + gained : units + ' clears at once! +' + gained)
+        + (streak > 1 ? ' (combo x' + streak + ')' : '');
     } else {
       streak = 0;
       statusEl.textContent = 'Placed.';
@@ -166,8 +201,8 @@
     if (!anyMoveLeft()) gameOver();
   }
 
-  function fx(r, c) {
-    clearFx.push({r, c, t: 14});
+  function fx(r, c, color) {
+    clearFx.push({r, c, color, t: 0, dur: 15});
   }
 
   function gameOver() {
@@ -195,11 +230,46 @@
   }
 
   function cellRect(x, y, size, color) {
-    const grad = ctx.createLinearGradient(x, y, x, y + size);
-    grad.addColorStop(0, shade(color, 26));
-    grad.addColorStop(1, shade(color, -34));
+    const gx0 = x + 1.5, gy0 = y + 1.5, w = size - 3, h = size - 3;
+    const grad = ctx.createLinearGradient(gx0, gy0, gx0 + w, gy0 + h);
+    grad.addColorStop(0, shade(color, 55));
+    grad.addColorStop(0.5, color);
+    grad.addColorStop(1, shade(color, -42));
     ctx.fillStyle = grad;
-    ctx.fillRect(x + 1.5, y + 1.5, size - 3, size - 3);
+    ctx.fillRect(gx0, gy0, w, h);
+    // glossy highlight lip on the top-left edge
+    const lip = Math.max(2, size * 0.14);
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fillRect(gx0, gy0, w, lip);
+    ctx.fillStyle = 'rgba(255,255,255,0.22)';
+    ctx.fillRect(gx0, gy0, lip, h);
+  }
+
+  function simulateClears(p, r, c) {
+    const filled = (rr, cc) => {
+      if (grid[rr * N + cc]) return true;
+      return p.cells.some(([dr, dc]) => rr === r + dr && cc === c + dc);
+    };
+    const rows = [], cols = [], boxes = [];
+    for (let k = 0; k < N; k++) {
+      let rOk = true, cOk = true;
+      for (let i = 0; i < N; i++) {
+        if (!filled(k, i)) rOk = false;
+        if (!filled(i, k)) cOk = false;
+      }
+      if (rOk) rows.push(k);
+      if (cOk) cols.push(k);
+    }
+    for (let br = 0; br < 3; br++) {
+      for (let bc = 0; bc < 3; bc++) {
+        let ok = true;
+        for (let r2 = 0; r2 < 3; r2++) {
+          for (let c2 = 0; c2 < 3; c2++) { if (!filled(br * 3 + r2, bc * 3 + c2)) ok = false; }
+        }
+        if (ok) boxes.push([br, bc]);
+      }
+    }
+    return {rows, cols, boxes};
   }
 
   function draw() {
@@ -208,6 +278,14 @@
     g.addColorStop(1, '#141336');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, W, H);
+
+    ctx.save();
+    if (shakeT > 0) {
+      const sx = (Math.random() - 0.5) * 2 * shakeMag;
+      const sy = (Math.random() - 0.5) * 2 * shakeMag;
+      ctx.translate(sx, sy);
+      shakeT--;
+    }
 
     // grid with 3x3 box tinting
     for (let r = 0; r < N; r++) {
@@ -236,18 +314,41 @@
       ctx.stroke();
     }
 
-    // clear flashes
+    // clear flashes: cells shrink toward their center and fade over ~0.25s,
+    // plus an expanding ring-flash at each cleared cell's center
     for (let i = clearFx.length - 1; i >= 0; i--) {
       const f = clearFx[i];
-      ctx.fillStyle = 'rgba(255,255,255,' + (f.t / 14 * 0.6) + ')';
-      ctx.fillRect(BX + f.c * CELL, BY + f.r * CELL, CELL, CELL);
-      if (--f.t <= 0) clearFx.splice(i, 1);
+      f.t++;
+      const k = f.t / f.dur;
+      if (k >= 1) { clearFx.splice(i, 1); continue; }
+      const cx = BX + f.c * CELL + CELL / 2, cy = BY + f.r * CELL + CELL / 2;
+      const size = CELL * (1 - k);
+      ctx.save();
+      ctx.globalAlpha = 1 - k;
+      cellRect(cx - size / 2, cy - size / 2, size, f.color || '#ffffff');
+      ctx.restore();
+      ctx.save();
+      ctx.globalAlpha = (1 - k) * 0.85;
+      ctx.strokeStyle = f.color || '#ffffff';
+      ctx.lineWidth = 3 * (1 - k) + 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, CELL * 0.28 + k * CELL * 0.6, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
     }
 
-    // ghost preview
+    // ghost preview: the piece at its snapped landing spot, plus a wash over
+    // every row/column/box that would fully clear if dropped there right now
     if (dragging) {
       const t = snapTarget(dragging);
       if (t) {
+        const clears = simulateClears(dragging, t.r, t.c);
+        if (clears.rows.length || clears.cols.length || clears.boxes.length) {
+          ctx.fillStyle = 'rgba(255,215,90,0.18)';
+          for (const r2 of clears.rows) ctx.fillRect(BX, BY + r2 * CELL, N * CELL, CELL);
+          for (const c2 of clears.cols) ctx.fillRect(BX + c2 * CELL, BY, CELL, N * CELL);
+          for (const [br, bc] of clears.boxes) ctx.fillRect(BX + bc * 3 * CELL, BY + br * 3 * CELL, 3 * CELL, 3 * CELL);
+        }
         ctx.fillStyle = 'rgba(255,255,255,0.2)';
         for (const [dr, dc] of dragging.cells) {
           ctx.fillRect(BX + (t.c + dc) * CELL + 2, BY + (t.r + dr) * CELL + 2, CELL - 4, CELL - 4);
@@ -264,7 +365,19 @@
     }
     if (dragging) drawPiece(dragging, CELL, true);
 
-    if (clearFx.length) requestAnimationFrame(draw);
+    for (let i = particles.length - 1; i >= 0; i--) {
+      const p = particles[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.18; p.life--;
+      if (p.life <= 0) { particles.splice(i, 1); continue; }
+      ctx.globalAlpha = p.life / p.max;
+      ctx.fillStyle = p.c;
+      ctx.fillRect(p.x - p.s / 2, p.y - p.s / 2, p.s, p.s);
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.restore();
+
+    if (clearFx.length || particles.length || shakeT > 0) requestAnimationFrame(draw);
   }
 
   function drawPiece(p, size, lifted) {
@@ -298,8 +411,8 @@
     const m = pos(e);
     for (const p of tray) {
       if (p.used) continue;
-      const wC = (Math.max(...p.cells.map(c => c[1])) + 1) * TRAY_CELL;
-      const hC = (Math.max(...p.cells.map(c => c[0])) + 1) * TRAY_CELL;
+      const wC = (Math.max(...p.cells.map(c => c[1])) + 1) * p.scale;
+      const hC = (Math.max(...p.cells.map(c => c[0])) + 1) * p.scale;
       if (m.x >= p.x - 8 && m.x <= p.x + wC + 8 && m.y >= p.y - 8 && m.y <= p.y + hC + 8) {
         dragging = p;
         // grab scales the piece up to grid size, centred under the finger

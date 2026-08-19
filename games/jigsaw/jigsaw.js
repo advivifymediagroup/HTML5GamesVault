@@ -16,9 +16,22 @@
   const actx = art.getContext('2d');
 
   let N, pw, ph, frameX, frameY, frameW, frameH;
-  let pieces, hEdges, vEdges, dragging, moves, startedAt, timer, gameState, peekUntil;
+  let pieces, hEdges, vEdges, dragging, moves, startedAt, timer, gameState;
+  let peekActive = false;
+  let bursts = [];
+  let shakeT = 0;
 
   const SNAP = 22;
+
+  function spawnBurst(x, y, color, count) {
+    count = count || 14;
+    for (let i = 0; i < count; i++) {
+      const a = Math.random() * Math.PI * 2;
+      const sp = 1.5 + Math.random() * 3.5;
+      bursts.push({x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, life: 28, max: 28, color});
+    }
+  }
+  function shake(amount) { shakeT = Math.max(shakeT, amount); }
 
   /* ---------- picture generation ----------
      Paints an abstract landscape: banded sky, sun, mountain ridges, water.
@@ -178,7 +191,9 @@
 
     dragging = null;
     moves = 0;
-    peekUntil = 0;
+    peekActive = false;
+    bursts = [];
+    shakeT = 0;
     gameState = 'play';
     piecesEl.textContent = '0/' + (N * N);
     movesEl.textContent = 0;
@@ -212,6 +227,14 @@
   /* ---------- drawing ---------- */
 
   function draw() {
+    ctx.save();
+    if (shakeT > 0.3) {
+      ctx.translate((Math.random() - 0.5) * shakeT, (Math.random() - 0.5) * shakeT);
+      shakeT *= 0.82;
+    } else {
+      shakeT = 0;
+    }
+
     const g = ctx.createLinearGradient(0, 0, 0, H);
     g.addColorStop(0, '#0b0b22');
     g.addColorStop(1, '#141336');
@@ -225,19 +248,21 @@
     ctx.lineWidth = 2.5;
     ctx.strokeRect(frameX - 1, frameY - 1, frameW + 2, frameH + 2);
 
-    // faint cell guides
-    ctx.strokeStyle = 'rgba(190,200,255,0.09)';
-    ctx.lineWidth = 1;
-    for (let k = 1; k < N; k++) {
-      ctx.beginPath();
-      ctx.moveTo(frameX + k * pw, frameY); ctx.lineTo(frameX + k * pw, frameY + frameH);
-      ctx.moveTo(frameX, frameY + k * ph); ctx.lineTo(frameX + frameW, frameY + k * ph);
-      ctx.stroke();
+    // faint cell guides — alignment aid, fades away once the puzzle is solved
+    if (gameState !== 'won') {
+      ctx.strokeStyle = 'rgba(190,200,255,0.09)';
+      ctx.lineWidth = 1;
+      for (let k = 1; k < N; k++) {
+        ctx.beginPath();
+        ctx.moveTo(frameX + k * pw, frameY); ctx.lineTo(frameX + k * pw, frameY + frameH);
+        ctx.moveTo(frameX, frameY + k * ph); ctx.lineTo(frameX + frameW, frameY + k * ph);
+        ctx.stroke();
+      }
     }
 
-    const peeking = Date.now() < peekUntil;
+    const peeking = peekActive;
     if (peeking) {
-      ctx.globalAlpha = 0.5;
+      ctx.globalAlpha = 0.85;
       ctx.drawImage(art, frameX, frameY);
       ctx.globalAlpha = 1;
     }
@@ -250,7 +275,20 @@
     }
     if (dragging) drawPiece(dragging, true);
 
-    if (peeking) requestAnimationFrame(draw);
+    // placement particle bursts
+    for (let i = bursts.length - 1; i >= 0; i--) {
+      const p = bursts[i];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.12; p.life--;
+      if (p.life <= 0) { bursts.splice(i, 1); continue; }
+      ctx.globalAlpha = p.life / p.max;
+      ctx.fillStyle = p.color;
+      ctx.fillRect(p.x - 2, p.y - 2, 4, 4);
+    }
+    ctx.globalAlpha = 1;
+
+    ctx.restore();
+
+    if (peeking || bursts.length || shakeT > 0) requestAnimationFrame(draw);
   }
 
   function drawPiece(p, lifted) {
@@ -258,9 +296,15 @@
     ctx.save();
     ctx.translate(p.x, p.y);
     if (lifted) {
+      // actively dragged — larger, softer, offset shadow
       ctx.shadowColor = 'rgba(0,0,0,0.55)';
       ctx.shadowBlur = 16;
       ctx.shadowOffsetY = 6;
+    } else if (!p.home) {
+      // resting loose piece — subtle contact shadow
+      ctx.shadowColor = 'rgba(0,0,0,0.35)';
+      ctx.shadowBlur = 6;
+      ctx.shadowOffsetY = 2;
     }
     ctx.save();
     ctx.clip(path);
@@ -268,9 +312,22 @@
     ctx.drawImage(art, p.c * pw - pw * 0.35, p.r * ph - ph * 0.35,
       pw * 1.7, ph * 1.7, -pw * 0.35, -ph * 0.35, pw * 1.7, ph * 1.7);
     ctx.restore();
-    ctx.strokeStyle = p.home ? 'rgba(255,255,255,0.14)' : 'rgba(10,10,25,0.8)';
-    ctx.lineWidth = p.home ? 1 : 1.6;
-    ctx.stroke(path);
+    if (p.home) {
+      // placed pieces render flat/seamless so the finished picture reads clean
+      ctx.shadowColor = 'transparent';
+      ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+      ctx.lineWidth = 1;
+      ctx.stroke(path);
+    } else {
+      // raised bevel: dark outline plus a lighter inner highlight
+      ctx.strokeStyle = 'rgba(10,10,25,0.85)';
+      ctx.lineWidth = 2.4;
+      ctx.stroke(path);
+      ctx.shadowColor = 'transparent';
+      ctx.strokeStyle = 'rgba(255,255,255,0.32)';
+      ctx.lineWidth = 1;
+      ctx.stroke(path);
+    }
     ctx.restore();
   }
 
@@ -325,8 +382,24 @@
       p.x = hx; p.y = hy; p.home = true;
       statusEl.textContent = 'Snapped in.';
       piecesEl.textContent = homeCount() + '/' + (N * N);
+      spawnBurst(hx + pw / 2, hy + ph / 2, '#ffffff');
+      shake(6);
       if (homeCount() === N * N) { draw(); setTimeout(win, 200); return; }
     }
+    draw();
+  }
+
+  function shuffleLoose() {
+    if (gameState !== 'play') return;
+    for (const p of pieces) {
+      if (p.home) continue;
+      const side = Math.random() < 0.5;
+      const gx = side ? Math.random() * (frameX - pw * 0.7)
+                      : frameX + frameW - pw * 0.3 + Math.random() * (W - frameX - frameW - pw * 0.7);
+      p.x = Math.max(6, Math.min(W - pw - 6, gx));
+      p.y = Math.max(6, Math.min(H - ph - 6, Math.random() * (H - ph - 12)));
+    }
+    statusEl.textContent = 'Loose pieces shuffled.';
     draw();
   }
 
@@ -337,11 +410,18 @@
   canvas.addEventListener('touchmove', e => { e.preventDefault(); moveDrag(e); }, {passive: false});
   window.addEventListener('touchend', endDrag);
 
-  document.getElementById('peekBtn').addEventListener('click', () => {
-    if (gameState !== 'play') return;
-    peekUntil = Date.now() + 1600;
-    draw();
-  });
+  const peekBtn = document.getElementById('peekBtn');
+  function peekOn(e) { if (e) e.preventDefault(); if (gameState !== 'play') return; peekActive = true; draw(); }
+  function peekOff(e) { if (e) e.preventDefault(); peekActive = false; draw(); }
+  peekBtn.addEventListener('mousedown', peekOn);
+  peekBtn.addEventListener('mouseup', peekOff);
+  peekBtn.addEventListener('mouseleave', peekOff);
+  peekBtn.addEventListener('touchstart', peekOn, {passive: false});
+  peekBtn.addEventListener('touchend', peekOff, {passive: false});
+
+  const shuffleBtn = document.getElementById('shuffleBtn');
+  if (shuffleBtn) shuffleBtn.addEventListener('click', shuffleLoose);
+
   document.getElementById('startBtn').addEventListener('click', newPuzzle);
   document.getElementById('restartOverlay').addEventListener('click', newPuzzle);
   sizeSel.addEventListener('change', newPuzzle);
