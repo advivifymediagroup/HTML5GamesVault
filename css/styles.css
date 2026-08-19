@@ -119,27 +119,10 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 .logo {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 12px;
   font-weight: 700; font-size: 17px; letter-spacing: -0.02em;
 }
-.logo-mark {
-  display: inline-grid; place-items: center;
-  width: 28px; height: 28px;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  border-radius: 7px;
-  color: white; font-size: 13px;
-  box-shadow: 0 0 16px rgba(19, 103, 229, 0.45);
-}
 .logo-img { height: 40px; width: auto; display: block; }
-:root[data-theme="light"] .logo-img-dark { display: none; }
-.logo-img-light { display: none; }
-:root[data-theme="light"] .logo-img-light { display: block; }
-.logo-accent { color: var(--accent); margin-left: 4px; }
-
-/* Theme-aware image logo: prefer images from assets; keep text for accessibility */
-.logo-img { height: 28px; display: block; width: auto; }
-.logo-mark, .logo-text { display: none; }
-.logo { gap: 12px; align-items: center; }
 .logo-img-light { display: none; }
 :root[data-theme="light"] .logo-img-dark { display: none; }
 :root[data-theme="light"] .logo-img-light { display: block; }
