@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Play Mountain Match free in your browser. Match mountain ranges to their regions and countries." />
+  <title>Mountain Match &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .quiz-panel { width: min(100%, 620px); display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 16px 12px 10px; }
+    .question-tag { display: inline-flex; align-items: center; justify-content: center; padding: 5px 12px; border-radius: 999px; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); background: rgba(56,189,248,0.12); border: 1px solid var(--border); }
+    .prompt { font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.15; text-align: center; font-weight: 700; letter-spacing: -0.02em; }
+    .choice-grid { width: 100%; display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    @media (max-width: 560px) { .choice-grid { grid-template-columns: 1fr; } }
+    .choice-btn { width: 100%; padding: 16px 14px; border-radius: 14px; border: 1px solid var(--border); background: var(--surface-hi); color: var(--text); font: inherit; cursor: pointer; text-align: left; transition: transform 0.15s, border-color 0.2s, background 0.2s; }
+    .choice-btn:hover { border-color: var(--border-hi); transform: translateY(-1px); }
+    .choice-btn.correct { background: rgba(52,211,153,0.18); border-color: rgba(52,211,153,0.7); color: #dffef5; }
+    .choice-btn.wrong { background: rgba(239,68,68,0.12); border-color: rgba(239,68,68,0.65); color: #ffe7e7; }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Score</span><strong id="score">0</strong></div>
+        <div class="score-box"><span>Streak</span><strong id="streak">0</strong></div>
+        <div class="score-box"><span>Time</span><strong id="time">15</strong></div>
+      </div>
+
+      <div class="quiz-panel">
+        <div class="question-tag" id="questionTag">Mountain range</div>
+        <h2 class="prompt" id="prompt">Which range contains Everest?</h2>
+        <div class="choice-grid" id="choices"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="nextBtn">Next round</button>
+        <button class="btn btn-alt" id="restartBtn">Restart</button>
+      </div>
+      <div class="game-status" id="status">Pick the correct mountain range before the clock hits zero.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Each round asks you to link a famous peak or range to the correct mountain system. Build the streak and keep the timer alive.</p>
+      <div class="divider"></div>
+      <h2>Tips</h2>
+      <ul>
+        <li>K2 and Everest are both in the Himalayas.</li>
+        <li>The Andes run along South America.</li>
+        <li>Rocky Mountain peaks sit in North America.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="mountainmatch.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>

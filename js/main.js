@@ -1,18 +1,30 @@
 // Game filter chips
 const chips = document.querySelectorAll('.chip');
+const navCategoryLinks = document.querySelectorAll('.nav-category');
 const cards = document.querySelectorAll('.game-card');
+
+function applyFilter(filter) {
+  chips.forEach(c => c.classList.toggle('chip-active', c.dataset.filter === filter));
+  cards.forEach(card => {
+    const tags = card.dataset.tags || '';
+    const show = filter === 'all' || tags.includes(filter);
+    card.style.display = show ? '' : 'none';
+  });
+}
 
 chips.forEach(chip => {
   chip.addEventListener('click', () => {
-    chips.forEach(c => c.classList.remove('chip-active'));
-    chip.classList.add('chip-active');
-    const filter = chip.dataset.filter;
+    applyFilter(chip.dataset.filter);
+  });
+});
 
-    cards.forEach(card => {
-      const tags = card.dataset.tags || '';
-      const show = filter === 'all' || tags.includes(filter);
-      card.style.display = show ? '' : 'none';
-    });
+navCategoryLinks.forEach(link => {
+  link.addEventListener('click', (event) => {
+    event.preventDefault();
+    const filter = link.dataset.filter;
+    applyFilter(filter);
+    const target = document.getElementById('games');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 });
 

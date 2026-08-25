@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Play Planet Sort free in your browser. Sort the planets by distance from the sun." />
+  <title>Planet Sort &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .sort-board { width: min(100%, 740px); display: grid; gap: 12px; }
+    .slot-row { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+    @media (max-width: 640px) { .slot-row { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .orbit-slot, .planet-card { border-radius: 16px; border: 1px solid var(--border); background: var(--surface-hi); }
+    .orbit-slot {
+      min-height: 92px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between;
+      text-align: left; cursor: pointer; transition: border-color 0.2s, transform 0.15s, background 0.2s;
+    }
+    .orbit-slot:hover { border-color: var(--border-hi); }
+    .orbit-slot.empty { color: var(--text-dim); }
+    .orbit-slot .slot-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mute); }
+    .planet-card {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 10px 12px;
+      font-weight: 700; cursor: pointer; border: 1px solid var(--border); color: var(--text); background: linear-gradient(135deg, rgba(19,103,229,0.14), rgba(56,189,248,0.08));
+      transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .planet-card:hover { transform: translateY(-2px); border-color: var(--border-hi); }
+    .planet-card.selected { border-color: var(--accent); box-shadow: 0 0 16px rgba(56,189,248,0.4); }
+    .planet-dot {
+      width: 14px; height: 14px; border-radius: 50%; box-shadow: inset -2px -2px 3px rgba(0,0,0,0.25), 0 0 12px currentColor; display: inline-block;
+    }
+    .bank { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 6px; }
+    .planet-name { font-size: 0.9rem; }
+    .planet-slot .planet-name { font-size: 1rem; }
+    .planet-slot .slot-order { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mute); }
+    .planet-slot.filled { background: linear-gradient(135deg, rgba(19,103,229,0.24), rgba(139,92,246,0.2)); border-color: var(--border-hi); }
+    .planet-slot.wrong { animation: wrongPulse 0.4s ease-in-out 2; }
+    @keyframes wrongPulse { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Moves</span><strong id="moves">0</strong></div>
+        <div class="score-box"><span>Placed</span><strong id="placed">0/8</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">0</strong></div>
+      </div>
+
+      <div class="sort-board">
+        <div id="slots" class="slot-row"></div>
+        <div id="bank" class="bank"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="newRoundBtn">New Round</button>
+      </div>
+      <div class="game-status" id="status">Pick a planet, then place it into the correct orbit slot.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Sort the planets from the closest to the sun to the farthest away. Select a planet card from the tray, then place it in the matching orbital slot.</p>
+      <div class="divider"></div>
+      <h2>Tips</h2>
+      <ul>
+        <li>Mercury is the closest planet and Neptune is the farthest.</li>
+        <li>Use the order of the slots as your guide.</li>
+        <li>Place each planet once; each wrong move costs momentum.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="planetsort.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>

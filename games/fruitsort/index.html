@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Play Fruit Basket Sort free in your browser. Sort tasty fruit into the right baskets." />
+  <title>Fruit Basket Sort &mdash; HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .sort-board { width: min(100%, 760px); display: grid; gap: 18px; }
+    .slot-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+    @media (max-width: 640px) { .slot-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    .basket-slot, .fruit-item { border-radius: 16px; border: 1px solid var(--border); background: var(--surface-hi); }
+    .basket-slot {
+      min-height: 126px; padding: 12px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: border-color 0.15s, transform 0.15s, background 0.2s;
+    }
+    .basket-slot:hover { border-color: var(--border-hi); transform: translateY(-1px); }
+    .basket-slot.empty { color: var(--text-dim); }
+    .basket-slot .slot-label { font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-mute); }
+    .fruit-item {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 12px; font-weight: 700;
+      cursor: pointer; border: 1px solid var(--border); background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(52,211,153,0.08));
+      transition: transform 0.15s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .fruit-item:hover { transform: translateY(-2px); border-color: var(--border-hi); }
+    .fruit-item.selected { border-color: var(--accent); box-shadow: 0 0 18px rgba(56,189,248,0.38); }
+    .item-emoji { font-size: 1.25rem; }
+    .bank { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+    .basket-name { font-size: 0.8rem; }
+    .placed-item { font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Moves</span><strong id="moves">0</strong></div>
+        <div class="score-box"><span>Placed</span><strong id="placed">0/8</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">0</strong></div>
+      </div>
+
+      <div class="sort-board">
+        <div id="slots" class="slot-grid"></div>
+        <div id="bank" class="bank"></div>
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="newRoundBtn">New Round</button>
+      </div>
+      <div class="game-status" id="status">Choose a fruit and place it in the right basket.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Group each fruit into the correct basket: Citrus, Berries, Tropical, or Stone fruits. Pick one fruit and click the matching basket.</p>
+      <div class="divider"></div>
+      <h2>Tips</h2>
+      <ul>
+        <li>Lemon, orange, and lime are citrus fruits.</li>
+        <li>Strawberry and blueberry are berries.</li>
+        <li>Pineapple and mango are tropical fruits.</li>
+      </ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="fruitsort.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>
