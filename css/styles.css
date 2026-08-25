@@ -130,6 +130,17 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .nav { display: flex; align-items: center; gap: 30px; }
 .nav a { color: var(--text-dim); transition: color 0.2s; font-weight: 500; font-size: 15px; }
 .nav a:hover { color: var(--text); }
+.nav-category { position: relative; }
+.nav-category::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -7px;
+  height: 2px; border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  opacity: 0; transform: scaleX(0.6);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.nav-category:hover::after { opacity: 1; transform: scaleX(1); }
 
 .theme-toggle {
   flex-shrink: 0;
@@ -841,6 +852,77 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .cs-mini { display: grid; grid-template-columns: repeat(4, 22px); gap: 3px; }
 .cs-mini span { height: 22px; border-radius: 4px; }
 .cs-mini .cs-gap { background: rgba(255,255,255,0.06); border: 1px dashed rgba(190,200,255,0.35); }
+
+/* Planet Sort */
+.thumb-planetsort {
+  background: radial-gradient(circle at center, rgba(56,189,248,0.25), rgba(7,7,26,0.95) 60%);
+  position: relative; overflow: hidden;
+}
+.planet-sort-mini {
+  position: relative; width: 120px; height: 92px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; place-items: center;
+}
+.ps-planet {
+  width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font-size: 18px;
+  box-shadow: inset -4px -4px 8px rgba(0,0,0,0.25), 0 0 18px rgba(255,255,255,0.14);
+}
+.ps-saturn { background: linear-gradient(135deg, #f5d7a1, #b77c29); }
+.ps-mars { background: linear-gradient(135deg, #ff8f72, #d9482a); }
+.ps-earth { background: linear-gradient(135deg, #69d6ff, #0f7ccc); }
+.ps-neptune { background: linear-gradient(135deg, #8ab4ff, #3d67c9); }
+
+/* Capital Quest */
+.thumb-capitalquest {
+  background: linear-gradient(135deg, rgba(22,163,74,0.25), rgba(14,10,32,0.95));
+  position: relative;
+}
+.capital-mini {
+  position: relative; width: 120px; height: 92px; display: grid; place-items: center; gap: 3px;
+}
+.cap-pin {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%); font-size: 28px; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+.cap-city {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 92px; padding: 6px 10px; border-radius: 999px; background: rgba(15, 18, 38, 0.7);
+  border: 1px solid rgba(56,189,248,0.24); color: var(--text); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+}
+.cap-map { margin-top: 18px; }
+
+/* Grocery Sort */
+.thumb-grocerysort {
+  background: linear-gradient(135deg, rgba(34,197,94,0.22), rgba(14,10,32,0.96));
+}
+.grocery-mini {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; place-items: center; width: 100px; height: 84px;
+}
+.grocery-item-mini { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,0.08); font-size: 22px; }
+
+/* Fruit Sort */
+.thumb-fruitsort {
+  background: linear-gradient(135deg, rgba(251,191,36,0.2), rgba(14,10,32,0.96));
+}
+.fruit-sort-mini {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; place-items: center; width: 100px; height: 84px;
+}
+.fruit-sort-mini span { font-size: 26px; }
+
+/* Mountain Match */
+.thumb-mountainmatch {
+  background: linear-gradient(135deg, rgba(96,165,250,0.22), rgba(14,10,32,0.95));
+}
+.mountain-mini {
+  display: grid; place-items: center; gap: 6px; width: 120px; height: 92px;
+}
+.mountain-icon { font-size: 28px; }
+.mountain-word { font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+
+/* Ocean Sort */
+.thumb-oceansort {
+  background: linear-gradient(135deg, rgba(59,130,246,0.22), rgba(14,10,32,0.95));
+}
+.ocean-mini {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; place-items: center; width: 100px; height: 84px;
+}
+.ocean-wave { font-size: 22px; }
 
 /* Number Line */
 .thumb-numline { background: linear-gradient(180deg, #1a1942, #0b0b22); }

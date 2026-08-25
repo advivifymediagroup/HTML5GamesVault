@@ -9,7 +9,7 @@
   <title>HTML5GamesVault — Free Browser Games</title>
   <meta name="description" content="Play free HTML5 games online. Snake, 2048, Breakout, Memory, Tic-Tac-Toe, Flappy and more." />
   <meta property="og:title" content="HTML5GamesVault — Free Browser Games" />
-  <meta property="og:description" content="49 free browser games: arcade, puzzle, and 3D titles. No downloads or accounts required." />
+  <meta property="og:description" content="51 free browser games: arcade, puzzle, sorting, geography, and 3D titles. No downloads or accounts required." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="css/styles.css?v=10" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,8 @@
     </a>
     <nav class="nav">
       <a href="#games">Games</a>
+      <a href="#games" class="nav-category" data-filter="sorting">Sorting</a>
+      <a href="#games" class="nav-category" data-filter="geography">Geography</a>
       <a href="about.html">About</a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
         <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
@@ -43,7 +45,7 @@
   <section class="hero">
     <div class="hero-inner">
       <h1>Free browser games.</h1>
-      <p class="hero-sub">49 games you can play right now. Nothing to install, nothing to sign up for.</p>
+      <p class="hero-sub">51 games you can play right now. Nothing to install, nothing to sign up for.</p>
     </div>
   </section>
 
@@ -60,6 +62,8 @@
         <button class="chip" data-filter="puzzle">Puzzle</button>
         <button class="chip" data-filter="arcade">Arcade</button>
         <button class="chip" data-filter="audio">Audio</button>
+        <button class="chip" data-filter="sorting">Sorting</button>
+        <button class="chip" data-filter="geography">Geography</button>
       </div>
     </div>
 
@@ -242,7 +246,7 @@
         </div>
       </a>
 
-      <a href="games/watersort/index.html" class="game-card" data-tags="2d puzzle">
+      <a href="games/watersort/index.html" class="game-card" data-tags="2d sorting">
         <div class="game-thumb thumb-water">
           <div class="water-mini">
             <span class="ws-tube"><i style="background:#ef4444;height:50%"></i></span>
@@ -252,9 +256,57 @@
           </div>
         </div>
         <div class="game-meta">
-          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Sorting</span></div>
+          <div class="game-tags"><span class="tag">Sorting</span><span class="tag">Puzzle</span></div>
           <h3>Water Sort</h3>
           <p>Pour the colours between tubes until each one is sorted.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/planetsort/index.html" class="game-card" data-tags="2d sorting">
+        <div class="game-thumb thumb-planetsort">
+          <div class="planet-sort-mini">
+            <div class="ps-planet ps-saturn"><span>●</span></div>
+            <div class="ps-planet ps-mars"><span>●</span></div>
+            <div class="ps-planet ps-earth"><span>●</span></div>
+            <div class="ps-planet ps-neptune"><span>●</span></div>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Sorting</span><span class="tag">Space</span></div>
+          <h3>Planet Sort</h3>
+          <p>Arrange the planets by distance from the sun and keep the orbital order intact.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/grocerysort/index.html" class="game-card" data-tags="2d sorting">
+        <div class="game-thumb thumb-grocerysort">
+          <div class="grocery-mini">
+            <span class="grocery-item-mini">🥬</span>
+            <span class="grocery-item-mini">🥛</span>
+            <span class="grocery-item-mini">🍞</span>
+            <span class="grocery-item-mini">🍚</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Sorting</span><span class="tag">Shop</span></div>
+          <h3>Grocery Sort</h3>
+          <p>Place each item into the right supermarket aisle before your list gets messy.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/fruitsort/index.html" class="game-card" data-tags="2d sorting">
+        <div class="game-thumb thumb-fruitsort">
+          <div class="fruit-sort-mini">
+            <span>🍊</span><span>🍓</span><span>🥭</span><span>🍑</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Sorting</span><span class="tag">Fruit</span></div>
+          <h3>Fruit Basket Sort</h3>
+          <p>Sort every fruit into the correct basket by type and color.</p>
           <span class="play-link">Play →</span>
         </div>
       </a>
@@ -904,6 +956,54 @@
           <div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span></div>
           <h3>Ball Maze</h3>
           <p>Tilt the board to roll the ball to the goal.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/capitalquest/index.html" class="game-card" data-tags="2d geography">
+        <div class="game-thumb thumb-capitalquest">
+          <div class="capital-mini">
+            <span class="cap-pin">📍</span>
+            <span class="cap-city">Paris</span>
+            <span class="cap-city cap-map">Tokyo</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Geography</span><span class="tag">Quiz</span></div>
+          <h3>Capital Quest</h3>
+          <p>Match clues to the right country, capital, and region before the timer runs out.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/mountainmatch/index.html" class="game-card" data-tags="2d geography">
+        <div class="game-thumb thumb-mountainmatch">
+          <div class="mountain-mini">
+            <span class="mountain-icon">⛰️</span>
+            <span class="mountain-word">Everest</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Geography</span><span class="tag">Ranges</span></div>
+          <h3>Mountain Match</h3>
+          <p>Link famous peaks and range names to the right mountain system in time.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
+      <a href="games/oceansort/index.html" class="game-card" data-tags="2d geography">
+        <div class="game-thumb thumb-oceansort">
+          <div class="ocean-mini">
+            <span class="ocean-wave">🌊</span>
+            <span class="ocean-wave">🌊</span>
+            <span class="ocean-wave">🌊</span>
+            <span class="ocean-wave">❄️</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Geography</span><span class="tag">Oceans</span></div>
+          <h3>Ocean Sort</h3>
+          <p>Sort seas and oceans into their correct open-water regions.</p>
           <span class="play-link">Play →</span>
         </div>
       </a>
