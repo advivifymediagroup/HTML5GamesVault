@@ -337,6 +337,18 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
   display: grid; place-items: center;
   position: relative; overflow: hidden;
 }
+.game-thumb.has-image {
+  display: block;
+}
+.game-thumb.has-image > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.game-thumb.has-image > :not(img) {
+  display: none;
+}
 .thumb-icon { width: 70%; height: 70%; fill: white; stroke: white; }
 
 .thumb-snake { background: linear-gradient(135deg, #10b981, #047857); }
