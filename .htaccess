@@ -1,0 +1,5 @@
+# Block access to git internals and deploy secrets/logs.
+RedirectMatch 404 /\.git
+<FilesMatch "^(deploy-secret\.php|deploy\.log)$">
+    Require all denied
+</FilesMatch>

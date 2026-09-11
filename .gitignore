@@ -5,3 +5,8 @@ Desktop.ini
 *.swp
 .vscode/
 .idea/
+
+# Server-only deploy secret/log — created once directly on the server,
+# never committed or pulled.
+deploy-secret.php
+deploy.log
