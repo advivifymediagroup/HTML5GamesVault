@@ -47,13 +47,24 @@ if ($ref !== 'refs/heads/main') {
     exit("Ignored ref: $ref");
 }
 
-if (!function_exists('shell_exec')) {
+if (!function_exists('proc_open')) {
     http_response_code(500);
-    exit('shell_exec is disabled on this server; use the cron-based deploy instead.');
+    exit('proc_open is disabled on this server; use the cron-based deploy instead.');
 }
 
 putenv('GIT_TERMINAL_PROMPT=0');
-$output = shell_exec('cd ' . escapeshellarg(__DIR__) . ' && git pull origin main 2>&1');
+$descriptors = [1 => ['pipe', 'w'], 2 => ['pipe', 'w']];
+$proc = proc_open('git pull origin main', $descriptors, $pipes, __DIR__, ['GIT_TERMINAL_PROMPT' => '0']);
+
+$output = '';
+if (is_resource($proc)) {
+    $output = stream_get_contents($pipes[1]) . stream_get_contents($pipes[2]);
+    fclose($pipes[1]);
+    fclose($pipes[2]);
+    proc_close($proc);
+} else {
+    $output = 'proc_open failed to start git pull';
+}
 
 $logLine = '[' . date('Y-m-d H:i:s') . "] deploy triggered\n" . $output . "\n---\n";
 file_put_contents(__DIR__ . '/deploy.log', $logLine, FILE_APPEND);
