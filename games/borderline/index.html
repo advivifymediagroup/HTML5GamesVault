@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <meta name="description" content="Plan efficient routes across Europe's shared borders in this geography puzzle." />
+  <title>Borderline — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .route-board { position: relative; width: min(100%, 760px); aspect-ratio: 1.72; overflow: hidden; border: 1px solid var(--border); border-radius: 12px; background: radial-gradient(ellipse at 52% 45%, #24434a, #10232e 75%); }
+    .route-board svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .route-edge { stroke: rgba(211,225,195,.22); stroke-width: 1.1; }
+    .route-edge.active { stroke: #f4cc72; stroke-width: 2.6; }
+    .country-node { position: absolute; transform: translate(-50%,-50%); min-width: 76px; max-width: 112px; padding: 7px 9px; border: 1px solid rgba(201,220,192,.45); border-radius: 7px; background: #263b3b; color: #f3f3df; font: 600 11px/1.1 'Space Grotesk',sans-serif; cursor: pointer; }
+    .country-node:hover { border-color: #f4cc72; }
+    .country-node.visited { background: #92683e; border-color: #f4cc72; }
+    .country-node.start, .country-node.goal { background: #356a58; border-color: #80dfb0; }
+    .country-node:disabled { opacity: 1; }
+    .route-objective { font-size: 18px; font-weight: 700; text-align: center; }
+    @media (max-width: 560px) { .route-board { aspect-ratio: 1.05; } .country-node { min-width: 60px; max-width: 82px; padding: 6px 4px; font-size: 9px; } }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard">
+        <div class="score-box"><span>Route</span><strong id="level">1 / 4</strong></div>
+        <div class="score-box"><span>Moves</span><strong id="moves">0</strong></div>
+        <div class="score-box"><span>Best</span><strong id="best">—</strong></div>
+      </div>
+      <h1 class="route-objective" id="objective">Cross the borders to reach your destination.</h1>
+      <div class="route-board" id="board" aria-label="Interactive map of country borders"></div>
+      <div class="controls">
+        <button class="btn" id="undoBtn">Undo step</button>
+        <button class="btn btn-alt" id="resetBtn">Restart route</button>
+        <button class="btn btn-alt" id="nextBtn" disabled>Next route</button>
+      </div>
+      <div class="game-status" id="status" aria-live="polite">Choose a neighboring country to travel across its border.</div>
+    </section>
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Travel from the green starting country to the destination. Each move must cross a shared land border. Reach the goal within the move limit to complete the route.</p>
+      <div class="divider"></div>
+      <h2>Planning</h2>
+      <p>Visited countries stay highlighted. You can undo a step, but repeated countries are not allowed.</p>
+    </aside>
+  </main>
+  <footer class="site-footer"><div class="footer-links"><a href="../../index.html">All Games</a><a href="../../about.html">About</a></div><p>&copy; 2026 HTML5GamesVault. All rights reserved.</p></footer>
+  <script src="borderline.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>
