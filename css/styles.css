@@ -351,6 +351,19 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 }
 .thumb-icon { width: 70%; height: 70%; fill: white; stroke: white; }
 
+.thumb-hextris { background: radial-gradient(circle at center, #26364d, #111827 72%); }
+.hextris-mini { width: 104px; height: 104px; position: relative; transform: rotate(-8deg); }
+.hextris-core {
+  position: absolute; inset: 34px; background: #8b98a8; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  box-shadow: 0 0 15px rgba(255,255,255,.18);
+}
+.hextris-chip { position: absolute; width: 17px; height: 25px; border-radius: 4px; box-shadow: 0 0 10px currentColor; }
+.htc-one { left: 43px; top: 2px; background: #ff526f; color: #ff526f; }
+.htc-two { right: 7px; top: 24px; transform: rotate(60deg); background: #ffc857; color: #ffc857; }
+.htc-three { right: 7px; bottom: 24px; transform: rotate(-60deg); background: #55d6be; color: #55d6be; }
+.htc-four { left: 43px; bottom: 2px; background: #48a9ff; color: #48a9ff; }
+.htc-five { left: 7px; top: 24px; transform: rotate(-60deg); background: #b78cff; color: #b78cff; }
+
 .thumb-snake { background: linear-gradient(135deg, #10b981, #047857); }
 .thumb-snake .thumb-icon { fill: white; }
 .thumb-snake .thumb-icon rect { fill: #d1fae5; }
