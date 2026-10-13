@@ -1,1 +1,73 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><script>try{if(localStorage.getItem('theme')==='light')document.documentElement.setAttribute('data-theme','light')}catch(e){}</script><title>Asteroid Drift - HTML5GamesVault</title><meta name="description" content="Dodge an asteroid field in this free browser arcade game."><link rel="stylesheet" href="../../css/game.css?v=10"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet"><style>#game{width:min(100%,650px);aspect-ratio:16/10}.stage-canvas-wrap{max-width:650px}.message-overlay.show{display:flex}</style></head><body><header class="game-header"><a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault"><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault"></a><button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme">Theme</button></header><main class="game-wrap"><section class="game-stage"><div class="scoreboard"><div class="score-box"><span>Distance</span><strong id="score">0</strong></div><div class="score-box"><span>Best</span><strong id="best">0</strong></div><div class="score-box"><span>Shields</span><strong id="shields">3</strong></div></div><div class="stage-canvas-wrap"><canvas id="game" width="650" height="406"></canvas><div class="message-overlay show" id="overlay"><h3 id="title">Asteroid Drift</h3><p id="message">Use arrow keys or drag your ship. Survive the field.</p><button class="btn" id="start">Launch</button></div></div><div class="controls"><button class="btn btn-alt" id="restart">Restart</button></div><div class="game-status">Move left and right. The field accelerates the longer you survive.</div></section><aside class="info-panel"><h2>How to play</h2><p>Guide the ship through falling asteroids. There are no weapons here: clean movement is the whole game.</p><div class="divider"></div><h2>Controls</h2><ul><li>Arrow keys or A / D to steer</li><li>Drag on the playfield on touch devices</li><li>Three shields per flight</li></ul></aside></main><footer class="site-footer"><div class="footer-links"><a href="../../index.html">All Games</a></div><p>&copy; 2026 HTML5GamesVault</p></footer><script src="asteroidrift.js"></script><script src="../../js/theme.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Dodge a 3D asteroid field in this free browser arcade game. Close calls score bonus points. No download, no plugins." />
+  <title>Asteroid Drift — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    #game3d { width: 100%; max-width: 760px; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #05061a; touch-action: none; }
+    .stage-canvas-wrap { max-width: 760px; margin: 0 auto; }
+    .lane-keys { display: flex; gap: 6px; } .lane-key { padding: 8px 14px; font: 700 14px "JetBrains Mono",monospace; }
+    .stage-canvas-wrap:fullscreen { max-width: none; background: #000; }
+    .stage-canvas-wrap:fullscreen #game3d { max-width: none; width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard"><div class="score-box"><span>Distance</span><strong id="s1">0</strong></div><div class="score-box"><span>Shields</span><strong id="s2">0</strong></div><div class="score-box"><span>Speed</span><strong id="s3">0</strong></div><div class="score-box"><span>Best</span><strong id="s4">0</strong></div></div>
+      <div class="stage-canvas-wrap">
+        <div id="game3d"></div>
+        <div class="message-overlay show" id="overlay">
+          <h3 id="overTitle">Asteroid Drift</h3>
+          <p id="overMsg">Steer with the mouse, touch or WASD. Close calls score bonus points.</p>
+          <button class="btn" id="overlayBtn">Start</button>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="startBtn">Restart</button>
+        <button class="btn btn-alt" id="fsBtn">Fullscreen</button>
+      </div>
+      <div class="game-status" id="status">Dodge the rocks. Skim them for bonus points.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Thread your ship through an ever-denser asteroid field rushing toward you. Steer in all directions, skim past rocks for close-call bonuses and grab blue shield rings to repair your hull. Three hits and the drift is over.</p>
+      <div class="divider"></div>
+      <h2>Controls</h2>
+      <ul><li><span class="kbd">← → ↑ ↓</span> / <span class="kbd">WASD</span> — steer</li><li>Mouse or touch — the ship follows your pointer</li><li><span class="kbd">Space</span> — boost for more points, less time to react</li></ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="../../js/webgl-guard.js"></script>
+  <script src="../../js/three.min.js"></script>
+  <script src="../../js/scene-kit.js"></script>
+  <script src="../../js/stage3d.js"></script>
+  <script src="asteroidrift.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>
