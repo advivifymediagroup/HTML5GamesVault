@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Find hidden words in an 11 by 11 letter grid. Play Explore Words free in your browser." />
+  <title>Explore Words — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap explore-wrap">
+    <div class="explore-scoreboard scoreboard">
+      <div class="score-box"><span>Found</span><strong id="foundCount">0/8</strong></div>
+      <div class="score-box"><span>Time</span><strong id="timer">00:00</strong></div>
+      <div class="score-box"><span>Hints</span><strong id="hints">3</strong></div>
+    </div>
+
+    <div class="explore-game">
+      <aside class="word-panel" aria-labelledby="wordsTitle">
+        <div class="panel-heading">
+          <span class="eyebrow">Today's search</span>
+          <h1 id="wordsTitle">Explore Words</h1>
+          <p>Find all eight words hidden in the grid.</p>
+        </div>
+        <ul class="word-list" id="wordList" aria-label="Words to find"></ul>
+        <div class="word-panel-bottom">
+          <p class="direction-note">Words run straight across, down, or diagonally. They may read backwards.</p>
+          <div class="controls explore-controls">
+            <button class="btn" id="newPuzzleBtn" type="button">New puzzle</button>
+            <button class="btn btn-alt" id="hintBtn" type="button" aria-label="Reveal a hint">Hint</button>
+          </div>
+        </div>
+      </aside>
+
+      <section class="grid-panel" aria-label="Word search letter grid">
+        <div class="grid-topline">
+          <span class="grid-label">11 × 11</span>
+          <span class="grid-help">Drag across a word</span>
+        </div>
+        <div class="letter-grid" id="letterGrid" role="grid" aria-label="11 by 11 letter grid"></div>
+        <p class="game-status" id="status" role="status" aria-live="polite">Drag from the first letter to the last.</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="explorewords.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>

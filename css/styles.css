@@ -563,6 +563,21 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .wordle-mini .y { background: linear-gradient(135deg, #facc15, #ca8a04); }
 .wordle-mini .x { background: rgba(60, 60, 90, 0.7); color: #94a3b8; }
 
+/* Explore Words */
+.thumb-explorewords { background: linear-gradient(145deg, #173b3c, #101a22); }
+.ew-mini { display: grid; grid-template-columns: repeat(5, 22px); gap: 3px; padding: 10px; }
+.ew-mini span {
+  display: grid; place-items: center;
+  width: 22px; height: 22px;
+  border: 1px solid rgba(221, 160, 66, 0.2);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e7edf0;
+  font: 700 10px 'JetBrains Mono', monospace;
+}
+.ew-mini span:nth-child(3n) { background: rgba(54, 184, 139, 0.24); color: #8be2bf; }
+.ew-mini span:nth-child(7n) { background: rgba(243, 168, 59, 0.35); color: #ffda96; }
+
 /* Reaction */
 .thumb-rxn { background: linear-gradient(135deg, #22c55e, #16a34a); }
 .rxn-mini {
