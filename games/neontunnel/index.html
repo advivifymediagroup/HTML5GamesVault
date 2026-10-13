@@ -8,14 +8,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
   <meta name="description" content="Play Neon Tunnel free in your browser. Race through a neon tube and slip through the gaps. No download, no plugins." />
   <title>Neon Tunnel — HTML5GamesVault</title>
-  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="stylesheet" href="../../css/game.css?v=12" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     #game3d { width: 100%; max-width: 760px; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #05061a; touch-action: none; }
     .stage-canvas-wrap { max-width: 760px; margin: 0 auto; }
-    .stage-canvas-wrap:fullscreen { max-width: none; background: #000; }
-    .stage-canvas-wrap:fullscreen #game3d { max-width: none; width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; }
+    .lane-keys { display: flex; gap: 6px; } .lane-key { padding: 8px 14px; font: 700 14px "JetBrains Mono",monospace; }
   </style>
 </head>
 <body>
@@ -40,7 +39,7 @@
       </div>
       <div class="controls">
         <button class="btn" id="startBtn">Restart</button>
-        <button class="btn btn-alt" id="fsBtn">Fullscreen</button>
+        <button class="btn btn-alt" id="fsBtn">⛶ Fullscreen</button>
       </div>
       <div class="game-status" id="status">Steer around the tunnel wall. Aim for the gaps.</div>
     </section>
@@ -50,7 +49,7 @@
       <p>You are hurtling down a neon tunnel at ludicrous speed. Every gate has a gap — steer around the wall of the tube and slip through it. Grab glowing orbs for bonus points. Three hits and your ship is toast.</p>
       <div class="divider"></div>
       <h2>Controls</h2>
-      <ul><li><span class="kbd">← →</span> / <span class="kbd">A D</span> — steer around the tube</li><li>Drag left/right on touch screens</li><li>Orbs give +50 and repair a shield after five</li></ul>
+      <ul><li><span class="kbd">← →</span> / <span class="kbd">A D</span> — steer around the tube</li><li>Touch: hold the left or right side, or drag</li><li>Orbs give +50 and repair a shield after five</li></ul>
     </aside>
   </main>
 
@@ -65,8 +64,10 @@
   <script src="../../js/webgl-guard.js"></script>
   <script src="../../js/three.min.js"></script>
   <script src="../../js/scene-kit.js"></script>
-  <script src="../../js/stage3d.js"></script>
-  <script src="neontunnel.js"></script>
+  <script src="../../js/gamekit.js?v=1"></script>
+  <script src="../../js/stage3d.js?v=3"></script>
+  <script src="neontunnel.js?v=3"></script>
+  <script src="../../js/fullscreen.js?v=1"></script>
   <script src="../../js/theme.js"></script>
 </body>
 </html>

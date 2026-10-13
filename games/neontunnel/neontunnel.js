@@ -35,7 +35,7 @@
   const glow = new THREE.Mesh(new THREE.SphereGeometry(.2, 12, 8), new THREE.MeshBasicMaterial({color: 0x67e8f9, transparent: true, opacity: .9, blending: THREE.AdditiveBlending}));
   glow.position.z = .85;
   const engine = new THREE.PointLight(0x22d3ee, 1.4, 16); engine.position.set(0, .5, .8);
-  ship.add(hull, wing, glow, engine); scene.add(ship);
+  ship.add(hull, wing, glow, engine); ship.scale.setScalar(1.3); scene.add(ship);
   scene.add(new THREE.AmbientLight(0x6d5bd0, .5));
 
   // ---- gates & orbs ----
@@ -57,8 +57,12 @@
     const col = new THREE.Color().setHSL((gateIdx++ * .08) % 1, .9, .55);
     const mesh = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({color: col, emissive: col.clone().multiplyScalar(.3), roughness: .4, metalness: .3}));
     mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 25), new THREE.LineBasicMaterial({color: 0xffffff})));
+    const gs = new THREE.Shape(); gs.absarc(0, 0, R + .2, lastGap - half, lastGap + half, false); gs.absarc(0, 0, R - 3.4, lastGap + half, lastGap - half, true);
+    const gapGeo = new THREE.ShapeGeometry(gs, 20), glowCol = new THREE.Color(0x67e8f9);
+    const glow = new THREE.Mesh(gapGeo, new THREE.MeshBasicMaterial({color: glowCol, transparent: true, opacity: .16, blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide}));
+    glow.position.z = .4; mesh.add(glow);
     mesh.position.z = z; scene.add(mesh);
-    gates.push({mesh, geo, gap: lastGap, half, hit: false});
+    gates.push({mesh, geo, gapGeo, gap: lastGap, half, hit: false});
     if (Math.random() < .8) {
       const om = new THREE.Mesh(orbGeo, new THREE.MeshStandardMaterial({color: 0xfbbf24, emissive: 0xf59e0b, roughness: .2}));
       om.position.set(Math.cos(lastGap) * SHIP_R, Math.sin(lastGap) * SHIP_R, z + 9); scene.add(om);
@@ -67,14 +71,16 @@
     S.polish();
   }
 
+  function dropGate(g) { scene.remove(g.mesh); g.geo.dispose(); g.gapGeo.dispose(); g.mesh.material.dispose(); }
+
   function clearWorld() {
-    gates.forEach(g => { scene.remove(g.mesh); g.geo.dispose(); g.mesh.material.dispose(); });
+    gates.forEach(dropGate);
     orbs.forEach(o => scene.remove(o.mesh));
     gates.length = orbs.length = 0;
   }
 
   function fill() {
-    let z = gates.length ? gates[gates.length - 1].mesh.position.z - SPACING : -55;
+    let z = gates.length ? gates[gates.length - 1].mesh.position.z - SPACING : -90;
     while (z > FAR) { spawnGate(z); z -= SPACING; }
   }
 
@@ -102,11 +108,11 @@
     speed = playing ? 32 + Math.min(36, dist / 45) : 14;
     const dz = speed * dt;
     if (playing) dist += dz;
-    tex.offset.y -= dz / 2;
+    tex.offset.y = (tex.offset.y - dz / 2) % 1;
 
     // steering
     if (playing) {
-      const dir = (keys.ArrowRight || keys.d ? 1 : 0) - (keys.ArrowLeft || keys.a ? 1 : 0);
+      const dir = (keys.ArrowRight || keys.d || keys.holdR ? 1 : 0) - (keys.ArrowLeft || keys.a || keys.holdL ? 1 : 0);
       omega += (dir * TURN - omega) * Math.min(1, dt * 9);
       theta += omega * dt;
     } else {
@@ -123,7 +129,7 @@
         g.hit = true;
         if (invuln <= 0 && Math.abs(angDiff(theta, g.gap)) > g.half - .13) hit();
       }
-      if (z1 > 8) { scene.remove(g.mesh); g.geo.dispose(); g.mesh.material.dispose(); gates.splice(i, 1); }
+      if (z1 > 8) { dropGate(g); gates.splice(i, 1); }
     }
     for (let i = orbs.length - 1; i >= 0; i--) {
       const o = orbs[i]; o.mesh.position.z += dz; o.mesh.rotation.y += dt * 3;
@@ -156,10 +162,17 @@
   const setKey = (e, v) => { keys[e.key] = v; keys[e.key.toLowerCase()] = v; if (e.key.startsWith('Arrow')) e.preventDefault(); };
   document.addEventListener('keydown', e => setKey(e, true));
   document.addEventListener('keyup', e => setKey(e, false));
-  let dragX = null;
-  S.el.addEventListener('pointerdown', e => { dragX = e.clientX; });
-  window.addEventListener('pointerup', () => { dragX = null; });
-  window.addEventListener('pointermove', e => { if (dragX != null && playing) { theta += (e.clientX - dragX) * .011; dragX = e.clientX; } });
+  let dragX = null, startX = 0;
+  S.el.addEventListener('pointerdown', e => {
+    dragX = startX = e.clientX; const r = S.el.getBoundingClientRect();
+    keys.holdR = e.clientX - r.left > r.width / 2; keys.holdL = !keys.holdR;
+  });
+  window.addEventListener('pointerup', () => { dragX = null; keys.holdL = keys.holdR = false; });
+  window.addEventListener('pointermove', e => {
+    if (dragX == null || !playing) return;
+    if (Math.abs(e.clientX - startX) > 8) { keys.holdL = keys.holdR = false; theta += (e.clientX - dragX) * .011; }
+    dragX = e.clientX;
+  });
 
   S.onStart(start);
   S.hud(4, S.bestScore()); S.hud(2, 3); S.hud(3, 0);

@@ -184,7 +184,7 @@
   let acc2 = 0;
   S.loop(dt => {
     T += dt;
-    camera.position.set(Math.sin(T * .15) * 2.5, 33, 17 + Math.cos(T * .12) * 1.2); camera.lookAt(0, 0, 1);
+    camera.position.set(0, 33, 17); camera.lookAt(0, 0, 1);
     if (!lvl) return;
     bodyMeshes.forEach((m, i) => { const [x, z] = pos(lvl.b[i], T); m.position.x = x; m.position.z = z; m.rotation.y += dt * .3; });
     rings.forEach(r => { r.rotation.z += dt * .5; });

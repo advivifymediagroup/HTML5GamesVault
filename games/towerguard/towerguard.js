@@ -205,7 +205,7 @@
   const tmp = new THREE.Vector3(), tmp2 = new THREE.Vector3();
   S.loop(rawDt => {
     const dt = rawDt; T += rawDt;
-    camera.position.set(Math.sin(T * .12) * 1.2, 13.5, 11 + Math.cos(T * .1) * .5); camera.lookAt(0, 0, .6);
+    camera.position.set(0, 13.5, 11); camera.lookAt(0, 0, .6);
     clouds.forEach(c => { c.position.x += c.userData.s * rawDt; if (c.position.x > 20) c.position.x = -20; });
     portal.rotation.z += rawDt * 2; keep.rotation.y = Math.sin(T * .3) * .05;
     if (mode === 'idle') return;

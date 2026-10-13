@@ -185,8 +185,7 @@
     targets.forEach((t, i) => { t.y += ((t.down ? -.6 : 0) - t.y) * Math.min(1, dt * 12); targetMeshes[i].position.y = .27 + t.y; });
     plunger.position.z = 8.3 + power * 1.0;
     glassT -= dt; if (dirty && glassT <= 0) { drawGlass(); dirty = false; glassT = .1; }
-    const cx = mode === 'play' ? ball.x * .12 : Math.sin(idleT * .3) * .6;
-    camera.position.set(cx, 16.2, 15.8); camera.lookAt(0, 0, .5);
+    camera.position.set(0, 16.2, 15.8); camera.lookAt(0, 0, .5);
     meter.style.opacity = mode === 'ready' ? 1 : 0; fill.style.width = (power * 100) + '%';
   });
 

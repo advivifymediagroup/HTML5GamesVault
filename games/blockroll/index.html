@@ -8,14 +8,13 @@
   <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
   <meta name="description" content="Play Block Roll free in your browser. Roll a long block across floating tiles and drop it into the hole. No download, no plugins." />
   <title>Block Roll — HTML5GamesVault</title>
-  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="stylesheet" href="../../css/game.css?v=12" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     #game3d { width: 100%; max-width: 760px; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #05061a; touch-action: none; }
     .stage-canvas-wrap { max-width: 760px; margin: 0 auto; }
-    .stage-canvas-wrap:fullscreen { max-width: none; background: #000; }
-    .stage-canvas-wrap:fullscreen #game3d { max-width: none; width: 100vw; height: 100vh; aspect-ratio: auto; border-radius: 0; }
+    .lane-keys { display: flex; gap: 6px; } .lane-key { padding: 8px 14px; font: 700 14px "JetBrains Mono",monospace; }
   </style>
 </head>
 <body>
@@ -40,7 +39,7 @@
       </div>
       <div class="controls">
         <button class="btn" id="startBtn">Restart</button>
-        <button class="btn btn-alt" id="fsBtn">Fullscreen</button>
+        <button class="btn btn-alt" id="fsBtn">⛶ Fullscreen</button>
       </div>
       <div class="game-status" id="status">Roll the block to the glowing hole and finish standing up.</div>
     </section>
@@ -65,8 +64,10 @@
   <script src="../../js/webgl-guard.js"></script>
   <script src="../../js/three.min.js"></script>
   <script src="../../js/scene-kit.js"></script>
-  <script src="../../js/stage3d.js"></script>
-  <script src="blockroll.js"></script>
+  <script src="../../js/gamekit.js?v=1"></script>
+  <script src="../../js/stage3d.js?v=3"></script>
+  <script src="blockroll.js?v=3"></script>
+  <script src="../../js/fullscreen.js?v=1"></script>
   <script src="../../js/theme.js"></script>
 </body>
 </html>

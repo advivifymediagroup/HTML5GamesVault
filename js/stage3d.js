@@ -1,9 +1,8 @@
 /* Shared bootstrap for the newer 3D games: renderer + scene + camera, HUD/overlay
-   wiring, game loop, particle bursts, camera shake, tiny WebAudio sfx, fullscreen. */
+   wiring (via GameKit), game loop, particle bursts and camera shake. */
 window.Stage3D = function (o) {
   if (window.__hasWebGL === false || typeof THREE === 'undefined') return null;
-  const el = document.getElementById('game3d'), wrap = el.parentElement;
-  const $ = id => document.getElementById(id);
+  const K = GameKit(o), el = K.el;
   const bg = o.bg == null ? 0x05061a : o.bg;
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(bg);
@@ -26,62 +25,12 @@ window.Stage3D = function (o) {
     camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
   }).observe(el);
 
-  const S = {scene, camera, renderer, el, wrap, $, running: false};
-  const bestKey = (o.key || 'game3d') + '-best';
-  let shakeAmt = 0, ac;
+  const S = Object.assign(K, {scene, camera, renderer});
+  let shakeAmt = 0;
   const bursts = [];
 
   S.polish = () => window.SceneKit && SceneKit.polishMaterials(scene, {envMapIntensity: o.envIntensity});
-  const fsHud = document.createElement('div');
-  fsHud.style.cssText = 'position:absolute;top:10px;left:12px;display:none;gap:16px;font:700 15px "Space Grotesk",sans-serif;color:#fff;text-shadow:0 1px 5px #000;pointer-events:none';
-  const fsVals = [...document.querySelectorAll('.score-box')].map(b => {
-    const d = document.createElement('div'); d.innerHTML = `<span style="opacity:.75;font-size:11px;letter-spacing:.1em;text-transform:uppercase">${b.querySelector('span').textContent}</span> <b></b>`;
-    fsHud.appendChild(d); return d.lastChild;
-  });
-  wrap.appendChild(fsHud);
-  document.addEventListener('fullscreenchange', () => {
-    fsHud.style.display = document.fullscreenElement === wrap ? 'flex' : 'none';
-    fsVals.forEach((e, i) => { e.textContent = $('s' + (i + 1)).textContent; });
-  });
-  S.hud = (n, v) => { const e = $('s' + n); if (e) e.textContent = v; if (fsVals[n - 1]) fsVals[n - 1].textContent = v; };
-  S.bestScore = () => { try { return +localStorage.getItem(bestKey) || 0; } catch (e) { return 0; } };
-  S.best = score => {
-    const b = S.bestScore(), isNew = score > b;
-    if (isNew) try { localStorage.setItem(bestKey, score); } catch (e) {}
-    S.hud(o.bestHud || 3, Math.max(b, score));
-    return isNew;
-  };
-  S.show = (title, msg, btn) => {
-    $('overTitle').textContent = title; $('overMsg').textContent = msg;
-    $('overlayBtn').textContent = btn || 'Play again'; $('overlay').classList.add('show');
-  };
-  S.onStart = fn => {
-    const go = () => { $('overlay').classList.remove('show'); fn(); };
-    $('startBtn').addEventListener('click', go); $('overlayBtn').addEventListener('click', go);
-  };
-  S.status = t => { $('status').textContent = t; };
   S.shake = a => { shakeAmt = Math.max(shakeAmt, a); };
-
-  S.flash = (text, ms) => {
-    let f = $('flash');
-    if (!f) {
-      f = document.createElement('div'); f.id = 'flash';
-      f.style.cssText = 'position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;font:800 clamp(28px,7vw,64px) "Space Grotesk",sans-serif;color:#fff;text-shadow:0 0 24px #6aa6ff,0 4px 0 rgba(0,0,0,.4);opacity:0;transition:opacity .25s,transform .25s;transform:scale(.8)';
-      wrap.appendChild(f);
-    }
-    f.textContent = text; f.style.opacity = 1; f.style.transform = 'scale(1)';
-    clearTimeout(f.t); f.t = setTimeout(() => { f.style.opacity = 0; f.style.transform = 'scale(1.2)'; }, ms || 900);
-  };
-
-  S.beep = (freq, dur, type, vol) => {
-    try {
-      ac = ac || new (window.AudioContext || window.webkitAudioContext)();
-      const t = ac.currentTime, osc = ac.createOscillator(), g = ac.createGain();
-      osc.type = type || 'sine'; osc.frequency.value = freq || 440;
-      g.gain.setValueAtTime(vol || 0.05, t); g.gain.exponentialRampToValueAtTime(0.0001, t + (dur || 0.1));
-      osc.connect(g); g.connect(ac.destination); osc.start(t); osc.stop(t + (dur || 0.1));
-    } catch (e) {}
-  };
 
   S.burst = (p, color, n, speed) => {
     n = n || 26; speed = speed || 4;
@@ -118,17 +67,15 @@ window.Stage3D = function (o) {
           camera.position.x += (Math.random() - .5) * shakeAmt; camera.position.y += (Math.random() - .5) * shakeAmt;
           shakeAmt *= Math.pow(0.002, dt);
         }
+        const base = camera.fov, narrow = 4 / 3 / camera.aspect; // keep the same horizontal view on portrait screens
+        if (narrow > 1) { camera.fov = 2 * Math.atan(Math.tan(base * Math.PI / 360) * narrow) * 180 / Math.PI; camera.updateProjectionMatrix(); }
         renderer.render(scene, camera);
+        if (narrow > 1) { camera.fov = base; camera.updateProjectionMatrix(); }
         camera.position.copy(home);
       } catch (e) { if (!S.err) { S.err = e; console.error(e); } }
       requestAnimationFrame(frame);
     })(last);
   };
 
-  const fs = $('fsBtn');
-  if (fs) fs.addEventListener('click', () => {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else if (wrap.requestFullscreen) wrap.requestFullscreen();
-  });
   return S;
 };

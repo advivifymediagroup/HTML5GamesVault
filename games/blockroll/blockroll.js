@@ -132,8 +132,8 @@
 
   S.loop(dt => {
     T += dt;
-    const ang = T * .15, camR = dist;
-    camera.position.set(center.x + Math.sin(ang) * 2.2, dist * .78, center.z + camR * .72);
+    const camR = dist;
+    camera.position.set(center.x, dist * .78, center.z + camR * .72);
     camera.lookAt(center.x, -.5, center.z - .3);
     shards.forEach(m => { m.rotation.x += dt * m.userData.s; m.rotation.y += dt * .6 * m.userData.s; });
     if (!lv) return;
