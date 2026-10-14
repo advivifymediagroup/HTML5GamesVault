@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Connect letters, fill crossword puzzles, and collect illustrated world landmarks in Wow Words." />
+  <title>Wow Words — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=10" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap wow-wrap">
+    <section class="game-stage wow-stage" aria-label="Wow Words crossword game">
+      <div class="scoreboard wow-scoreboard">
+        <div class="score-box"><span>Expedition</span><strong id="levelLabel">1 / 12</strong></div>
+        <div class="score-box"><span>Words</span><strong id="wordCount">0 / 5</strong></div>
+        <div class="score-box"><span>Points</span><strong id="scoreLabel">0</strong></div>
+        <button class="btn btn-alt collection-button" id="collectionBtn" type="button" title="Open landmark collection">Collection <span id="collectionCount">0 / 12</span></button>
+      </div>
+
+      <section class="wonder-banner" aria-live="polite">
+        <div class="wonder-scene" id="wonderScene" aria-hidden="true">🏛️</div>
+        <div class="wonder-copy"><span class="wow-eyebrow" id="wonderRegion">ITALY</span><h1 id="wonderName">The Colosseum</h1><p id="wonderFact">A Roman amphitheatre that could hold tens of thousands of spectators.</p></div>
+        <span class="wonder-state" id="wonderState">TO DISCOVER</span>
+      </section>
+
+      <div class="puzzle-layout">
+        <div class="crossword-shell">
+          <div class="crossword-topline"><span>LETTER CROSSWORD</span><span id="crosswordProgress">0% complete</span></div>
+          <div class="crossword-grid" id="crosswordGrid" role="grid" aria-label="Crossword puzzle"></div>
+        </div>
+        <div class="wheel-panel">
+          <div class="letter-wheel" id="letterWheel" aria-label="Available letters"></div>
+          <div class="entry-row" aria-live="polite">
+            <div class="entry-display is-placeholder" id="entryDisplay" aria-label="Current word">TAP LETTERS TO BUILD A WORD</div>
+            <button class="entry-action" id="deleteBtn" type="button" aria-label="Delete last letter" title="Delete last letter">⌫</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="controls wow-controls">
+        <button class="btn" id="submitBtn" type="button">Submit word</button>
+        <button class="btn btn-alt" id="shuffleBtn" type="button" title="Shuffle letter positions">Shuffle</button>
+        <button class="btn btn-alt" id="hintBtn" type="button">Hint <span id="hintCount">3</span></button>
+        <button class="btn btn-alt hammer-button" id="hammerBtn" type="button">Hammer <span id="hammerCount">2</span></button>
+      </div>
+      <p class="game-status" id="status" role="status" aria-live="polite">Tap letters to build a word. You can reuse letters.</p>
+      <div class="bonus-line" id="bonusLine" aria-live="polite"></div>
+
+      <div class="wow-result" id="resultPanel" hidden>
+        <span class="result-icon" id="resultIcon" aria-hidden="true">🏛️</span>
+        <div><span class="wow-eyebrow">WONDER DISCOVERED</span><h2 id="resultTitle">The Colosseum</h2><p id="resultFact"></p></div>
+        <button class="btn" id="nextBtn" type="button">Next expedition</button>
+        <button class="btn btn-alt collection-result" id="resultCollectionBtn" type="button">Open collection</button>
+      </div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Build words using the letter wheel. Every valid crossword answer fills its spaces on the board. Letters may be reused, and words can be entered in any order.</p>
+      <div class="divider"></div>
+      <h2>Power-ups</h2>
+      <ul>
+        <li><strong>Hint</strong> reveals a random empty square.</li>
+        <li><strong>Hammer</strong> reveals the square you choose on the board.</li>
+        <li>Find bonus dictionary words for extra points.</li>
+      </ul>
+      <div class="divider"></div>
+      <h2>Controls</h2>
+      <ul>
+        <li>Tap letters or type on your keyboard.</li>
+        <li><span class="kbd">Enter</span> submits a word.</li>
+        <li><span class="kbd">Backspace</span> removes a letter.</li>
+      </ul>
+      <div class="divider"></div>
+      <h2>Expeditions</h2>
+      <p>Complete a crossword to add its landmark to your collection. Your progress stays in this browser.</p>
+    </aside>
+  </main>
+
+  <dialog class="collection-dialog" id="collectionDialog" aria-labelledby="collectionTitle">
+    <div class="dialog-heading"><div><span class="wow-eyebrow">YOUR JOURNEY</span><h2 id="collectionTitle">Wonder collection</h2></div><button class="dialog-close" id="closeCollection" type="button" aria-label="Close collection">×</button></div>
+    <div class="collection-grid" id="collectionGrid"></div>
+  </dialog>
+
+  <footer class="site-footer">
+    <div class="footer-links"><a href="../../index.html">All Games</a><a href="../../about.html">About</a></div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="../../js/wordlist.js"></script>
+  <script src="wowwords.js"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>
