@@ -349,6 +349,17 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .game-thumb.has-image > :not(img) {
   display: none;
 }
+.thumb-wowwords { background: linear-gradient(145deg, #15464e, #102a3c); }
+.ww-art {
+  position: relative; display: grid; place-items: center; width: 100%; height: 100%; overflow: hidden;
+  background: linear-gradient(180deg, #194758 0 45%, #d6954c 45% 51%, #28645a 51% 100%);
+}
+.ww-sun { position: absolute; top: 12px; left: 24%; width: 58px; aspect-ratio: 1; border-radius: 50%; background: #f4ca79; box-shadow: 0 0 32px rgba(244, 202, 121, 0.45); }
+.ww-landmark { z-index: 1; margin-top: 20px; font-size: 76px; filter: drop-shadow(0 5px 3px rgba(12, 29, 34, 0.45)); }
+.ww-letter { position: absolute; z-index: 2; display: grid; place-items: center; width: 30px; aspect-ratio: 1; border: 1px solid rgba(255, 239, 198, 0.75); border-radius: 50%; background: #f3d28e; color: #2d382e; font: 700 14px 'JetBrains Mono', monospace; box-shadow: 0 3px 10px rgba(0,0,0,0.25); }
+.ww-a { left: 12%; top: 56%; }
+.ww-b { right: 15%; top: 18%; }
+.ww-c { right: 12%; bottom: 10%; }
 .thumb-icon { width: 70%; height: 70%; fill: white; stroke: white; }
 
 .thumb-hextris { background: radial-gradient(circle at center, #26364d, #111827 72%); }
