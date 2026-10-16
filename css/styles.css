@@ -349,7 +349,31 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .game-thumb.has-image > :not(img) {
   display: none;
 }
+.thumb-wowwords { background: linear-gradient(145deg, #15464e, #102a3c); }
+.ww-art {
+  position: relative; display: grid; place-items: center; width: 100%; height: 100%; overflow: hidden;
+  background: linear-gradient(180deg, #194758 0 45%, #d6954c 45% 51%, #28645a 51% 100%);
+}
+.ww-sun { position: absolute; top: 12px; left: 24%; width: 58px; aspect-ratio: 1; border-radius: 50%; background: #f4ca79; box-shadow: 0 0 32px rgba(244, 202, 121, 0.45); }
+.ww-landmark { z-index: 1; margin-top: 20px; font-size: 76px; filter: drop-shadow(0 5px 3px rgba(12, 29, 34, 0.45)); }
+.ww-letter { position: absolute; z-index: 2; display: grid; place-items: center; width: 30px; aspect-ratio: 1; border: 1px solid rgba(255, 239, 198, 0.75); border-radius: 50%; background: #f3d28e; color: #2d382e; font: 700 14px 'JetBrains Mono', monospace; box-shadow: 0 3px 10px rgba(0,0,0,0.25); }
+.ww-a { left: 12%; top: 56%; }
+.ww-b { right: 15%; top: 18%; }
+.ww-c { right: 12%; bottom: 10%; }
 .thumb-icon { width: 70%; height: 70%; fill: white; stroke: white; }
+
+.thumb-hextris { background: radial-gradient(circle at center, #26364d, #111827 72%); }
+.hextris-mini { width: 104px; height: 104px; position: relative; transform: rotate(-8deg); }
+.hextris-core {
+  position: absolute; inset: 34px; background: #8b98a8; clip-path: polygon(25% 0, 75% 0, 100% 50%, 75% 100%, 25% 100%, 0 50%);
+  box-shadow: 0 0 15px rgba(255,255,255,.18);
+}
+.hextris-chip { position: absolute; width: 17px; height: 25px; border-radius: 4px; box-shadow: 0 0 10px currentColor; }
+.htc-one { left: 43px; top: 2px; background: #ff526f; color: #ff526f; }
+.htc-two { right: 7px; top: 24px; transform: rotate(60deg); background: #ffc857; color: #ffc857; }
+.htc-three { right: 7px; bottom: 24px; transform: rotate(-60deg); background: #55d6be; color: #55d6be; }
+.htc-four { left: 43px; bottom: 2px; background: #48a9ff; color: #48a9ff; }
+.htc-five { left: 7px; top: 24px; transform: rotate(-60deg); background: #b78cff; color: #b78cff; }
 
 .thumb-snake { background: linear-gradient(135deg, #10b981, #047857); }
 .thumb-snake .thumb-icon { fill: white; }
@@ -562,6 +586,21 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .wordle-mini .g { background: linear-gradient(135deg, #22c55e, #16a34a); }
 .wordle-mini .y { background: linear-gradient(135deg, #facc15, #ca8a04); }
 .wordle-mini .x { background: rgba(60, 60, 90, 0.7); color: #94a3b8; }
+
+/* Explore Words */
+.thumb-explorewords { background: linear-gradient(145deg, #173b3c, #101a22); }
+.ew-mini { display: grid; grid-template-columns: repeat(5, 22px); gap: 3px; padding: 10px; }
+.ew-mini span {
+  display: grid; place-items: center;
+  width: 22px; height: 22px;
+  border: 1px solid rgba(221, 160, 66, 0.2);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #e7edf0;
+  font: 700 10px 'JetBrains Mono', monospace;
+}
+.ew-mini span:nth-child(3n) { background: rgba(54, 184, 139, 0.24); color: #8be2bf; }
+.ew-mini span:nth-child(7n) { background: rgba(243, 168, 59, 0.35); color: #ffda96; }
 
 /* Reaction */
 .thumb-rxn { background: linear-gradient(135deg, #22c55e, #16a34a); }
@@ -1478,3 +1517,13 @@ code { font-family: var(--font-mono); font-size: 0.9em; color: var(--accent); ba
 .fence-preview span { position:absolute; z-index:1; top:18px; left:42px; width:17px; height:17px; border-radius:50%; background:#e9c66e; box-shadow:0 0 14px rgba(233,198,110,.55); }
 .fence-preview span:nth-of-type(2) { left:104px; top:55px; background:#80c9dc; }
 .fence-preview b { position:absolute; z-index:1; left:73px; top:27px; width:12px; height:28px; background:#d9dfd0; border-radius:4px 4px 1px 1px; }
+
+/* Immersive 3D set */
+.g3d-emoji { font-size: 58px; filter: drop-shadow(0 6px 18px rgba(0,0,0,.55)); transition: transform .25s; }
+.game-card:hover .g3d-emoji { transform: scale(1.12) rotate(-4deg); }
+.thumb-neontunnel { background: radial-gradient(circle, #1a0b3d 0 8%, #4c1d95 9% 22%, #0b0220 23% 36%, #7c3aed 37% 41%, #0b0220 42% 58%, #22d3ee 59% 62%, #07041a 63%); }
+.thumb-orbitslingshot { background: radial-gradient(circle at 30% 70%, #1e3a8a, #03030f 70%); }
+.thumb-blockroll { background: linear-gradient(160deg, #3b1a7a, #07041a); }
+.thumb-strikezone { background: linear-gradient(180deg, #120a2b, #3b1a52 60%, #b45309 61%, #f59e0b); }
+.thumb-towerguard { background: linear-gradient(180deg, #4a90e2, #cfe8ff 60%, #5cb85c 61%); }
+.thumb-labyrinth { background: radial-gradient(circle at 50% 55%, #7c4a1d, #1a1020 55%, #05030a); }

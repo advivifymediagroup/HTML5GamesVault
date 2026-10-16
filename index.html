@@ -9,7 +9,7 @@
   <title>HTML5GamesVault — Free Browser Games</title>
   <meta name="description" content="Play free HTML5 games online. Snake, 2048, Breakout, Memory, Tic-Tac-Toe, Flappy and more." />
   <meta property="og:title" content="HTML5GamesVault — Free Browser Games" />
-  <meta property="og:description" content="63 free browser games: arcade, puzzle, sorting, geography, strategy, and 3D titles. No downloads or accounts required." />
+  <meta property="og:description" content="70+ free browser games: arcade, puzzle, sorting, geography, strategy, and 3D titles. No downloads or accounts required." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="css/styles.css?v=10" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,7 @@
   <section class="hero">
     <div class="hero-inner">
       <h1>Free <span style="color: #3b82f6;">H5</span> browser games.</h1>
-      <p class="hero-sub">63+ games you can play right now. Nothing to install, nothing to sign up for.</p>
+      <p class="hero-sub">70+ games you can play right now. Nothing to install, nothing to sign up for.</p>
     </div>
   </section>
 
@@ -65,10 +65,59 @@
         <button class="chip" data-filter="sorting">Sorting</button>
         <button class="chip" data-filter="geography">Geography</button>
         <button class="chip" data-filter="strategy">Strategy</button>
+        <button class="chip" data-filter="finger">One-finger</button>
       </div>
     </div>
 
     <div class="games-grid">
+      <a href="games/checkers/index.html" class="game-card" data-tags="strategy,2d,mouse">
+          <div class="thumb-wrap"><div class="thumb-ph">C</div></div>
+          <div class="game-info"><h3>Checkers 2D</h3><p>Strategy</p></div>
+        </a>
+      <a href="games/battleship/index.html" class="game-card" data-tags="strategy,2d,mouse">
+          <div class="thumb-wrap"><div class="thumb-ph">B</div></div>
+          <div class="game-info"><h3>Battleship</h3><p>Strategy</p></div>
+        </a>
+      <a href="games/pianotiles/index.html" class="game-card" data-tags="arcade,2d,finger,audio">
+          <div class="thumb-wrap"><div class="thumb-ph">PT</div></div>
+          <div class="game-info"><h3>Piano Tiles</h3><p>Arcade</p></div>
+        </a>
+      <a href="games/rhythmbeat/index.html" class="game-card" data-tags="arcade,3d,mouse,audio">
+          <div class="thumb-wrap"><div class="thumb-ph">RB</div></div>
+          <div class="game-info"><h3>Rhythm Beat</h3><p>Arcade</p></div>
+        </a>
+      <a href="games/flagquiz/index.html" class="game-card" data-tags="puzzle,2d,mouse,geography">
+          <div class="thumb-wrap"><div class="thumb-ph">FQ</div></div>
+          <div class="game-info"><h3>Flag Quiz</h3><p>Geography</p></div>
+        </a>
+      <a href="games/mapguesser/index.html" class="game-card" data-tags="puzzle,2d,mouse,geography">
+          <div class="thumb-wrap"><div class="thumb-ph">MG</div></div>
+          <div class="game-info"><h3>Map Guesser</h3><p>Geography</p></div>
+        </a>
+      <a href="games/bookshelf/index.html" class="game-card" data-tags="puzzle,2d,mouse,sorting">
+          <div class="thumb-wrap"><div class="thumb-ph">BS</div></div>
+          <div class="game-info"><h3>Bookshelf Sort</h3><p>Puzzle</p></div>
+        </a>
+      <a href="games/coinsort/index.html" class="game-card" data-tags="puzzle,2d,mouse,sorting">
+          <div class="thumb-wrap"><div class="thumb-ph">CS</div></div>
+          <div class="game-info"><h3>Coin Sort</h3><p>Puzzle</p></div>
+        </a>
+      <a href="games/wowwords/index.html" class="game-card" data-tags="2d puzzle geography">
+       <div class="game-thumb thumb-wowwords has-image">
+          <img src="assets/thumbnails/puzzle/wow-words.png" alt="Wow Words">
+          <div class="ww-art" aria-hidden="true">
+            <span class="ww-sun"></span><span class="ww-landmark">🏛️</span>
+            <span class="ww-letter ww-a">W</span><span class="ww-letter ww-b">O</span><span class="ww-letter ww-c">W</span>
+          </div>
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">Puzzle</span><span class="tag">Word</span></div>
+          <h3>Wow Words</h3>
+          <p>Connect letters, solve crosswords, and collect world landmarks.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
       <a href="games/wordhive/index.html" class="game-card" data-tags="2d puzzle">
         <div class="game-thumb thumb-wordhive has-image">
           <img src="assets/thumbnails/word puzzles/word-hive.png" alt="Word Hive">
@@ -692,6 +741,18 @@
         </div>
       </a>
 
+      <a href="games/explorewords/index.html" class="game-card" data-tags="2d puzzle">
+        <div class="game-thumb thumb-explorewords has-image">
+          <img src="assets/thumbnails/puzzle/explore-words.png" alt="explore-words">
+        </div>
+        <div class="game-meta">
+          <div class="game-tags"><span class="tag">2D</span><span class="tag">Word</span></div>
+          <h3>Explore Words</h3>
+          <p>Hunt for hidden words in an 11×11 letter grid.</p>
+          <span class="play-link">Play →</span>
+        </div>
+      </a>
+
       <a href="games/reaction/index.html" class="game-card" data-tags="2d arcade">
         <div class="game-thumb thumb-reaction has-image">
           <img src="assets/thumbnails/arcade/reaction test.png" alt="Reaction Test">
@@ -1058,24 +1119,91 @@
         </div>
       </a>
 
-      <a href="games/asteroidrift/index.html" class="game-card" data-tags="2d arcade">
-        <div class="game-thumb thumb-space"><div class="space-mini"><div class="space-ast" style="left:20%;top:16%;">*</div><div class="space-laser"></div><div class="space-ship">+</div></div></div>
-        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">Dodge</span></div><h3>Asteroid Drift</h3><p>Thread a tiny ship through an increasingly busy asteroid field.</p><span class="play-link">Play →</span></div>
+      <a href="games/asteroidrift/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-asteroidrift has-image"><img src="assets/thumbnails/3d games/asteroid-drift.png" alt="Asteroid Drift" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span><span class="tag">Dodge</span></div><h3>Asteroid Drift</h3><p>Thread your ship through a rushing 3D asteroid field. Skim rocks for bonus points.</p><span class="play-link">Play →</span></div>
       </a>
 
-      <a href="games/pinballpulse/index.html" class="game-card" data-tags="2d arcade">
-        <div class="game-thumb thumb-breakout"><div class="breakout-mini"><span class="bo-ball"></span><span class="bo-paddle"></span><span class="bo-brick" style="background:#fbbf24;"></span><span class="bo-brick" style="background:#22c55e;"></span></div></div>
-        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">Pinball</span></div><h3>Pinball Pulse</h3><p>Keep the ball alive, light the targets, and chase a high score.</p><span class="play-link">Play →</span></div>
+      <a href="games/pinballpulse/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-pinballpulse has-image"><img src="assets/thumbnails/3d games/pinball-pulse.png" alt="Pinball Pulse" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span><span class="tag">Pinball</span></div><h3>Pinball Pulse</h3><p>A full 3D pinball table with plunger, flippers, bumpers and multipliers.</p><span class="play-link">Play →</span></div>
       </a>
 
-      <a href="games/borderline/index.html" class="game-card" data-tags="2d geography">
-        <div class="game-thumb thumb-borderline"><div class="borderline-preview"><span></span><span></span><span></span><span></span><span></span><i></i></div></div>
-        <div class="game-meta"><div class="game-tags"><span class="tag">Geography</span><span class="tag">Route puzzle</span></div><h3>Borderline</h3><p>Plan a border-to-border route across Europe in few moves.</p><span class="play-link">Play →</span></div>
+      <a href="games/borderline/index.html" class="game-card" data-tags="3d geography">
+        <div class="game-thumb thumb-borderline has-image"><img src="assets/thumbnails/3d games/borderline.png" alt="Borderline" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Geography</span><span class="tag">Route puzzle</span></div><h3>Borderline</h3><p>Plan a border-to-border route across a 3D map of Europe in few moves.</p><span class="play-link">Play →</span></div>
       </a>
 
-      <a href="games/beatline/index.html" class="game-card" data-tags="2d arcade">
-        <div class="game-thumb thumb-beatline"><div class="beatline-preview"><span></span><span></span><span></span><span></span><i></i><b></b></div></div>
-        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">Rhythm</span></div><h3>Beatline</h3><p>Catch falling notes in four lanes and build a perfect combo.</p><span class="play-link">Play →</span></div>
+      <a href="games/beatline/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-beatline has-image"><img src="assets/thumbnails/3d games/beatline.png" alt="Beatline" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span><span class="tag">Rhythm</span></div><h3>Beatline</h3><p>Hit four lanes on the beat of a synthesized track and build a perfect combo.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/neontunnel/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-neontunnel has-image"><img src="assets/thumbnails/3d games/neon-tunnel.png" alt="Neon Tunnel" loading="lazy"><span class="g3d-emoji">🌀</span></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span><span class="tag">Tunnel flyer</span></div><h3>Neon Tunnel</h3><p>Race down a neon tube and slip through the gaps.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/orbitslingshot/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-orbitslingshot has-image"><img src="assets/thumbnails/3d games/orbit-slingshot.png" alt="Orbit Slingshot" loading="lazy"><span class="g3d-emoji">🪐</span></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span><span class="tag">Gravity</span></div><h3>Orbit Slingshot</h3><p>Bend a probe around planets and black holes to reach the warp gate.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/blockroll/index.html" class="game-card" data-tags="3d puzzle">
+        <div class="game-thumb thumb-blockroll has-image"><img src="assets/thumbnails/3d games/block-roll.png" alt="Block Roll" loading="lazy"><span class="g3d-emoji">🧊</span></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Puzzle</span><span class="tag">Roll &amp; drop</span></div><h3>Block Roll</h3><p>Roll a tall block across floating tiles and drop it in the hole.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/strikezone/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-strikezone has-image"><img src="assets/thumbnails/3d games/strike-zone.png" alt="Strike Zone Bowling" loading="lazy"><span class="g3d-emoji">🎳</span></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span><span class="tag">Bowling</span></div><h3>Strike Zone Bowling</h3><p>A full ten-frame 3D bowling game with real pin physics.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/towerguard/index.html" class="game-card" data-tags="3d strategy">
+        <div class="game-thumb thumb-towerguard has-image"><img src="assets/thumbnails/3d games/tower-guard.png" alt="Tower Guard" loading="lazy"><span class="g3d-emoji">🏰</span></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Strategy</span><span class="tag">Tower defense</span></div><h3>Tower Guard</h3><p>Build cannons, frost and lasers to stop 15 waves of raiders.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/labyrinth/index.html" class="game-card" data-tags="3d arcade">
+        <div class="game-thumb thumb-labyrinth has-image"><img src="assets/thumbnails/3d games/lost-labyrinth.png" alt="Lost Labyrinth" loading="lazy"><span class="g3d-emoji">🕯️</span></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">3D</span><span class="tag">Arcade</span><span class="tag">First person</span></div><h3>Lost Labyrinth</h3><p>Find the relics in a torch-lit maze while a wraith hunts you.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/chompmaze/index.html" class="game-card" data-tags="2d arcade finger">
+        <div class="game-thumb thumb-chompmaze has-image"><img src="assets/thumbnails/finger games/chomp-maze.png" alt="Chomp Maze" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">One-finger</span><span class="tag">Maze</span></div><h3>Chomp Maze</h3><p>Hold the fingertip and slide it through monster mazes. Let go and you get chomped.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/handslap/index.html" class="game-card" data-tags="2d arcade finger">
+        <div class="game-thumb thumb-handslap has-image"><img src="assets/thumbnails/finger games/hand-slap.png" alt="Hand Slap" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">One-finger</span><span class="tag">Dodge</span></div><h3>Hand Slap</h3><p>Slide away from the red zones before giant hands slap down.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/trailblaze/index.html" class="game-card" data-tags="2d arcade finger">
+        <div class="game-thumb thumb-trailblaze has-image"><img src="assets/thumbnails/finger games/trail-blaze.png" alt="Trail Blaze" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">One-finger</span><span class="tag">Neon trail</span></div><h3>Trail Blaze</h3><p>Steer a glowing trail with your finger. Never cross your own tail.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/stickbridge/index.html" class="game-card" data-tags="2d arcade finger">
+        <div class="game-thumb thumb-stickbridge has-image"><img src="assets/thumbnails/finger games/stick-bridge.png" alt="Stick Bridge" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">One-finger</span><span class="tag">Timing</span></div><h3>Stick Bridge</h3><p>Hold to grow a bridge, release to drop it, and cross the gap.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/ropeswing/index.html" class="game-card" data-tags="2d arcade finger">
+        <div class="game-thumb thumb-ropeswing has-image"><img src="assets/thumbnails/finger games/rope-swing.png" alt="Rope Swing" loading="lazy"></div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">One-finger</span><span class="tag">Swinging</span></div><h3>Rope Swing</h3><p>Hold to swing on your rope and fling yourself over the lava.</p><span class="play-link">Play →</span></div>
+      </a>
+
+      <a href="games/hextris/index.html" class="game-card" data-tags="2d puzzle arcade">
+       <div class="game-thumb thumb-hextris has-image">
+          <img src="assets/thumbnails/puzzle/hextris.png" alt="Hextris">
+          <div class="hextris-mini" aria-hidden="true">
+            <span class="hextris-chip htc-one"></span><span class="hextris-chip htc-two"></span>
+            <span class="hextris-chip htc-three"></span><span class="hextris-chip htc-four"></span>
+            <span class="hextris-chip htc-five"></span><span class="hextris-core"></span>
+          </div>
+        </div>
+        <div class="game-meta"><div class="game-tags"><span class="tag">Arcade</span><span class="tag">Puzzle</span></div><h3>Hextris</h3><p>Guide one block at a time, match colors, and keep the stack inside the rim.</p><span class="play-link">Play →</span></div>
       </a>
 
     </div>

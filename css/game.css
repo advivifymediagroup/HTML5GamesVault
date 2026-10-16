@@ -256,3 +256,29 @@ canvas {
 .message-overlay p { color: var(--text-dim); font-size: 15px; }
 
 .stage-canvas-wrap { position: relative; width: 100%; display: grid; place-items: center; }
+
+/* ---- Fullscreen (js/fullscreen.js): the whole stage goes fullscreen so buttons stay usable ---- */
+.fs-lock, .fs-lock body { overflow: hidden; }
+.fs-exit, .fs-toast { display: none; }
+.game-stage.is-fs {
+  position: fixed; inset: 0; z-index: 9999; width: 100vw; height: 100vh; height: 100dvh; max-width: none;
+  border-radius: 0; border: 0; padding: 10px 14px; gap: 8px; overflow: hidden; justify-content: flex-start;
+  background: radial-gradient(ellipse at top, var(--page-glow), transparent 60%), linear-gradient(180deg, var(--bg-0), var(--bg-1));
+}
+.is-fs .scoreboard { flex: 0 0 auto; margin-top: 30px; }
+.is-fs .scoreboard .score-box { padding: 4px 12px; min-width: 64px; }
+.is-fs .stage-canvas-wrap { flex: 1 1 0; min-height: 0; max-width: none !important; margin: 0 !important; }
+.is-fs #game3d { width: 100% !important; max-width: none !important; height: 100% !important; aspect-ratio: auto !important; border-radius: 10px; }
+.is-fs .controls { flex: 0 0 auto; }
+.is-fs .game-status { flex: 0 0 auto; margin: 0; }
+.is-fs .fs-exit {
+  display: block; position: absolute; top: 8px; right: 10px; z-index: 6; padding: 6px 12px; border-radius: 8px; cursor: pointer;
+  background: rgba(7, 7, 26, 0.78); color: #fff; border: 1px solid rgba(255, 255, 255, 0.35); font: 600 12px 'Space Grotesk', sans-serif;
+}
+.is-fs .fs-exit:hover { background: rgba(19, 103, 229, 0.85); }
+.is-fs .fs-toast {
+  display: block; position: absolute; left: 50%; top: 40px; transform: translate(-50%, -8px); z-index: 6; opacity: 0; pointer-events: none;
+  padding: 8px 16px; border-radius: 10px; background: rgba(7, 7, 26, 0.88); color: #fff; font: 600 13px 'Space Grotesk', sans-serif;
+  border: 1px solid rgba(255, 255, 255, 0.3); transition: opacity .3s, transform .3s; white-space: nowrap;
+}
+.is-fs .fs-toast.show { opacity: 1; transform: translate(-50%, 0); }

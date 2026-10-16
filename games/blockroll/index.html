@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{if(localStorage.getItem("theme")==="light")document.documentElement.setAttribute("data-theme","light");}catch(e){}</script>
+  <link rel="icon" type="image/png" sizes="48x48" href="../../assets/favicon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png" />
+  <meta name="description" content="Play Block Roll free in your browser. Roll a long block across floating tiles and drop it into the hole. No download, no plugins." />
+  <title>Block Roll — HTML5GamesVault</title>
+  <link rel="stylesheet" href="../../css/game.css?v=12" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    #game3d { width: 100%; max-width: 760px; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; background: #05061a; touch-action: none; }
+    .stage-canvas-wrap { max-width: 760px; margin: 0 auto; }
+    .lane-keys { display: flex; gap: 6px; } .lane-key { padding: 8px 14px; font: 700 14px "JetBrains Mono",monospace; }
+  </style>
+</head>
+<body>
+  <header class="game-header">
+    <a href="../../index.html" class="brand-link"><img class="brand-img brand-img-dark" src="../../assets/logo-dark.png" alt="HTML5GamesVault" /><img class="brand-img brand-img-light" src="../../assets/logo-light.png" alt="HTML5GamesVault" /></a>
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle light/dark theme" title="Toggle theme">
+      <svg class="theme-icon theme-icon-dark" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11Z" fill="currentColor"/></svg>
+      <svg class="theme-icon theme-icon-light" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><g stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2.5v2.2M12 19.3v2.2M21.5 12h-2.2M4.7 12H2.5M18.4 5.6l-1.55 1.55M7.15 16.85 5.6 18.4M18.4 18.4l-1.55-1.55M7.15 7.15 5.6 5.6"/></g></svg>
+    </button>
+  </header>
+
+  <main class="game-wrap">
+    <section class="game-stage">
+      <div class="scoreboard"><div class="score-box"><span>Level</span><strong id="s1">0</strong></div><div class="score-box"><span>Moves</span><strong id="s2">0</strong></div><div class="score-box"><span>Falls</span><strong id="s3">0</strong></div><div class="score-box"><span>Best</span><strong id="s4">0</strong></div></div>
+      <div class="stage-canvas-wrap">
+        <div id="game3d"></div>
+        <div class="message-overlay show" id="overlay">
+          <h3 id="overTitle">Block Roll</h3>
+          <p id="overMsg">Roll the block to the hole and stand it upright. Mind the edges.</p>
+          <button class="btn" id="overlayBtn">Start</button>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="startBtn">Restart</button>
+        <button class="btn btn-alt" id="fsBtn">⛶ Fullscreen</button>
+      </div>
+      <div class="game-status" id="status">Roll the block to the glowing hole and finish standing up.</div>
+    </section>
+
+    <aside class="info-panel">
+      <h2>How to play</h2>
+      <p>Roll the tall block across the floating platform and stand it upright on the glowing hole. Falling off the edge restarts the level. Orange tiles are fragile — they break if the block stands up on them.</p>
+      <div class="divider"></div>
+      <h2>Controls</h2>
+      <ul><li><span class="kbd">← ↑ ↓ →</span> / <span class="kbd">WASD</span> — roll the block</li><li>Swipe on touch screens</li><li><span class="kbd">R</span> — restart level</li></ul>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-links">
+      <a href="../../index.html">All Games</a>
+      <a href="../../about.html">About</a>
+    </div>
+    <p>&copy; 2026 HTML5GamesVault. All rights reserved.</p>
+  </footer>
+
+  <script src="../../js/webgl-guard.js"></script>
+  <script src="../../js/three.min.js"></script>
+  <script src="../../js/scene-kit.js"></script>
+  <script src="../../js/gamekit.js?v=1"></script>
+  <script src="../../js/stage3d.js?v=3"></script>
+  <script src="blockroll.js?v=3"></script>
+  <script src="../../js/fullscreen.js?v=1"></script>
+  <script src="../../js/theme.js"></script>
+</body>
+</html>
